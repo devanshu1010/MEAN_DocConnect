@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { RegistrationComponent } from './Doctor/auth/registration/registration.component';
 import { SigninComponent } from './Doctor/auth/signin/signin.component';
 import { NavbarComponent } from './Doctor/navbar/navbar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NavbarComponent } from './Doctor/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 <section class="bg-custom-gradient">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             <img class="w-420  mix-blend-color-burn" src="assets/Logo/logo1.png">
         </a>
@@ -12,38 +12,36 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="email" class="block mb-2 text-sm font-semibold text-gray-900">Email</label>
-                        <input type="email" name="email" id="email" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="name@company.com" required="">
+                        <input [(ngModel)]="email" type="email" name="email" id="email" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="name@company.com" required="">
                     </div>
 
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="fullname" class="block mb-2 text-sm font-semibold text-gray-900">Name</label>
-                        <input type="text" name="fullname" id="fullname" placeholder="John Cena" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                        <input [(ngModel)]="name" type="text" name="fullname" id="fullname" placeholder="John Cena" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
                     </div>
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="password" class="block mb-2 text-sm font-semibold text-gray-900">Password</label>
-                        <input type="password" name="password" id="password" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="••••••••" required="">
+                        <input [(ngModel)]="password" type="password" name="password" id="password" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="••••••••" required="">
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="conpassword" class="block mb-2 text-sm font-semibold text-gray-900">Confirm Password</label>
-                        <input type="password" name="conpassword" id="conpassword" placeholder="••••••••" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                        <input [(ngModel)]="conpassword" type="password" name="conpassword" id="conpassword" placeholder="••••••••" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
                     </div>
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label for="dob" class="block mb-2 text-sm font-semibold text-gray-900">Date of Birth</label>
-                      <input type="date" name="dob" id="dob" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      <input [(ngModel)]="dob" type="date" name="dob" id="dob" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
                     </div>
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label for="age" class="block mb-2 text-sm font-semibold text-gray-900">Age</label>
-                      <input type="text" name="age" id="age" placeholder="49" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      <input [(ngModel)]="age" type="text" name="age" id="age" placeholder="49" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
                     </div>
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label for="selectedGender" class="block mb-2 text-sm font-semibold text-gray-900">Gender</label>
-                      <select id="selectedGender" [(ngModel)]="selectedGender" name = "selectedGender" placeholder="Select Your Gender" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                        <!-- <option>Male</option>
-                        <option>Female</option>                                       -->
+                      <select id="selectedGender" [(ngModel)]="selectedGender" name = "selectedGender" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
                         <option *ngFor="let gender of genders" [value]="gender.value">{{ gender.label }}</option>
                       </select>
                     </div>
@@ -55,43 +53,51 @@
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="phone_no" class="block mb-2 text-sm font-semibold text-gray-900">Phone No.</label>
-                        <input type="tel" name="phone_no" id="phone_no" pattern="[0-9]{5}-[0-9]{5}" placeholder="84123-49856" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                        <input [(ngModel)]="phnumber" type="tel" name="phone_no" id="phone_no" pattern="[0-9]{5}-[0-9]{5}" placeholder="84123-49856" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
                     </div>
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="bio" class="block mb-2 text-sm font-semibold text-gray-900">Bio</label>
-                        <textarea  name="bio" id="bio" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="" required=""></textarea>
+                        <textarea [(ngModel)]="bio" name="bio" id="bio" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="" required=""></textarea>
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="about" class="block mb-2 text-sm font-semibold text-gray-900">About</label>
-                        <textarea name="about" id="about" placeholder="" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required=""></textarea>
+                        <textarea [(ngModel)]="about" name="about" id="about" placeholder="" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required=""></textarea>
                     </div>
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label for="category" class="block mb-2 text-sm font-semibold text-gray-900">Category</label>
-                      <select id="category" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                        <option>Male</option>
-                        <option>Female</option>                                      
+                      <select  id="category" [(ngModel)]="selectedCategory"  name = "selectedCategory" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                        <option *ngFor="let category of doctorCategories" [value]="category.value">{{ category.label }}</option>                                     
                       </select>
                     </div>
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label for="specialist" class="block mb-2 text-sm font-semibold text-gray-900">Specialist</label>
-                      <select id="specialist" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                        <option>Male</option>
-                        <option>Female</option>                                      
+                      <select id="specialist" [(ngModel)]="selectedSpeciality"  name = "selectedSpeciality"  class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                        <option *ngFor="let speciality of doctorSpeciality" [value]="speciality.value">{{ speciality.label }}</option>                           
                       </select>
                     </div>
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="experience" class="block mb-2 text-sm font-semibold text-gray-900">Experience</label>
-                      <input type="text" name="experience" id="experience" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="20" required="">
+                      <label for="slot_length" class="block mb-2 text-sm font-semibold text-gray-900">Slot length</label>
+                      <div class="flex flex-row ...">
+                        <label *ngFor="let option of slotTiming">
+                          <div class="pt-2 pr-4 md:mb-0">
+                                <input id="red-radio" [(ngModel)] = "selectedSlotlen" type="radio" [value]="option.value" name="colored-radio" class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 :bg-gray-700 dark:border-gray-600">
+                                <label for="red-radio" class="ms-2 text-md font-medium text-gray-900 dark:text-gray-300">{{option.label}}</label> 
+                            </div>                           
+                        </label>
+                      </div>
                     </div>
                   </div>
+
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="slot_length" class="block mb-2 text-sm font-semibold text-gray-900">Slot length</label>
-                        <input type="text" name="slot_length" id="slot_length" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="Enter Slot lenght for your setion" required="">
+                        <div class="w-full  px-3 mb-6 md:mb-0">
+                          <label for="experience" class="block mb-2 text-sm font-semibold text-gray-900">Experience</label>
+                          <input [(ngModel)]="experience" type="text" name="experience" id="experience" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="20" required="">
+                        </div>
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="cirtificate" class="block mb-2 text-sm font-semibold text-gray-900">Cirtificate</label>

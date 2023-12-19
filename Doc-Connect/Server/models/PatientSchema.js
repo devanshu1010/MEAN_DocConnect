@@ -1,4 +1,4 @@
-import mongoose, { models } from "mongoose";
+const mongoose = require("mongoose");
 
 const PatientSchema = new mongoose.Schema({
         Email : {
@@ -23,7 +23,7 @@ const PatientSchema = new mongoose.Schema({
             type: Date,
             required: [true, " Please add your birthdate. "]
         },
-        Profile_photo: {
+        Profile_picture: {
             type: String,
         },
         Gender: {

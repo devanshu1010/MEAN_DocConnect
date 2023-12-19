@@ -1,4 +1,4 @@
-import mongoose, { models } from "mongoose";
+const mongoose = require("mongoose");
 
 const AppointmentSchema = new mongoose.Schema(
     {

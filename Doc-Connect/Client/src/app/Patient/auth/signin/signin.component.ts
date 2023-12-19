@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DoctorAuthService } from '../doctor-auth.service';
+import { Patient } from 'src/app/models/patient';
+import { PatientAuthService } from '../patientAuth.service';
+import { NavbarComponentPatient } from '../../navbar/navbar.component';
 
 @Component({
-  selector: 'app-signin-doctor',
+  selector: 'app-signin-patient',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css']
 })
-export class SigninComponentDoctor implements OnInit{
+export class SigninComponentPatient implements OnInit{
 
   email:any ='';
   password:string ='';
@@ -16,10 +18,9 @@ export class SigninComponentDoctor implements OnInit{
 
   cssclass:string = "failed";
   incorrect:boolean = false;
-  disablesiginin:boolean = true;
-  doctor: any;
-
-  constructor (public doctorAuthServ:DoctorAuthService){}
+  patient: any;
+  //private navbarComponentPatient: NavbarComponentPatient
+  constructor (public patientServ:PatientAuthService){}
   
   public signin():void {
     console.log("clicked");
@@ -29,15 +30,14 @@ export class SigninComponentDoctor implements OnInit{
     if(this.password && this.password )
     {
       console.log("In login");
-      const doctorData: any = {
+      const patientData: any = {
         Email: this.email,
         Password: this.password,
       };
       
-      this.doctorAuthServ.loginDcotor(doctorData).subscribe(
+      this.patientServ.loginPatient(patientData).subscribe(
         data =>{
-          this.doctor = data;
-          this.incorrect=false;
+          this.patient = data;
           console.log("Login successful");
           console.log(data);
         },
@@ -48,6 +48,8 @@ export class SigninComponentDoctor implements OnInit{
         }
       );
 
+      //console.log("patient : ");
+      //console.log(this.patient);
       this.email='';
       this.password='';
     }
@@ -59,7 +61,6 @@ export class SigninComponentDoctor implements OnInit{
     
   }
   ngOnInit(): void {
-    
+    //this.navbarComponentPatient.hideNavbar();
   }
-
 }

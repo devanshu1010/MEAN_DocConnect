@@ -12,9 +12,55 @@ export class RegistrationComponentDoctor implements OnInit{
     { label: 'Female', value: 'Female'},
   ];
 
-  selectedGender:any = 0;
+  doctorCategories = [
+    { label: 'Select Category', value: '0' },
+    { label: 'xyz', value: 'Cardiologist' },
+    { label: 'Dermatologist', value: 'Dermatologist' },
+    { label: 'Orthopedic Surgeon', value: 'Orthopedic Surgeon' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    // Add more categories as needed
+  ];
+
+  doctorSpeciality = [
+    { label: 'Select Specialist', value: '0' },
+    { label: 'xyz', value: 'Cardiologist' },
+    { label: 'Dermatologist', value: 'Dermatologist' },
+    { label: 'Orthopedic Surgeon', value: 'Orthopedic Surgeon' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+    { label: 'Pediatrician', value: 'Pediatrician' },
+  ];
+
+  slotTiming = [
+    { label : '30 minute', value : '30' },
+    { label : '60 minute', value : '60' }
+  ]
+
+  email:string = '';
+  name:string = '';
+  password:string = '';
+  conpassword:string = '';
+  dob:any;
+  age:any;
+  selectedGender:string = '';
+  phnumber:any;
+  bio:any;
+  about:any;
+  selectedCategory:string = '';
+  selectedSpeciality:string = '';
+  experience:any;
+  selectedSlotlen:string = '';
+  
+  
   
   ngOnInit(): void{
     this.selectedGender = '0';
+    this.selectedCategory = '0';
+    this.selectedSpeciality = '0';
+    this.selectedSlotlen = '0';
   }
 }

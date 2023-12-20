@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Doctor } from 'src/app/models/doctor';
+import { DoctorAuthService } from '../doctor-auth.service';
 
 @Component({
   selector: 'app-registration-doctor',
@@ -37,8 +38,8 @@ export class RegistrationComponentDoctor implements OnInit{
   ];
 
   slotTiming = [
-    { label : '30 minute', value : '30' },
-    { label : '60 minute', value : '60' }
+    { label : '30 minute', value : 30 },
+    { label : '60 minute', value : 60 }
   ]
 
   email:string = '';
@@ -55,15 +56,62 @@ export class RegistrationComponentDoctor implements OnInit{
   selectedCategory:string = '';
   selectedSpeciality:string = '';
   experience:any;
-  selectedSlotlen:string = '';
+  selectedSlotlen:number = 0;
   certificate:any;
   
+  constructor (public doctorAuthServ:DoctorAuthService){}
   doctor:Doctor | undefined;
+
+  public signUp() : void{
+    if(this.password == this.conpassword )
+    {
+      console.log("Signed up");
+      const doctorData: Doctor = {
+        Email: this.email,
+        Name: this.name,
+        Password: this.password,
+        DoB: this.dob,
+        Age: this.age,
+        Profile_photo: this.profilepic,
+        Gender: this.selectedGender,
+        Phone_no: this.phnumber,
+        Counselling_fee: 0,
+        Bio: this.bio,
+        About: this.about,
+        Category: this.selectedCategory, 
+        Specialist: this.selectedSpeciality,
+        Experiance: this.experience,
+        Cirtificate: this.certificate,
+        Average_rating: 0,
+        Total_rating: 0,
+        Total_review: 0,
+        Starting_time_first: [0, 0, 0, 0, 0, 0, 0],
+        Ending_time_first: [0, 0, 0, 0, 0, 0, 0],
+        Starting_time_second: [0, 0, 0, 0, 0, 0, 0],
+        Ending_time_second: [0, 0, 0, 0, 0, 0, 0],
+        Slot_length: this.selectedSlotlen,
+        Slots: [[]],
+        Appointment_id:[],
+        Review_id: []
+      };
+      this.doctorAuthServ.signupDoctor(doctorData).subscribe(data => this.doctor = data);
+
+      this.email='';
+      this.password='';
+
+      console.log("patient : ");
+      console.log(this.doctor);
+      
+    }
+    else{
+      console.log("Something Wrong.");
+    }
+  }
   
   ngOnInit(): void{
     this.selectedGender = '0';
     this.selectedCategory = '0';
     this.selectedSpeciality = '0';
-    this.selectedSlotlen = '0';
+    this.selectedSlotlen = 0;
   }
 }

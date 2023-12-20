@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Doctor } from 'src/app/models/doctor';
 
 @Component({
   selector: 'app-registration-doctor',
@@ -47,6 +48,7 @@ export class RegistrationComponentDoctor implements OnInit{
   dob:any;
   age:any;
   selectedGender:string = '';
+  profilepic:any;
   phnumber:any;
   bio:any;
   about:any;
@@ -54,8 +56,9 @@ export class RegistrationComponentDoctor implements OnInit{
   selectedSpeciality:string = '';
   experience:any;
   selectedSlotlen:string = '';
+  certificate:any;
   
-  
+  doctor:Doctor | undefined;
   
   ngOnInit(): void{
     this.selectedGender = '0';

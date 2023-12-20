@@ -48,7 +48,6 @@ export class RegistrationComponentPatient implements OnInit{
     this.selectedGender = '0';
     this.selectedBloodGroup = '0';
   }
-
   
   signup(): void {
 

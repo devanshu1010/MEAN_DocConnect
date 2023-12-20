@@ -48,7 +48,6 @@ export class RegistrationComponentPatient implements OnInit{
     this.selectedGender = '0';
     this.selectedBloodGroup = '0';
   }
-
   
   signup(): void {
 
@@ -66,9 +65,10 @@ export class RegistrationComponentPatient implements OnInit{
         Phone_no: this.phone_no,
         BloodGroup: this.selectedBloodGroup,
       };
+      this.patientServ.signupPatient(patientData).subscribe(data => this.patient = data);
+
       this.email='';
       this.password='';
-      this.patientServ.signupPatient(patientData).subscribe(data => this.patient = data);
 
       console.log("patient : ");
       console.log(this.patient);

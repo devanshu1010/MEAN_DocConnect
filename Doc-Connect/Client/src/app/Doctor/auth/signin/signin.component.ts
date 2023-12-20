@@ -11,9 +11,6 @@ export class SigninComponentDoctor implements OnInit{
   email:any ='';
   password:string ='';
 
-  emaildata:any ='devanshuchhipani@gamil.com';
-  passwordata:string ='Devanshu';
-
   cssclass:string = "failed";
   incorrect:boolean = false;
   disablesiginin:boolean = true;

@@ -15,7 +15,12 @@ export class PatientAuthService {
 
   signupPatient(patientData: Patient):Observable<Patient>{
 
-    return this.http.post<Patient>(this.url_signup,patientData)
+    return this.http.post<Patient>(this.url_signup,patientData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error in signupPatient:', error);
+        throw error;
+      })
+    );
     
   }
 

@@ -10,6 +10,8 @@ import { NavbarComponentPatient } from './Patient/navbar/navbar.component';
 import { RegistrationComponentPatient } from './Patient/auth/registration/registration.component';
 import { SigninComponentPatient } from './Patient/auth/signin/signin.component';
 import {HttpClientModule} from '@angular/common/http';
+import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
+import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import {HttpClientModule} from '@angular/common/http';
     NavbarComponentDoctor,
     RegistrationComponentPatient,
     SigninComponentPatient,
-    NavbarComponentPatient
+    NavbarComponentPatient,
+    HomeDoctorComponent,
+    DashboardDoctorComponent
   ],
   imports: [
     BrowserModule,

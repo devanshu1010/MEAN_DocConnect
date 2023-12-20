@@ -13,9 +13,6 @@ export class SigninComponentPatient implements OnInit{
   email:any ='';
   password:string ='';
 
-  emaildata:any ='devanshuchhipani@gamil.com';
-  passwordata:string ='Devanshu';
-
   cssclass:string = "failed";
   incorrect:boolean = false;
   patient: any;
@@ -27,7 +24,7 @@ export class SigninComponentPatient implements OnInit{
     console.log(this.email);
     console.log(this.password);
 
-    if(this.password && this.password )
+    if(this.password && this.email )
     {
       console.log("In login");
       const patientData: any = {
@@ -50,7 +47,7 @@ export class SigninComponentPatient implements OnInit{
 
       //console.log("patient : ");
       //console.log(this.patient);
-      this.email='';
+      //this.email='';
       this.password='';
     }
     else{

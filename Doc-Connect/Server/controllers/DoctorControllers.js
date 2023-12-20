@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Doctor = require("../models/DoctorSchema");
 
-//@dec Create new patient
+//@dec Create new doctor
 //@route POST /api/doctor/auth/signup
 //@acsess public 
 const createDoctor = asyncHandler(async (req, res) => {
@@ -33,10 +33,10 @@ const createDoctor = asyncHandler(async (req, res) => {
     }
 });
 
-//@dec get a patient
-//@route POST /api/patient/auth/login
+//@dec get a doctor
+//@route POST /api/doctor/auth/login
 //@acsess public
-const getDoctor = asyncHandler(async (req, res) => {
+const Doctorlogin = asyncHandler(async (req, res) => {
     try {
         console.log("The request body is : ", req.body);
         console.log(req);   
@@ -46,7 +46,7 @@ const getDoctor = asyncHandler(async (req, res) => {
 
         if (!doctor) {
             res.status(404);
-            throw new Error("patient not found.");
+            throw new Error("doctor not found.");
         }else{
             res.status(200).json(doctor);
         }
@@ -58,4 +58,71 @@ const getDoctor = asyncHandler(async (req, res) => {
 
 });
 
-module.exports = {getDoctor,createDoctor};
+//@dec get a doctor
+//@route GET /api/doctor/:id
+//@acsess public
+const getDoctor = asyncHandler(async (req, res) => {
+    try {
+        const doctor = await Doctor.findById(req.params.id).populate('Appointment_id').populate('Review_id');
+
+        if (!doctor) {
+            res.status(404);
+            throw new Error("Doctor not found.");
+        }
+
+        res.status(200).json(doctor);
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({});
+    }
+
+});
+
+//@dec update a doctor
+//@route PUT /api/doctor/:id
+//@acsess public
+const updateDoctor = asyncHandler(async (req, res) => {
+    const CurrDoctId =  req.params.id; //req.user.id;
+    try {
+        const doctor = await Doctor.findById(CurrDoctId);
+
+        console.log(doctor)
+        if (!doctor) {
+            res.status(404);
+            throw new Error("Doctor not found.");
+        }
+
+        const updateDoctor = await User.findByIdAndUpdate(
+            CurrDoctId,
+            req.body,
+            { new: true },
+        )
+        res.status(200).json(updateDoctor);
+    } catch (error) {
+        console.log(error);
+    }
+
+});
+
+//@dec search a doctor
+//@route GET /api/doctor/search
+//@acsess public 
+const searchDcotor = asyncHandler(async (req, res) => {
+    const { query } = req.query;
+
+    try {
+        const doctor = await Doctor.find({
+            $or: [
+                { UserName: { $regex: query, $options: 'i' } },
+                { Email: { $regex: query, $options: 'i' } },
+                { Name: { $regex: query, $options: 'i' } }
+            ]
+        })
+        res.status(200).json(doctor);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+module.exports = {Doctorlogin,getDoctor,createDoctor};

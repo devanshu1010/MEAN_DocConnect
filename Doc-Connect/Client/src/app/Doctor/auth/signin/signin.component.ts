@@ -52,9 +52,9 @@ export class SigninComponentDoctor implements OnInit{
       console.log("unsucessful not login");
       //console.log(this.patient);
       //this.value_border="red-500";
-    }
-    
+    }  
   }
+
   ngOnInit(): void {
     
   }

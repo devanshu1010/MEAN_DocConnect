@@ -85,22 +85,29 @@ const getDoctor = asyncHandler(async (req, res) => {
 //@acsess public
 const updateDoctor = asyncHandler(async (req, res) => {
     const CurrDoctId =  req.params.id; //req.user.id;
+    console.log(CurrDoctId)
     try {
-        const doctor = await Doctor.findById(CurrDoctId);
-
+        const doctor = await Doctor.findById(CurrDoctId.trim());
+        console.log("in update doctor");
+        console.log("doctor found : ")
         console.log(doctor)
-        if (!doctor) {
-            res.status(404);
-            throw new Error("Doctor not found.");
-        }
+        console.log("doctor found : ")
 
-        const updateDoctor = await User.findByIdAndUpdate(
+        // if (!doctor) {
+        //     res.status(404);
+        //     throw new Error("Doctor not found.");
+        // }
+
+        const updateDoctor = await Doctor.findByIdAndUpdate(
             CurrDoctId,
             req.body,
             { new: true },
         )
+        console.log(updateDoctor);
         res.status(200).json(updateDoctor);
+
     } catch (error) {
+        console.log("Doctor not found.");
         console.log(error);
     }
 
@@ -126,4 +133,4 @@ const searchDcotor = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = {Doctorlogin,getDoctor,createDoctor};
+module.exports = {Doctorlogin,getDoctor,createDoctor,updateDoctor};

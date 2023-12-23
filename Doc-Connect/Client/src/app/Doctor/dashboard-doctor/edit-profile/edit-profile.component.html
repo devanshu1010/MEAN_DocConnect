@@ -46,7 +46,7 @@
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="selectedGender"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Gender</label>
-                                    <select id="selectedGender" [(ngModel)]="selectedGender" name="selectedGender"
+                                    <select id="selectedGender" [(ngModel)]="doctor.Gender" name="selectedGender"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                         <option *ngFor="let gender of genders" [value]="gender.value">{{ gender.label }}
@@ -91,7 +91,7 @@
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="category"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Category</label>
-                                    <select id="category" [(ngModel)]="selectedCategory" name="selectedCategory"
+                                    <select id="category" [(ngModel)]="doctor.Category" name="selectedCategory"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                         <option *ngFor="let category of doctorCategories" [value]="category.value">{{
@@ -101,7 +101,7 @@
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="specialist"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Specialist</label>
-                                    <select id="specialist" [(ngModel)]="selectedSpeciality" name="selectedSpeciality"
+                                    <select id="specialist" [(ngModel)]="doctor.Specialist" name="selectedSpeciality"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                         <option *ngFor="let speciality of doctorSpeciality" [value]="speciality.value">
@@ -114,10 +114,10 @@
                                     <div class="flex flex-row ...">
                                         <label *ngFor="let option of slotTiming">
                                             <div class="pt-2 pr-4 md:mb-0">
-                                                <input id="red-radio" [(ngModel)]="selectedSlotlen" type="radio"
+                                                <input id="slot_length_{{ option.value }}" [(ngModel)]="doctor.Slot_length" type="radio"
                                                     [value]="option.value" name="colored-radio"
                                                     class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 :bg-gray-700 dark:border-gray-600">
-                                                <label for="red-radio"
+                                                <label for="slot_length"
                                                     class="ms-2 text-md font-medium text-gray-900 /*dark:text-gray-300*/">{{option.label}}</label>
                                             </div>
                                         </label>

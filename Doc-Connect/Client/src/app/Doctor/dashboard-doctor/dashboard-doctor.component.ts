@@ -53,6 +53,7 @@ export class DashboardDoctorComponent implements OnInit {
   }
 
   updateDoctor(updatedDoctor: Doctor) {
+    console.log(this.doctorId);
     // Use your DoctorService to update the doctor data
     this.doctorServ.updateDoctor(this.doctorId,updatedDoctor).subscribe(
       data => {
@@ -87,9 +88,16 @@ export class DashboardDoctorComponent implements OnInit {
     );
   }
 
+  submitForm(){
+    
+  }
+
   ngOnInit(): void {
     this.view_profile();
 
     this.loadDoctorData();
+
+    console.log(this.doctorId);
+
   }
 }

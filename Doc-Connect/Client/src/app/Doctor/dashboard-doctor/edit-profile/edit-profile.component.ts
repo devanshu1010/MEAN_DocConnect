@@ -14,6 +14,8 @@ export class EditProfileComponent {
   submitForm() {
     // Emit the updated doctor object to save changes
     this.saveChanges.emit(this.doctor);
+    this.closeModal.emit();
+    
   }
 
   genders = [

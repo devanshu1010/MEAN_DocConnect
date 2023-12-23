@@ -63,8 +63,9 @@ const Doctorlogin = asyncHandler(async (req, res) => {
 //@acsess public
 const getDoctor = asyncHandler(async (req, res) => {
     try {
-        const doctor = await Doctor.findById(req.params.id).populate('Appointment_id').populate('Review_id');
-
+        console.log(req.params.id);
+        const doctor = await Doctor.findById(req.params.id);//.populate('Appointment_id').populate('Review_id');
+        console.log(doctor);
         if (!doctor) {
             res.status(404);
             throw new Error("Doctor not found.");

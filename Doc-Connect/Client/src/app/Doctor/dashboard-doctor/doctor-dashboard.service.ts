@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
+import { Doctor } from 'src/app/models/doctor';
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +22,6 @@ export class DoctorDashboardService {
       })
     );
   }
+
+ 
 }

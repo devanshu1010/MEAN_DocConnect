@@ -12,6 +12,8 @@ import { SigninComponentPatient } from './Patient/auth/signin/signin.component';
 import {HttpClientModule} from '@angular/common/http';
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
 import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
+import { DatePipe } from '@angular/common';
+import { EditProfileComponent } from './Doctor/dashboard-doctor/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-do
     SigninComponentPatient,
     NavbarComponentPatient,
     HomeDoctorComponent,
-    DashboardDoctorComponent
+    DashboardDoctorComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-do
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

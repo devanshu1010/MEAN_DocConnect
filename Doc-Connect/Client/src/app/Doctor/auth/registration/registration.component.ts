@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Doctor } from 'src/app/models/doctor';
 import { DoctorAuthService } from '../doctor-auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-doctor',
@@ -59,7 +60,8 @@ export class RegistrationComponentDoctor implements OnInit{
   selectedSlotlen:number = 0;
   certificate:any;
   
-  constructor (public doctorAuthServ:DoctorAuthService){}
+  constructor (public doctorAuthServ:DoctorAuthService,private router: Router){}
+  
   doctor:Doctor | undefined;
 
   public signUp() : void{
@@ -102,6 +104,7 @@ export class RegistrationComponentDoctor implements OnInit{
       console.log("patient : ");
       console.log(this.doctor);
       
+      this.router.navigate(['/signinpatient']);
     }
     else{
       console.log("Something Wrong.");

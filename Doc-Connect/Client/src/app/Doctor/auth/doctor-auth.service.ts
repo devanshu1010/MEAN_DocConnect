@@ -24,7 +24,8 @@ export class DoctorAuthService {
     
   }
 
-  loginDcotor(doctorData: any):Observable<any>{
+  loginDoctor(doctorData: any):Observable<any>{
+    console.log("in login doctor.")
     console.log(doctorData);
     return this.http.post<any>(this.url_login,doctorData).pipe(
       catchError((error: HttpErrorResponse) => {

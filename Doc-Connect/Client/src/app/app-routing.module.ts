@@ -8,7 +8,7 @@ import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-do
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
 
 const routes: Routes = [
-  //{path:'',redirectTo:'homedoctor',pathMatch:'full'},
+  {path:'',redirectTo:'signinDoctor',pathMatch:'full'},
   {path:'signinDoctor',component:SigninComponentDoctor},
   {path:'registerDoctor',component:RegistrationComponentDoctor},
   {path:'signinPatient',component:SigninComponentPatient},

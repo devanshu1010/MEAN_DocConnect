@@ -21,6 +21,13 @@ export class DashboardDoctorComponent implements OnInit {
 
   isEditProfileModalOpen = false;
 
+  todaydate : Date = new Date();
+  
+  slotTiming = [
+    { label : '30 minute', value : 30 },
+    { label : '60 minute', value : 60 }
+  ]
+
   openEditProfilePopup() {
     this.isEditProfileModalOpen = true;
   }
@@ -98,6 +105,7 @@ export class DashboardDoctorComponent implements OnInit {
     this.loadDoctorData();
 
     console.log(this.doctorId);
+    console.log(this.todaydate);
 
   }
 }

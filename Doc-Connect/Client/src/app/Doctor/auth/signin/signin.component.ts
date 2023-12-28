@@ -44,6 +44,7 @@ export class SigninComponentDoctor implements OnInit{
           this.userId = this.doctor._id;
           console.log("userId");
           console.log(this.userId);
+          localStorage.removeItem("userId");
           localStorage.setItem('userId',this.doctor._id);
 
           this.email='';

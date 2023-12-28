@@ -21,8 +21,12 @@ export class DashboardDoctorComponent implements OnInit {
 
   isEditProfileModalOpen = false;
 
-  todaydate : Date = new Date();
+  currdate : Date = new Date();
+  todaydate : any;
+  today: any;
   
+  timeSlots: { day: Date; startTime: string; endTime: string }[] = [];
+
   slotTiming = [
     { label : '30 minute', value : 30 },
     { label : '60 minute', value : 60 }
@@ -57,6 +61,26 @@ export class DashboardDoctorComponent implements OnInit {
     this.profile = false; 
     this.appointments = false; 
     this.slots = true;
+  }
+
+  calculateTimeSlots() {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1); // Get the date for tomorrow
+
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date();
+      currentDate.setDate(tomorrow.getDate() + i);
+
+      // Replace 'yourStartTime' and 'yourEndTime' with your actual time slot values
+      const timeSlot = {
+        day: currentDate,
+        startTime: 'yourStartTime',
+        endTime: 'yourEndTime',
+      };
+
+      this.timeSlots.push(timeSlot);
+    }
   }
 
   updateDoctor(updatedDoctor: Doctor) {
@@ -105,7 +129,14 @@ export class DashboardDoctorComponent implements OnInit {
     this.loadDoctorData();
 
     console.log(this.doctorId);
+    //const formattedDate = this.datePipe.transform(this.currdate, 'EEEE, MMMM d');
+    //console.log(formattedDate);
+   // console.log(formattedDate);
+    console.log(this.currdate);
+    this.today= this.datePipe.transform(this.currdate,'EEEE');
+    this.todaydate=this.datePipe.transform(this.currdate,'MMMM d');
+    console.log(this.today);
     console.log(this.todaydate);
-
+    this.calculateTimeSlots();
   }
 }

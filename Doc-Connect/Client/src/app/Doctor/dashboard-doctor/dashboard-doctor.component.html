@@ -316,6 +316,9 @@
                       </div>
 
                     </div>
+                    <div *ngFor="let slot of timeSlots">
+                      {{ slot.day | date: 'EEEE' }}: {{ slot.startTime }} - {{ slot.endTime }}
+                    </div>
 
                     <!-- ... Repeat for other fields ... -->
 

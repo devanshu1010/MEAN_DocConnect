@@ -68,7 +68,7 @@ export class DashboardDoctorComponent implements OnInit {
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1); // Get the date for tomorrow
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 6; i++) {
       const currentDate = new Date();
       currentDate.setDate(tomorrow.getDate() + i);
 

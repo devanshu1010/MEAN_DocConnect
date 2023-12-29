@@ -27,10 +27,26 @@ export class DashboardDoctorComponent implements OnInit {
   
   timeSlots: { day: Date; startTime: string; endTime: string }[] = [];
 
+  selectedslots:any = 0;
+
   slotTiming = [
     { label : '30 minute', value : 30 },
     { label : '60 minute', value : 60 }
   ]
+
+  days = [
+    { label: 'Select Your Day for slot', value: '0'},
+  ];
+
+  Alldays = [
+    { label: 'Monday', value: 'Monday'},
+    { label: 'Tuesday', value: 'Tuesday'},
+    { label: 'Wednesday', value: 'Wednesday'},
+    { label: 'Thursday', value: 'Thursday'},
+    { label: 'Friday', value: 'Friday'},
+    { label: 'Saturday', value: 'Saturday'},
+    { label: 'Sunday', value: 'Sunday'}
+  ];
 
   openEditProfilePopup() {
     this.isEditProfileModalOpen = true;
@@ -79,6 +95,15 @@ export class DashboardDoctorComponent implements OnInit {
         endTime: 'yourEndTime',
       };
 
+      const _day = this.datePipe.transform(currentDate, 'EEEE');
+      const __day:string = _day !== null ? _day : 'DefaultDay';
+
+      const tempday = {
+        label: __day,
+        value: __day
+      };
+
+      this.days.push(tempday);
       this.timeSlots.push(timeSlot);
     }
   }

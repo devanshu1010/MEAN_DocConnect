@@ -14,6 +14,8 @@ import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component'
 import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
 import { DatePipe } from '@angular/common';
 import { EditProfileComponent } from './Doctor/dashboard-doctor/edit-profile/edit-profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AnimationComponent } from './animation/animation.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,15 @@ import { EditProfileComponent } from './Doctor/dashboard-doctor/edit-profile/edi
     NavbarComponentPatient,
     HomeDoctorComponent,
     DashboardDoctorComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    AnimationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

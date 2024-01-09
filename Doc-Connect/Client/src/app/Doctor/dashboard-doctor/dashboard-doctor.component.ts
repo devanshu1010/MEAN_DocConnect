@@ -215,10 +215,9 @@ export class DashboardDoctorComponent implements OnInit {
 
   
   async ngOnInit() : Promise<void> {
-    this.view_profile();
-
+    
     await this.loadDoctorData();
-
+    this.view_profile();
     console.log(this.doctorId);
     //console.log(this.currdate);
     this.today= this.datePipe.transform(this.currdate,'EEEE');

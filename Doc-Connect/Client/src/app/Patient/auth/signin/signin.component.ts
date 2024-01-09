@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Patient } from 'src/app/models/patient';
 import { PatientAuthService } from '../patientAuth.service';
 import { NavbarComponentPatient } from '../../navbar/navbar.component';
+import { NavbarService } from 'src/app/navbar.service';
 
 @Component({
   selector: 'app-signin-patient',
@@ -17,7 +18,7 @@ export class SigninComponentPatient implements OnInit{
   incorrect:boolean = false;
   patient: any;
   //private navbarComponentPatient: NavbarComponentPatient
-  constructor (public patientServ:PatientAuthService){}
+  constructor (public patientServ:PatientAuthService,private navbarService: NavbarService){}
   
   public signin():void {
     console.log("clicked");
@@ -59,5 +60,6 @@ export class SigninComponentPatient implements OnInit{
   }
   ngOnInit(): void {
     //this.navbarComponentPatient.hideNavbar();
+    this.navbarService.setHideNavbar(true);
   }
 }

@@ -14,9 +14,11 @@ export class DoctorService {
   constructor(private http: HttpClient) { }
 
   getDoctor(doctorId: any):Observable<any>{
-    this.url_getdoctor += doctorId;
     console.log(this.url_getdoctor);
-    return this.http.get<any>(this.url_getdoctor).pipe(
+    const url = this.url_getdoctor + doctorId;
+    console.log(doctorId);
+    console.log(this.url_getdoctor);
+    return this.http.get<any>(url).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in Geting Doctor:', error);
         throw error;

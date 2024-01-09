@@ -6,15 +6,18 @@ import { RegistrationComponentDoctor } from './Doctor/auth/registration/registra
 import { SigninComponentDoctor } from './Doctor/auth/signin/signin.component';
 import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
+import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
 
 const routes: Routes = [
-  {path:'',redirectTo:'signinDoctor',pathMatch:'full'},
+  {path:'',redirectTo:'homepatient',pathMatch:'full'},
   {path:'signinDoctor',component:SigninComponentDoctor},
   {path:'registerDoctor',component:RegistrationComponentDoctor},
   {path:'signinPatient',component:SigninComponentPatient},
   {path:'registerPatient',component:RegistrationComponentPatient},
   {path:'dashboardDoctor',component:DashboardDoctorComponent},
   {path:'homedoctor',component:HomeDoctorComponent},
+  {path:'homepatient',component:HomePatientComponent},
+  {path: '**', redirectTo: '/homepatient', pathMatch: 'full' },
 ];
 
 @NgModule({

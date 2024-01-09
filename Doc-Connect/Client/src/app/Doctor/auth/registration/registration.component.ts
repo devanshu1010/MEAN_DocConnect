@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Doctor } from 'src/app/models/doctor';
 import { DoctorAuthService } from '../doctor-auth.service';
 import { Router } from '@angular/router';
+import { NavbarService } from 'src/app/navbar.service';
 
 @Component({
   selector: 'app-registration-doctor',
@@ -60,7 +61,7 @@ export class RegistrationComponentDoctor implements OnInit{
   selectedSlotlen:number = 0;
   certificate:any;
   
-  constructor (public doctorAuthServ:DoctorAuthService,private router: Router){}
+  constructor (public doctorAuthServ:DoctorAuthService,private router: Router,private navbarService: NavbarService){}
   
   doctor:Doctor | undefined;
 
@@ -116,5 +117,6 @@ export class RegistrationComponentDoctor implements OnInit{
     this.selectedCategory = '0';
     this.selectedSpeciality = '0';
     this.selectedSlotlen = 0;
+    this.navbarService.setHideNavbar(true);
   }
 }

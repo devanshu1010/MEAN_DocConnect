@@ -16,6 +16,7 @@ import { DatePipe } from '@angular/common';
 import { EditProfileComponent } from './Doctor/dashboard-doctor/edit-profile/edit-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimationComponent } from './animation/animation.component';
+import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AnimationComponent } from './animation/animation.component';
     HomeDoctorComponent,
     DashboardDoctorComponent,
     EditProfileComponent,
-    AnimationComponent
+    AnimationComponent,
+    HomePatientComponent
   ],
   imports: [
     BrowserModule,

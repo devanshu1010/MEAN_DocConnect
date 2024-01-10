@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Client';
   mode = 'Patient';
 
+  public isLogin : boolean = false;
   constructor (private router: Router){}
 
   public change_mode():void {
@@ -17,5 +18,10 @@ export class AppComponent {
     this.mode='Doctor';
     console.log(this.mode);
     this.router.navigate(['/signinDoctor']);
+  }
+
+  ngOnInit(): void {
+    localStorage.removeItem("isLogin");
+    localStorage.setItem('isLogin',"false");
   }
 }

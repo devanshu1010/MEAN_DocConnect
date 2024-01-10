@@ -7,12 +7,11 @@ import { NavbarService } from 'src/app/navbar.service';
   styleUrls: ['./home-patient.component.css']
 })
 export class HomePatientComponent implements OnInit {
-
-  isLogin : boolean = false;
   
   constructor(private navbarService: NavbarService) {}
   
   ngOnInit() {
+    
     this.navbarService.showNavbar();
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from 'src/app/models/patient';
 import { PatientAuthService } from '../patientAuth.service';
+import { Router } from '@angular/router';
+import { NavbarService } from 'src/app/navbar.service';
 
 @Component({
   selector: 'app-registration-patient',
@@ -42,11 +44,12 @@ export class RegistrationComponentPatient implements OnInit{
   
   value_border:any = "gray-400";
   
-  constructor (public patientServ:PatientAuthService){}
+  constructor (public patientServ:PatientAuthService,private navbarService: NavbarService,private router: Router){}
 
   ngOnInit(): void{
     this.selectedGender = '0';
     this.selectedBloodGroup = '0';
+    this.navbarService.setHideNavbar(true);
   }
   
   signup(): void {
@@ -72,7 +75,7 @@ export class RegistrationComponentPatient implements OnInit{
 
       console.log("patient : ");
       console.log(this.patient);
-      
+      this.router.navigate(['/signinpatient']);
     }
     else{
       this.value_border="red-500";

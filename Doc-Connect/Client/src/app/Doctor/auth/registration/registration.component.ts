@@ -105,7 +105,7 @@ export class RegistrationComponentDoctor implements OnInit{
       console.log("patient : ");
       console.log(this.doctor);
       
-      this.router.navigate(['/signinpatient']);
+      this.router.navigate(['/signinDoctor']);
     }
     else{
       console.log("Something Wrong.");

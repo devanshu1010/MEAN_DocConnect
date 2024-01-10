@@ -8,7 +8,6 @@ import { NavbarService } from 'src/app/navbar.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponentPatient  implements OnInit {
-  @Input() public Login!: boolean;
   @Output() onSignInDoctorClicked: EventEmitter<any> = new EventEmitter();
 
   public isLogin : boolean = false;
@@ -24,9 +23,14 @@ export class NavbarComponentPatient  implements OnInit {
   constructor( private router: Router,private navbarService: NavbarService) { }
   
   ngOnInit() {
+    console.log("hi");
     this.isLogin= false;
     this.navbarService.hideNavbar$.subscribe((hide) => {
       this.hideNavbar = hide;
     });
+
+    this.navbarService.isLogin$.subscribe((value) => {
+      this.isLogin = value;
+    });    
   }
 }

@@ -203,11 +203,30 @@ export class DashboardDoctorComponent implements OnInit {
 
   async submitForm(){
     
+    //console.log("doctor : ");
+    //console.log(this.doctor);
+    // console.log("selected slot : ");
+    // console.log(this.selectedslots);
+
+    let befor_break = this.doctor.Ending_time_first[this.selectedslots] - this.doctor.Starting_time_first[this.selectedslots];
+    let after_break = this.doctor.Ending_time_second[this.selectedslots] - this.doctor.Starting_time_second[this.selectedslots];
+
+    let no_h = befor_break + after_break;
+    let multi;
+    if(this.doctor.Slot_length == 60)
+    {
+      multi = 1;
+    }
+    else
+    {
+      multi = 2;
+    }
+
+    const no_slot: number = no_h * multi;
+    let list_of_slot: number[] = Array.from({ length: no_slot }, () => 1);
+    this.doctor.Slots[this.selectedslots] = list_of_slot;
     console.log("doctor : ");
     console.log(this.doctor);
-    console.log("selected slot : ");
-    console.log(this.selectedslots);
-
     await this.updateDoctor(this.doctor);
     //await this.loadDoctorData();
     //this.calculateTimeSlots();

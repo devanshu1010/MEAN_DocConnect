@@ -80,6 +80,19 @@ const getDoctor = asyncHandler(async (req, res) => {
 
 });
 
+//@dec Get all doctors
+//@route GET /api/doctor
+//@acsess public 
+const getDoctors = asyncHandler(async (req, res) => {
+    try {
+        const doctors = await Doctor.find();
+        res.status(200).json(doctors);
+    }
+    catch(err){
+        console.log(err);
+    }
+});
+
 //@dec update a doctor
 //@route PUT /api/doctor/:id
 //@acsess public
@@ -133,4 +146,4 @@ const searchDcotor = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = {Doctorlogin,getDoctor,createDoctor,updateDoctor};
+module.exports = {Doctorlogin,getDoctor,createDoctor,updateDoctor,getDoctors};

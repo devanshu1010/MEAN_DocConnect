@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const {Doctorlogin,getDoctor,createDoctor,updateDoctor} = require('../controllers/DoctorControllers');
+const {Doctorlogin,getDoctor,createDoctor,updateDoctor,getDoctors} = require('../controllers/DoctorControllers');
+
+router.route("/").get(getDoctors);
 
 router.route("/auth/signup").post(createDoctor);
 

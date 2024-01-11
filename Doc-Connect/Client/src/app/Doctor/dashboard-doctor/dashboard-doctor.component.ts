@@ -3,14 +3,13 @@ import { DoctorDashboardService } from './doctor-dashboard.service';
 import { DoctorService } from '../doctor.service';
 import { Doctor } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
-import { fadeInOutAnimation } from 'src/app/animation/animation.component';
 
 
 @Component({
   selector: 'app-dashboard-doctor',
   templateUrl: './dashboard-doctor.component.html',
   styleUrls: ['./dashboard-doctor.component.css'],
-  animations: [fadeInOutAnimation],
+
 })
 export class DashboardDoctorComponent implements OnInit {
 

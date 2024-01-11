@@ -1,1 +1,7 @@
-<p>animation works!</p>
+<div class="image-container" [@imageFadeInOut]="slideIndex">
+    <img class="min-w-max mix-blend-color-burn" [src]="getCurrentImage()" alt="Current Slide">
+  </div>
+
+<div style="text-align: center">
+    <span class="dot" *ngFor="let image of images; let i = index" [class.active]="i === slideIndex"></span>
+</div>

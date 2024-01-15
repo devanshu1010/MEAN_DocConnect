@@ -17,6 +17,7 @@ import { EditProfileComponent } from './Doctor/dashboard-doctor/edit-profile/edi
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimationComponent } from './animation/animation.component';
 import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
+import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { HomePatientComponent } from './Patient/home-patient/home-patient.compon
     DashboardDoctorComponent,
     EditProfileComponent,
     AnimationComponent,
-    HomePatientComponent
+    HomePatientComponent,
+    DoctorCardComponent
   ],
   imports: [
     BrowserModule,

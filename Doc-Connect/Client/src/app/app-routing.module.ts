@@ -7,6 +7,7 @@ import { SigninComponentDoctor } from './Doctor/auth/signin/signin.component';
 import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
 import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
+import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'homepatient',pathMatch:'full'},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path:'dashboardDoctor',component:DashboardDoctorComponent},
   {path:'homedoctor',component:HomeDoctorComponent},
   {path:'homepatient',component:HomePatientComponent},
+  { path:'doctor-details/:id', component: DoctorCardComponent },
   {path: '**', redirectTo: '/homepatient', pathMatch: 'full' },
 ];
 

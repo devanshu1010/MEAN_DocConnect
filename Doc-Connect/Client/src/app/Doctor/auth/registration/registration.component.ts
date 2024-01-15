@@ -70,6 +70,7 @@ export class RegistrationComponentDoctor implements OnInit{
     {
       console.log("Signed up");
       const doctorData: Doctor = {
+        _id : '',
         Email: this.email,
         Name: this.name,
         Password: this.password,

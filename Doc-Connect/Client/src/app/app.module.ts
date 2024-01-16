@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimationComponent } from './animation/animation.component';
 import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
 import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
+import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-c
     EditProfileComponent,
     AnimationComponent,
     HomePatientComponent,
-    DoctorCardComponent
+    DoctorCardComponent,
+    BookAppointmentComponent
   ],
   imports: [
     BrowserModule,

@@ -1,14 +1,14 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ServicesService } from '../../services.service';
 import { first } from 'rxjs';
+import { ServicesService } from '../../services.service';
 
 @Component({
-  selector: 'app-doctor-card',
-  templateUrl: './doctor-card.component.html',
-  styleUrls: ['./doctor-card.component.css']
+  selector: 'app-book-appointment',
+  templateUrl: './book-appointment.component.html',
+  styleUrls: ['./book-appointment.component.css']
 })
-export class DoctorCardComponent  implements OnInit {
+export class BookAppointmentComponent implements OnInit {
   doctorId?: number;
   doctor: any; // Adjust the type accordingly
 

@@ -23,9 +23,9 @@
                 <div class="flex flex-col-reverse">
                     <div class="mt-4">
                         <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Dr. {{doctor.Name}} </h1>
-                        <h2 id="information-heading" class="sr-only">Product information</h2>
+                        <!-- <h2 id="information-heading" class="sr-only">Product information</h2>
                         <p class="text-sm text-gray-500 mt-2">Version 1.0 (Updated <time datetime="2021-06-05">June 5,
-                                2021</time>)</p>
+                                2021</time>)</p> -->
                     </div>
 
                     <div>
@@ -74,14 +74,42 @@
                     </div>
                 </div>
 
-                <p class="text-gray-500 mt-6">The Application UI Icon Pack comes with over 200 icons in 3 styles:
-                    outline, filled, and branded. This playful icon pack is tailored for complex application user
-                    interfaces with a friendly and legible look.</p>
+                <p class="text-gray-500 mt-6">{{doctor.Bio}}
+                </p>
+
+                <div class="flex mt-4">
+                    <h3 class="relative text-base font-medium text-gray-900">Age : </h3>
+                    <h3 class="prose prose-base text-gray-500 ml-2">  {{doctor.Age}} Years</h3>
+                </div>
+
+                <div class="flex">
+                    <h3 class="relative text-base font-medium text-gray-900">Experiance : </h3>
+                    <h3 class="prose prose-base text-gray-500 ml-2">  {{doctor.Experiance}} Years</h3>
+                </div>
+
+                <div class="flex">
+                    <h3 class="relative text-base font-medium text-gray-900">Category : </h3>
+                    <h3 class="prose prose-base text-gray-500 ml-2">  {{doctor.Category}}</h3>
+                </div>
+
+                <div class="flex">
+                    <h3 class="relative text-base font-medium text-gray-900">Specialist : </h3>
+                    <h3 class="prose prose-base text-gray-500 ml-2">  {{doctor.Specialist}}</h3>
+                </div>
+
+                <div class="flex">
+                    <h3 class="relative text-base font-medium text-gray-900">Counselling Duration : </h3>
+                    <h3 class="prose prose-base text-gray-500 ml-2"> {{doctor.Slot_length}} Minutes</h3>
+                </div>
+
+                <div class="flex">
+                    <h3 class="relative text-base font-medium text-gray-900">Counselling Fees : </h3>
+                    <h3 class="prose prose-base text-gray-500 ml-2"> ₹ {{doctor.Counselling_fee}}</h3>
+                </div>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-                    <button type="button"
-                        class="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Pay
-                        $220</button>
+                    <a type="button" [routerLink]="['/bookappointment', doctor._id!]"
+                        class="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Book Appoinment</a>
                     <button type="button"
                         class="w-full bg-indigo-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Preview</button>
                 </div>
@@ -152,7 +180,7 @@
                             <!-- Selected: "border-indigo-600 text-indigo-600", Not Selected: "border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300" -->
                             <button id="tab-reviews"
                                 class="border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap py-6 border-b-2 font-medium text-sm"
-                                aria-controls="tab-panel-reviews" role="tab" type="button">Customer Reviews</button>
+                                aria-controls="tab-panel-reviews" role="tab" type="button">Patient Reviews</button>
                         </div>
                     </div>
 

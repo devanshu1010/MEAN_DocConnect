@@ -8,6 +8,7 @@ import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-do
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
 import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
 import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
+import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'homepatient',pathMatch:'full'},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path:'homedoctor',component:HomeDoctorComponent},
   {path:'homepatient',component:HomePatientComponent},
   { path:'doctor-details/:id', component: DoctorCardComponent },
+  { path:'bookappointment/:id', component: BookAppointmentComponent },
   {path: '**', redirectTo: '/homepatient', pathMatch: 'full' },
 ];
 

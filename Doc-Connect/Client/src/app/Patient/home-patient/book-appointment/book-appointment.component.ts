@@ -36,8 +36,122 @@ export class BookAppointmentComponent implements OnInit {
   month!: number; // !: mean promis it will not be null, and it will definitely be assigned
   year!: number;
   day!: number;
+  indexofday!: number;
   no_of_days = [] as number[];
   blankdays = [] as number[];
+
+  timeSlots: {  Time: number | undefined; Slot: number | undefined; }[] = [];
+
+  getindex(str : string)
+  {
+    let temp:number = 0;
+
+    switch (str) {
+      case 'Mon':
+        temp =0;
+        break;
+      case 'Tue':
+        temp =1;
+        break;
+      case 'Wed':
+        temp =2;
+        break;
+      case 'Thu':
+        temp =3;
+        break;
+      case 'Fri':
+        temp =4;
+        break;
+      case 'Sat':
+        temp =5;
+        break;
+      case 'Sun':
+        temp =6;
+        break;
+      default:
+        temp =0;
+        break;
+    }
+
+    return temp;
+  }
+
+  calculateSlot(){
+    console.log('calculateSlot function called');
+    let date  = this.datepickerValue;
+    //console.log(date);
+    let t = date.substr(0, 3);
+    //console.log(t);
+
+    let temp : number = 0;
+    temp = this.getindex(t);
+    // console.log(temp);
+
+    let time1_start = this.doctor.Starting_time_first[temp];
+    let time1_end = this.doctor.Ending_time_first[temp];
+    let time2_start = this.doctor.Starting_time_second[temp];
+    let time2_end = this.doctor.Ending_time_second[temp];
+
+    if(time2_start == 0)
+    {
+      let slot = this.doctor.Slots[temp];
+      //console.log(slot);
+      let count1 = time1_end - time1_start;
+      let count = 0;
+      //console.log(count);
+      while (count1 >0 ) {
+        
+        const timeSlot = {
+          Time: time1_start,
+          Slot : slot[count]
+        };
+
+        this.timeSlots.push(timeSlot);
+        count += 1;
+        time1_start += 1;
+        count1 -= 1;
+      }
+    }
+    else
+    {
+      let slot = this.doctor.Slots[temp];
+      //console.log(slot);
+      let count1 = time1_end - time1_start;
+      let count = 0;
+      //console.log(count);
+      while (count1 >0 ) {
+        
+        const timeSlot = {
+          Time: time1_start,
+          Slot : slot[count]
+        };
+
+        this.timeSlots.push(timeSlot);
+        count += 1;
+        time1_start += 1;
+        count1 -= 1;
+      }
+
+      let count2 = time2_end - time2_start;
+
+      while (count2 >0 ) {
+        
+        const timeSlot = {
+          Time: time2_start,
+          Slot : slot[count]
+        };
+
+        this.timeSlots.push(timeSlot);
+        count += 1;
+        time2_start += 1;
+        count2 -= 1;
+      }
+
+    }
+
+    // console.log(this.timeSlots);
+
+  }
 
   initDate() {
     let today = new Date();
@@ -137,6 +251,7 @@ export class BookAppointmentComponent implements OnInit {
       }
       this.initDate();
       this.getNoOfDays(); 
+      this.calculateSlot();
     } catch (error) {
       console.error("error", error);
     }

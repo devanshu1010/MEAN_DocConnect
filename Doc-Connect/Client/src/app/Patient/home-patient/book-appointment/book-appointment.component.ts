@@ -30,6 +30,7 @@ export class BookAppointmentComponent implements OnInit {
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   showDatepicker = false;
   datepickerValue!: string;
+  today!: string;
   minDate!: string;
   maxDate!: string;
   month!: number; // !: mean promis it will not be null, and it will definitely be assigned
@@ -43,7 +44,8 @@ export class BookAppointmentComponent implements OnInit {
     this.month = today.getMonth();
     this.year = today.getFullYear();
     this.day = today.getDate();
-    this.datepickerValue = new Date(this.year, this.month, today.getDate() + 1).toDateString();
+    this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
+    this.today = new Date(this.year, this.month, today.getDate()).toDateString();
     this.minDate = new Date(this.year, this.month, today.getDate() + 1).toDateString();
     this.maxDate = new Date(this.year, this.month, today.getDate() + 7).toDateString();
 
@@ -64,23 +66,49 @@ export class BookAppointmentComponent implements OnInit {
   }
 
   getNoOfDays() {
+    // Get the current date
+    const today = new Date();
+  
+    // Calculate the date for tomorrow
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+  
+    // Calculate the date for 7 days from tomorrow
+    const nextWeek = new Date(tomorrow);
+    nextWeek.setDate(tomorrow.getDate() + 6);
+  
+    // Get the total number of days in the current month
     const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
+    
+    console.log(daysInMonth);
+    // Find where to start the calendar day of the week
+    let dayOfWeek = new Date(this.year, this.month, today.getDate() + 1).getDay(); // Start of the month
+    
+    console.log(dayOfWeek);
 
-    // find where to start calendar day of week
-    let dayOfWeek = new Date(this.year, this.month).getDay();
     let blankdaysArray = [];
-    for (var i = 1; i <= dayOfWeek; i++) {
+    for (let i = 0; i < dayOfWeek; i++) {
       blankdaysArray.push(i);
     }
-
+    
+    console.log(blankdaysArray);
+    // Array to store days within the next 7 days
     let daysArray = [];
-    for (var i = 1; i <= daysInMonth; i++) {
-      daysArray.push(i);
+    for (let i = 1; i <= daysInMonth; i++) {
+      const currentDate = new Date(this.year, this.month, i);
+  
+      // Include only dates starting from tomorrow and within the next 7 days
+      if (currentDate >= today && currentDate <= nextWeek) {
+        daysArray.push(i);
+      }
     }
-
+    
+    console.log(daysArray);
+    // Update the component properties with the calculated arrays
     this.blankdays = blankdaysArray;
     this.no_of_days = daysArray;
   }
+  
 
   trackByIdentity = (index: number, item: any) => item;
 

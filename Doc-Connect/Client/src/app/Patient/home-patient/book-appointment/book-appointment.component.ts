@@ -30,8 +30,11 @@ export class BookAppointmentComponent implements OnInit {
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   showDatepicker = false;
   datepickerValue!: string;
+  minDate!: string;
+  maxDate!: string;
   month!: number; // !: mean promis it will not be null, and it will definitely be assigned
   year!: number;
+  day!: number;
   no_of_days = [] as number[];
   blankdays = [] as number[];
 
@@ -39,7 +42,13 @@ export class BookAppointmentComponent implements OnInit {
     let today = new Date();
     this.month = today.getMonth();
     this.year = today.getFullYear();
-    this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
+    this.day = today.getDate();
+    this.datepickerValue = new Date(this.year, this.month, today.getDate() + 1).toDateString();
+    this.minDate = new Date(this.year, this.month, today.getDate() + 1).toDateString();
+    this.maxDate = new Date(this.year, this.month, today.getDate() + 7).toDateString();
+
+    console.log(this.minDate);
+    console.log(this.maxDate);
   }
 
   isToday(date: any) {

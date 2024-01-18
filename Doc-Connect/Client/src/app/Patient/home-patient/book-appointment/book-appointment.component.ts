@@ -44,7 +44,7 @@ export class BookAppointmentComponent implements OnInit {
     this.month = today.getMonth();
     this.year = today.getFullYear();
     this.day = today.getDate();
-    this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
+    this.datepickerValue = new Date(this.year, this.month, today.getDate()+1).toDateString();
     this.today = new Date(this.year, this.month, today.getDate()).toDateString();
     this.minDate = new Date(this.year, this.month, today.getDate() + 1).toDateString();
     this.maxDate = new Date(this.year, this.month, today.getDate() + 7).toDateString();

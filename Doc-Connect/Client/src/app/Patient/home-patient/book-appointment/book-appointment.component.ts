@@ -78,6 +78,7 @@ export class BookAppointmentComponent implements OnInit {
 
   calculateSlot(){
     console.log('calculateSlot function called');
+    this.timeSlots = [];
     let date  = this.datepickerValue;
     //console.log(date);
     let t = date.substr(0, 3);

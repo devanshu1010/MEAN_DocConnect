@@ -35,7 +35,7 @@ import { BookAppointmentComponent } from './Patient/home-patient/book-appointmen
     AnimationComponent,
     HomePatientComponent,
     DoctorCardComponent,
-    BookAppointmentComponent
+    BookAppointmentComponent,
   ],
   imports: [
     BrowserModule,

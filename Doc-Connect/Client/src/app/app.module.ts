@@ -19,7 +19,11 @@ import { AnimationComponent } from './animation/animation.component';
 import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
 import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
 import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
+<<<<<<< HEAD
 import { LogoutComponent } from './logout/logout.component';
+=======
+import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-dashboard.component';
+>>>>>>> 98a167654f5b8a59561b95355bfea0825149f21a
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { LogoutComponent } from './logout/logout.component';
     HomePatientComponent,
     DoctorCardComponent,
     BookAppointmentComponent,
+<<<<<<< HEAD
     LogoutComponent,
+=======
+    PatientDashboardComponent,
+>>>>>>> 98a167654f5b8a59561b95355bfea0825149f21a
   ],
   imports: [
     BrowserModule,

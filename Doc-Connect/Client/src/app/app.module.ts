@@ -21,6 +21,7 @@ import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-c
 import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
 import { LogoutComponent } from './logout/logout.component';
 import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-dashboard.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-d
     BookAppointmentComponent,
     LogoutComponent,
     PatientDashboardComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { HomePatientComponent } from './Patient/home-patient/home-patient.compon
 import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
 import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
 import { LogoutComponent } from './logout/logout.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'homepatient',pathMatch:'full'},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path:'doctor-details/:id', component: DoctorCardComponent },
   {path:'bookappointment/:id', component: BookAppointmentComponent },
   {path:'logout', component :LogoutComponent},
-  {path: '**', redirectTo: '/homepatient', pathMatch: 'full' },
+  {path: '**', component :NotFoundComponent},
+  // {path: '**', redirectTo: '/homepatient', pathMatch: 'full' },
 ];
 
 @NgModule({

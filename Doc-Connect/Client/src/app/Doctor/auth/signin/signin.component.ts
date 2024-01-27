@@ -50,7 +50,9 @@ export class SigninComponentDoctor implements OnInit{
 
           this.email='';
           this.password='';
-          
+          localStorage.setItem('isLogin',"true");
+          localStorage.setItem('mode','Doctor');
+          this.navbarService.setMode('Doctor');
           this.router.navigate(['/homedoctor']);
 
         },

@@ -15,6 +15,7 @@ export class HomePatientComponent implements OnInit {
   constructor(private navbarService: NavbarService ,private services : ServicesService) {}
   
   async ngOnInit() : Promise<void> {
+    
     this.navbarService.showNavbar();
     await this.loadDoctorData();
     // console.log(this.doctors)
@@ -26,8 +27,8 @@ export class HomePatientComponent implements OnInit {
       this.services.getDoctors().subscribe(
         data => {
           this.doctors = data;
-          console.log("Home Page");
-          console.log(this.doctors);
+          //console.log("Home Page");
+          //console.log(this.doctors);
           
           resolve();
         },

@@ -16,21 +16,22 @@ export class NavbarComponentPatient  implements OnInit {
 
   signInDoctor() {
     // Any logic specific to signing in as a doctor
-    console.log("clicked");
+    // console.log("clicked");
     this.onSignInDoctorClicked.emit();
   }
 
   constructor( private router: Router,private navbarService: NavbarService) { }
   
   ngOnInit() {
-    console.log("hi");
-    this.isLogin= false;
+
+    // this.isLogin= false;
     this.navbarService.hideNavbar$.subscribe((hide) => {
       this.hideNavbar = hide;
     });
 
     this.navbarService.isLogin$.subscribe((value) => {
-      this.isLogin = value;
+      // console.log(value);
+       this.isLogin = value;
     });    
   }
 }

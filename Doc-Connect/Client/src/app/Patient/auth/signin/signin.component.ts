@@ -54,6 +54,8 @@ export class SigninComponentPatient implements OnInit{
           localStorage.setItem('isLogin',"true");
           this.isLogin = true;
           this.navbarService.setIsLogin(this.isLogin);
+          localStorage.setItem('mode','Patient');
+          this.navbarService.setMode('Patient');
           this.router.navigate(['/homepatient']);
         },
         error => {

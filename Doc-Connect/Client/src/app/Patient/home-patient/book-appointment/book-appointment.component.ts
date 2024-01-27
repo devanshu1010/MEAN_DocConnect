@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { ServicesService } from '../../services.service';
 
@@ -11,7 +11,7 @@ import { ServicesService } from '../../services.service';
 export class BookAppointmentComponent implements OnInit {
   doctorId?: number;
   doctor: any; // Adjust the type accordingly
-
+  selectedSlot :number|undefined;
   MONTH_NAMES = [
     'January',
     'February',
@@ -36,11 +36,21 @@ export class BookAppointmentComponent implements OnInit {
   month!: number; // !: mean promis it will not be null, and it will definitely be assigned
   year!: number;
   day!: number;
-  indexofday!: number;
+  indexofday!: number;  
   no_of_days = [] as number[];
   blankdays = [] as number[];
 
-  timeSlots: {  Time: number | undefined; Slot: number | undefined; }[] = [];
+  timeSlots: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; }[] = [];
+
+  loading: boolean = true;
+
+  assign_selected_Slot(timeSlot: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; })
+  {
+    this.selectedSlot = timeSlot.Time;
+    //console.log(this.selectedSlot);
+    this.timeSlots.forEach(slot => (slot.isSelected = false));
+    timeSlot.isSelected = !timeSlot.isSelected;
+  }
 
   getindex(str : string)
   {
@@ -76,8 +86,13 @@ export class BookAppointmentComponent implements OnInit {
     return temp;
   }
 
+  bookAppointment()
+  {
+    console.log(this.selectedSlot);
+  }
+
   calculateSlot(){
-    console.log('calculateSlot function called');
+    //console.log('calculateSlot function called');
     this.timeSlots = [];
     let date  = this.datepickerValue;
     //console.log(date);
@@ -104,7 +119,8 @@ export class BookAppointmentComponent implements OnInit {
         
         const timeSlot = {
           Time: time1_start,
-          Slot : slot[count]
+          Slot : slot[count],
+          isSelected: false
         };
 
         this.timeSlots.push(timeSlot);
@@ -124,7 +140,8 @@ export class BookAppointmentComponent implements OnInit {
         
         const timeSlot = {
           Time: time1_start,
-          Slot : slot[count]
+          Slot : slot[count],
+          isSelected: false
         };
 
         this.timeSlots.push(timeSlot);
@@ -139,7 +156,8 @@ export class BookAppointmentComponent implements OnInit {
         
         const timeSlot = {
           Time: time2_start,
-          Slot : slot[count]
+          Slot : slot[count],
+          isSelected: false
         };
 
         this.timeSlots.push(timeSlot);
@@ -164,8 +182,8 @@ export class BookAppointmentComponent implements OnInit {
     this.minDate = new Date(this.year, this.month, today.getDate() + 1).toDateString();
     this.maxDate = new Date(this.year, this.month, today.getDate() + 7).toDateString();
 
-    console.log(this.minDate);
-    console.log(this.maxDate);
+    //console.log(this.minDate);
+    //console.log(this.maxDate);
   }
 
   isToday(date: any) {
@@ -195,18 +213,31 @@ export class BookAppointmentComponent implements OnInit {
     // Get the total number of days in the current month
     const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
     
-    console.log(daysInMonth);
+    // console.log(daysInMonth);
     // Find where to start the calendar day of the week
-    let dayOfWeek = new Date(this.year, this.month, today.getDate() + 1).getDay(); // Start of the month
+    // console.log("month : ",this.month);
+    // console.log("month : ",today.getMonth());
+    let dayOfWeek;
+    if(this.month === today.getMonth())
+    {
+      dayOfWeek = new Date(this.year, this.month, today.getDate() + 1).getDay();
+    }
+    else{
+      let firstDayOfMonth = new Date(this.year, this.month, 1);
+      dayOfWeek = firstDayOfMonth.getDay();
+    }
+    // let dayOfWeek = new Date(this.year, this.month, today.getDate() + 1).getDay(); // Start of the month
+    //let dayOfWeek = new Date(this.year, this.month, 1).getDay();
     
-    console.log(dayOfWeek);
+
+    // console.log(dayOfWeek);
 
     let blankdaysArray = [];
     for (let i = 0; i < dayOfWeek; i++) {
       blankdaysArray.push(i);
     }
     
-    console.log(blankdaysArray);
+    // console.log(blankdaysArray);
     // Array to store days within the next 7 days
     let daysArray = [];
     for (let i = 1; i <= daysInMonth; i++) {
@@ -218,7 +249,7 @@ export class BookAppointmentComponent implements OnInit {
       }
     }
     
-    console.log(daysArray);
+    //console.log(daysArray);
     // Update the component properties with the calculated arrays
     this.blankdays = blankdaysArray;
     this.no_of_days = daysArray;
@@ -227,32 +258,55 @@ export class BookAppointmentComponent implements OnInit {
 
   trackByIdentity = (index: number, item: any) => item;
 
-  constructor(private route: ActivatedRoute,private services : ServicesService) {}
+  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
 
   async ngOnInit() : Promise<void> {
 
     try {
-      // Read the doctorId from the route parameters
-      console.log("hello");
-      const params = await this.route.params.pipe(first()).toPromise();
-      console.log(params);
-      const id = params?.['id']; // Access the correct property name
-    
-      if (id !== undefined) {
-        this.doctorId = id;
-        console.log(this.doctorId);
-        // Use the doctorId to fetch the corresponding doctor details
-        // Fetch the data or use a service to get the details based on the id
-        this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
-        
-        console.log("Home Page");
-        console.log(this.doctor);
-      } else {
-          console.error("Error: 'id' parameter is undefined.");
+      let isLogin = localStorage.getItem('isLogin');
+
+      if(isLogin == "false" || isLogin == null) 
+      {
+        //console.log(isLogin);
+        // console.log("going to signin");
+        await this.router.navigate(['/signinPatient'], { replaceUrl: true });
       }
-      this.initDate();
-      this.getNoOfDays(); 
-      this.calculateSlot();
+      else{
+        //console.log(isLogin);
+        // Read the doctorId from the route parameters
+        //console.log("hello");
+        const params = await this.route.params.pipe(first()).toPromise();
+        //console.log(params);
+        const id = params?.['id']; // Access the correct property name
+      
+        if (id !== undefined) {
+          this.doctorId = id;
+          this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
+          //console.log(this.doctorId);
+          setTimeout(async () => {
+            try {
+              // Fetch the doctor details using the service
+              
+              // Reset loading when the data is fetched successfully
+              this.loading = false;
+              // You can perform other operations with this.doctor if needed
+            } catch (error) {
+              console.error('Error fetching doctor details:', error);
+              // Handle the error if needed
+              this.loading = false; // Ensure loading is reset in case of an error
+            }
+          }, 2000);
+          //this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
+          
+          //console.log("Home Page");
+          //console.log(this.doctor);
+        } else {
+            console.error("Error: 'id' parameter is undefined.");
+        }
+        this.initDate();
+        this.getNoOfDays(); 
+        this.calculateSlot();
+      }
     } catch (error) {
       console.error("error", error);
     }

@@ -11,6 +11,9 @@ import { first } from 'rxjs';
 export class DoctorCardComponent  implements OnInit {
   doctorId?: number;
   doctor: any; // Adjust the type accordingly
+  ratings = [2.4, 3.1, 5, 4.8, 1.2];
+  starsArray: number[] = Array.from({ length: 5 }, (_, index) => index + 1);
+  rating = 4.2;
 
   constructor(private route: ActivatedRoute,private services : ServicesService) {}
 

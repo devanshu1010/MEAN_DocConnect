@@ -9,6 +9,7 @@ import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component'
 import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
 import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
 import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'homepatient',pathMatch:'full'},
@@ -19,8 +20,9 @@ const routes: Routes = [
   {path:'dashboardDoctor',component:DashboardDoctorComponent},
   {path:'homedoctor',component:HomeDoctorComponent},
   {path:'homepatient',component:HomePatientComponent},
-  { path:'doctor-details/:id', component: DoctorCardComponent },
-  { path:'bookappointment/:id', component: BookAppointmentComponent },
+  {path:'doctor-details/:id', component: DoctorCardComponent },
+  {path:'bookappointment/:id', component: BookAppointmentComponent },
+  {path:'logout', component :LogoutComponent},
   {path: '**', redirectTo: '/homepatient', pathMatch: 'full' },
 ];
 

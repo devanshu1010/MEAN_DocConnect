@@ -3,16 +3,35 @@ import { DoctorDashboardService } from './doctor-dashboard.service';
 import { DoctorService } from '../doctor.service';
 import { Doctor } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
+enum Tab {
+  Profile = 'profile',
+  Appointments = 'appointments',
+  Slots = 'slots'
+}
 
 @Component({
   selector: 'app-dashboard-doctor',
   templateUrl: './dashboard-doctor.component.html',
   styleUrls: ['./dashboard-doctor.component.css'],
-
+  animations: [
+    trigger('slideIndicator', [
+      state('1', style({ transform: 'translateY(0px)' })),
+      state('2', style({ transform: 'translateY(52px)' })),
+      state('3', style({ transform: 'translateY(104px)' })),
+      transition('* => *', animate('0.5s ease-out'))
+    ]),
+    trigger('slideA', [
+      state('1', style({ transform: 'translateX(+30px)' })),
+      state('0', style({ transform: 'translateY(0px)' })),
+      transition('* => *', animate('0.5s ease-out'))
+    ])
+  ]
 })
 export class DashboardDoctorComponent implements OnInit {
 
+  activeTab: Tab = Tab.Profile;
   doctor!: Doctor;
   doctorId: any;
   birthday: any | undefined;
@@ -64,24 +83,50 @@ export class DashboardDoctorComponent implements OnInit {
     public doctorServ: DoctorService,
     private datePipe: DatePipe
   ) {}
+  get Tab() {
+    return Tab;
+  }
 
+  getshow(tab: string)
+  {
+    return tab === this.activeTab ? 1 : 0;
+  }
+
+  getTabIndex(tab: string): string {
+    if (tab === 'profile') {
+      return '1';  // Current tab, higher index
+    } else if (tab === 'appointments') {
+      return '2';  // Tab with label 'appointments'
+    } else if (tab === 'slots') {
+      return '3';  // Tab with label 'slots'
+    } else {
+      return '0';  // Other tabs, lower index
+    }
+  }
   view_profile(): void {
-    this.profile = true; 
-    this.appointments = false; 
+    this.activeTab = Tab.Profile;
+    this.profile = true;
+    this.appointments = false;
     this.slots = false;
   }
 
+  // Change active tab to Appointments
   view_appointments(): void {
-    this.profile = false; 
-    this.appointments = true; 
+    this.activeTab = Tab.Appointments;
+    this.profile = false;
+    this.appointments = true;
     this.slots = false;
+    console.log('activeTab:', this.activeTab);
   }
 
+  // Change active tab to Slots
   view_slots(): void {
-    this.profile = false; 
-    this.appointments = false; 
+    this.activeTab = Tab.Slots;
+    this.profile = false;
+    this.appointments = false;
     this.slots = true;
   }
+
 
   calculateTimeSlots() {
 

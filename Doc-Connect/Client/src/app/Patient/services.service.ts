@@ -14,7 +14,7 @@ export class ServicesService {
 
   getDoctors():Observable<any>{
     const url = this.url_getdoctors ;
-    console.log(url);
+    // console.log(url);
     return this.http.get<any>(url).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in Geting Doctor:', error);
@@ -24,9 +24,9 @@ export class ServicesService {
   }
 
   getDoctor(doctorId: any):Observable<any>{
-    console.log(doctorId);
+    // console.log(doctorId);
     const url = this.url_get_doctor + doctorId;
-    console.log( "url "+ url)
+    // console.log( "url "+ url)
     return this.http.get<any>(url).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in fetchin doctor:', error);

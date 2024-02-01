@@ -1,5 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs';
+import { Patient } from 'src/app/models/patient';
+import { ServicesService } from '../services.service';
 
 enum Tab {
   Profile = 'profile',
@@ -25,13 +29,15 @@ enum Tab {
     ])
   ],
 })
-export class PatientDashboardComponent 
+export class PatientDashboardComponent implements OnInit
 {
   activeTab: Tab = Tab.Profile;
 
   profile: any; 
   appointments: any; 
   slots: any; 
+  patient?:Patient|any;
+  patientId?: number | any;
 
   get Tab() {
     return Tab;
@@ -75,6 +81,59 @@ export class PatientDashboardComponent
     this.profile = false;
     this.appointments = false;
     this.slots = true;
+  }
+
+  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
+
+  async ngOnInit() : Promise<void> {
+
+    try {
+      let isLogin = localStorage.getItem('isLogin');
+
+      if(isLogin == "false" || isLogin == null) 
+      {
+        //console.log(isLogin);
+        // console.log("going to signin");
+        await this.router.navigate(['/signinPatient'], { replaceUrl: true });
+      }
+      else{
+        //console.log(isLogin);
+        // Read the doctorId from the route parameters
+        //console.log("hello");
+        //const params = await this.route.params.pipe(first()).toPromise();
+        //console.log(params);
+        //const id = params?.['id']; // Access the correct property name
+      
+        //if (id !== undefined) {
+          
+          this.patientId = localStorage.getItem('userId');
+          this.patient = await this.services.getPatient(this.patientId).toPromise();
+          console.log(this.patient);
+
+          setTimeout(async () => {
+            try {
+              // Fetch the doctor details using the service
+              
+              // Reset loading when the data is fetched successfully
+              //this.loading = false;
+              // You can perform other operations with this.doctor if needed
+            } catch (error) {
+              console.error('Error fetching doctor details:', error);
+              // Handle the error if needed
+              //this.loading = false; // Ensure loading is reset in case of an error
+            }
+          }, 2000);
+          //this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
+          
+          //console.log("Home Page");
+          //console.log(this.doctor);
+        //} else {
+            //console.error("Error: 'id' parameter is undefined.");
+        //}
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
   }
 
 }

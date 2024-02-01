@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 enum Tab {
   Profile = 'profile',
@@ -23,7 +23,7 @@ enum Tab {
       state('0', style({ transform: 'translateY(0px)' })),
       transition('* => *', animate('0.5s ease-out'))
     ])
-  ]
+  ],
 })
 export class PatientDashboardComponent 
 {

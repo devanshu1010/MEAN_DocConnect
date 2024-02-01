@@ -10,6 +10,11 @@
         opacity: 1;
     }
 }
+#broken-glass-video{
+    position: absolute;
+    object-fit: cover;
+    max-width: 1536px;
+}
 
 .zoom-in-text {
     animation: zoomIn 10.8s forwards infinite; 

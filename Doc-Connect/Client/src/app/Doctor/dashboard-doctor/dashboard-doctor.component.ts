@@ -20,12 +20,12 @@ enum Tab {
       state('1', style({ transform: 'translateY(0px)' })),
       state('2', style({ transform: 'translateY(52px)' })),
       state('3', style({ transform: 'translateY(104px)' })),
-      transition('* => *', animate('0.5s ease-out'))
+      transition('* => *', animate('0.3s ease-out'))
     ]),
     trigger('slideA', [
       state('1', style({ transform: 'translateX(+30px)' })),
       state('0', style({ transform: 'translateY(0px)' })),
-      transition('* => *', animate('0.5s ease-out'))
+      transition('* => *', animate('0.3s ease-out'))
     ])
   ]
 })

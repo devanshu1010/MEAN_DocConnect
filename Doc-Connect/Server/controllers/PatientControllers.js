@@ -29,7 +29,7 @@ const createPatient = asyncHandler(async (req, res) => {
 //@dec get a patient
 //@route POST /api/patient/auth/login
 //@acsess public
-const getPatient = asyncHandler(async (req, res) => {
+const Patientlogin = asyncHandler(async (req, res) => {
     try {
         console.log("The request body is : ", req.body);
         console.log(req);   
@@ -51,4 +51,27 @@ const getPatient = asyncHandler(async (req, res) => {
 
 });
 
-module.exports = {createPatient,getPatient};
+//@dec get a doctor
+//@route GET /api/patient/:id
+//@acsess public
+const getPatient = asyncHandler(async (req, res) => {
+    try {
+        console.log(req.params.id);
+        const patient = await Patient.findById(req.params.id);//.populate('Appointment_id').populate('Review_id');
+        console.log(patient);
+        if (!patient) {
+            res.status(404);
+            throw new Error("Doctor not found.");
+        }
+
+        console.log(patient);
+        res.status(200).json(patient);
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({});
+    }
+
+});
+
+module.exports = {createPatient,getPatient,Patientlogin};

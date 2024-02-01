@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,NgZone  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { ServicesService } from '../../services.service';
+import { Patient } from 'src/app/models/patient';
+import { Doctor } from 'src/app/models/doctor';
+// import * as Razorpay from 'razorpay';
+
+
+declare var Razorpay : any;
 
 @Component({
   selector: 'app-book-appointment',
@@ -10,7 +16,10 @@ import { ServicesService } from '../../services.service';
 })
 export class BookAppointmentComponent implements OnInit {
   doctorId?: number;
-  doctor: any; // Adjust the type accordingly
+  doctor?: Doctor|any; // Adjust the type accordingly
+  patient?:Patient|any;
+  patientId?: number | any;
+  orderId?: string;  //to establich secure connection between client and razorpay server and to create orderid
   selectedSlot :number|undefined;
   MONTH_NAMES = [
     'January',
@@ -86,9 +95,95 @@ export class BookAppointmentComponent implements OnInit {
     return temp;
   }
 
-  bookAppointment()
-  {
-    console.log(this.selectedSlot);
+  async bookAppointment() {
+    try {
+
+      const data = {
+        amount : this.doctor.Counselling_fee* 100
+      }
+      const response: any = await this.services.createOrderId(data).toPromise();
+  
+      this.orderId = response.orderId;
+      console.log(this.orderId);
+
+  
+      console.log(this.selectedSlot);
+  
+      const RazorpayOptions = {
+        description: 'Appointment of Dr.' + this.doctor.Name,
+        amount: this.doctor.Counselling_fee * 100,
+        name: 'Doc-Connect',// + this.doctor.Name,
+        key: 'rzp_test_C7vohyckaiJWR6',
+        image: '../assets/Logo/logo21.jpg',
+        order_id: this.orderId,
+        handler: (response: any) => this.handlePaymentResponse(response),
+        prefill: {
+          name: this.patient.Name,
+          email: this.patient.Email,
+          phone: this.patient.Phone_no
+        },
+        theme: {
+          color: '#528FF0'
+        },
+        modal: {
+          ondismiss: () => {
+            console.log('dismissed');
+          }
+        }
+      };
+
+      const rzp1 = new Razorpay(RazorpayOptions);
+
+      rzp1.on('payment.failed', (response: any) => {
+        this.ngZone.run(() => {
+          // Use Angular's NgZone to ensure UI updates are triggered
+          alert(response.error.code);
+          alert(response.error.description);
+          alert(response.error.source);
+          alert(response.error.step);
+          alert(response.error.reason);
+          alert(response.error.metadata.order_id);
+          alert(response.error.metadata.payment_id);
+        });
+      });
+  
+      rzp1.open();
+
+      // const successCallback = (paymentId: any) => {
+      //   console.log('Payment successful. Payment ID:', paymentId);
+      // };
+  
+      // const failureCallback = (e: any) => {
+      //   console.log(e);
+      // };
+  
+      // Razorpay.open(RazorpayOptions, successCallback, failureCallback);
+    } catch (error) {
+      console.error('Error getting doctor:', error);
+  
+      // Handle error (e.g., display an error message)
+    }
+  }  
+
+ 
+  private async handlePaymentResponse(response: any) {
+    try {
+      this.ngZone.run(() => {
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+      });
+
+      
+      const responses: any = await this.services.createOrderId(response).toPromise();
+  
+      
+    } catch (error) {
+      console.error('Error getting doctor:', error);
+  
+      // Handle error (e.g., display an error message)
+    }
+    
   }
 
   calculateSlot(){
@@ -258,7 +353,7 @@ export class BookAppointmentComponent implements OnInit {
 
   trackByIdentity = (index: number, item: any) => item;
 
-  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
+  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router,private ngZone: NgZone) {}
 
   async ngOnInit() : Promise<void> {
 
@@ -282,7 +377,10 @@ export class BookAppointmentComponent implements OnInit {
         if (id !== undefined) {
           this.doctorId = id;
           this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
-          //console.log(this.doctorId);
+          this.patientId = localStorage.getItem('userId');
+          this.patient = await this.services.getPatient(this.patientId).toPromise();
+          console.log(this.patient);
+
           setTimeout(async () => {
             try {
               // Fetch the doctor details using the service

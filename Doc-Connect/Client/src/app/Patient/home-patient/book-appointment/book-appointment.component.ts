@@ -98,6 +98,15 @@ export class BookAppointmentComponent implements OnInit {
   async bookAppointment() {
     try {
 
+      if(this.selectedSlot == undefined)
+      {
+        this.ngZone.run(() => {
+          
+          alert('please select Slot');
+        });
+        return
+      }
+
       const data = {
         amount : this.doctor.Counselling_fee* 100
       }

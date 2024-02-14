@@ -25,6 +25,9 @@ app.use('/api/patient',require('./routes/PatientRoutes'));
 
 app.use('/api/doctor',require('./routes/DoctorRoutes'));
 
+app.use('/api/patient/appointment', require('./routes/PatientAppointmentRoutes'));
+
+app.use('/api/patient/payment', require('./routes/PaymetRoutes'));
 
 var instance = new Razorpay({
     key_id: process.env.key_id,

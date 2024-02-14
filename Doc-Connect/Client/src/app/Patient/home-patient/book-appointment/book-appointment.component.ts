@@ -4,6 +4,8 @@ import { first } from 'rxjs';
 import { ServicesService } from '../../services.service';
 import { Patient } from 'src/app/models/patient';
 import { Doctor } from 'src/app/models/doctor';
+import { Payment } from 'src/app/models/payment';
+import { Appointment } from 'src/app/models/appointment';
 // import * as Razorpay from 'razorpay';
 
 
@@ -20,6 +22,9 @@ export class BookAppointmentComponent implements OnInit {
   patient?:Patient|any;
   patientId?: number | any;
   orderId?: string;  //to establich secure connection between client and razorpay server and to create orderid
+  payment?: Payment|any;
+  appointment?: Appointment|any; 
+  payment_id?: string;
   selectedSlot :number|undefined;
   MONTH_NAMES = [
     'January',
@@ -117,6 +122,7 @@ export class BookAppointmentComponent implements OnInit {
 
   
       console.log(this.selectedSlot);
+      console.log(this.datepickerValue);
   
       const RazorpayOptions = {
         description: 'Appointment of Dr.' + this.doctor.Name,
@@ -182,11 +188,30 @@ export class BookAppointmentComponent implements OnInit {
         alert(response.razorpay_order_id);
         alert(response.razorpay_signature);
       });
+      console.log(response);
+      //const responses: any = await this.services.verifyPayment(response).toPromise();
+      console.log(response);
+      this.payment = {
+        RazrPay_id : response.razorpay_payment_id,
+        Doctor_id : this.doctorId,
+        Patient_id: this.patientId,
+        Payable_amount: this.doctor.Counselling_fee,
+        Status: "Paid"
+      }
 
-      
-      const responses: any = await this.services.verifyPayment(response).toPromise();
-  
-      
+      const paymentResponse:any = await this.services.appointmentPayment(this.payment).toPromise();
+
+      this.appointment = {
+        Doctor_id : this.doctorId,
+        Patient_id: this.patientId,
+        Payment_id: paymentResponse.paymentId,
+        Starting_time: this.selectedSlot,
+        Day: this.datepickerValue.slice(0, 3),
+        Date: this.datepickerValue
+      }
+
+      const appointmentResponse:any = await this.services.bookAppointment(this.appointment).toPromise();
+
     } catch (error) {
       console.error('Error getting doctor:', error);
   
@@ -312,7 +337,7 @@ export class BookAppointmentComponent implements OnInit {
   
     // Calculate the date for 7 days from tomorrow
     const nextWeek = new Date(tomorrow);
-    nextWeek.setDate(tomorrow.getDate() + 6);
+    nextWeek.setDate(tomorrow.getDate() + 5);
   
     // Get the total number of days in the current month
     const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();

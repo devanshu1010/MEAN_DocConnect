@@ -24,6 +24,10 @@ const AppointmentSchema = new mongoose.Schema(
         Day : {
             type : String,
             required : true
+        },
+        Date : {
+            type : Date,
+            required : true
         }
     },
     {

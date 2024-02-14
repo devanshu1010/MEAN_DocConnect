@@ -1,9 +1,7 @@
-<div class="mt-16">
-  <div class="fixed pl-4 py-4 md:mb-0 bg-blue-600 mx h-screen w-64  text-white">
+<div class="mt-14">
+  <div class="fixed pl-4 py-4 md:mb-0 bg-blue-600 mx h-screen w-full md:w-1/6  text-white">
     <form>
       <ul class="w-full flex flex-col items-center">
-
-
         <li (click)="view_profile()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Profile)">
           <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
@@ -24,8 +22,8 @@
   </div>
 
 
-  <main class="flex-1 bg-blue-300 overflow-x-hidden overflow-y-auto  pl-64">
-    <!-- <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"> -->
+  <main class="flex-1 w-full md:w-5/6 bg-blue-300 overflow-x-hidden overflow-y-auto  pl-64">
+    
     <link rel="stylesheet"
       href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
@@ -40,14 +38,14 @@
         style="transform: translateZ(0px)">
         <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
           version="1.1" viewBox="0 0 2560 100" x="0" y="0">
-          <polygon class="text-blueGray-200 fill-current" points="2560 0 2560 100 0 100"></polygon>
+          <polygon class="text-blue-300 fill-current" points="2560 0 2560 100 0 100"></polygon>
         </svg>
       </div>
     </section>
-    <section class="relative pt-16 pb-4 bg-blueGray-200">
-      <div class="container mx-auto px-4">
-        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-          <div class="px-6">
+    <section class="relative pt-16 pb-8 bg-blue-300">
+      <div class="container mx-auto px-8">
+        <div class="relative flex flex-col min-w-0 break-words bg-white w-full shadow-xl rounded-lg -mt-64">
+          <div class="px-8">
             <div class="flex flex-wrap justify-center">
               <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                 <div class="relative">
@@ -96,13 +94,13 @@
                     <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
                     <ul class="mt-2 text-gray-700">
                       <div *ngIf="patient">
-                        <li class="flex border-y py-2">
+                        <li class="flex border-b py-2">
                           <span class="font-bold w-32">Full name:</span>
                           <span class="text-gray-700">{{ patient.Name }}</span>
                         </li>
                         <li class="flex border-b py-2">
                           <span class="font-bold w-32">Birthday:</span>
-                          <span class="text-gray-700"> {{patient.Dob}} </span>
+                          <span class="text-gray-700"> {{patient.DoB}} </span>
                         </li>
                         <li class="flex border-b py-2">
                           <span class="font-bold w-32">Mobile:</span>
@@ -112,19 +110,24 @@
                           <span class="font-bold w-32">Email:</span>
                           <span class="text-gray-700"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
                               data-cfemail="01606c606f6560736e7272416479606c716d642f626e6c">bharadraj2003@gmail.com</a></span>
-                        </li>                  
+                        </li>
                         <li class="flex border-b py-2">
                           <span class="font-bold w-32">Languages:</span>
                           <span class="text-gray-700">English</span>
                         </li>
                       </div>
                     </ul>
-                    <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
+                    <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-10 mt-2">
                       <div class="flex items-center space-x-4 mt-2">
-                        <button
+                        <!-- <button
                           class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
         
                           <i class="fas fa-user" style="color: #ffffff;"></i>
+                          <span> Edit Profile </span>
+                        </button> -->
+                        <button type="submit"
+                          class="w-40 h-10 my-5 flex justify-center items-center text-primary-700 font-semibold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
+                          <i class="fas fa-user fill-black" ></i>
                           <span> Edit Profile </span>
                         </button>
                       </div>

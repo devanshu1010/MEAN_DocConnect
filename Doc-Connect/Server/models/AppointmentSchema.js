@@ -21,10 +21,6 @@ const AppointmentSchema = new mongoose.Schema(
             type : String,
             required : true
         },
-        Ending_time : {
-            type : String,
-            required : true
-        },
         Day : {
             type : String,
             required : true

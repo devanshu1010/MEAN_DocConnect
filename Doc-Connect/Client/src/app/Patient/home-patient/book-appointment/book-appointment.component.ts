@@ -184,7 +184,7 @@ export class BookAppointmentComponent implements OnInit {
       });
 
       
-      const responses: any = await this.services.createOrderId(response).toPromise();
+      const responses: any = await this.services.verifyPayment(response).toPromise();
   
       
     } catch (error) {

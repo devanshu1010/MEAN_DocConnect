@@ -4,6 +4,13 @@ import { DoctorAuthService } from '../doctor-auth.service';
 import { Router } from '@angular/router';
 import { NavbarService } from 'src/app/navbar.service';
 
+enum Tab {
+  Profile = 'profile',
+  Email = 'email',
+  Verify = 'verify',
+  Professional = 'professional'
+}
+
 @Component({
   selector: 'app-registration-doctor',
   templateUrl: './registration.component.html',
@@ -60,10 +67,64 @@ export class RegistrationComponentDoctor implements OnInit{
   experience:any;
   selectedSlotlen:number = 0;
   certificate:any;
+
+  activeTab: Tab = Tab.Email;
+  otp:any;
   
   constructor (public doctorAuthServ:DoctorAuthService,private router: Router,private navbarService: NavbarService){}
   
   doctor:Doctor | undefined;
+
+  getshow(tab: string)
+  {
+    return tab === this.activeTab ? 1 : 0;
+  }
+
+  view_profile(): void {
+    this.activeTab = Tab.Profile;
+    
+  }
+
+  // Change active tab to Appointments
+  view_email(): void {
+    this.activeTab = Tab.Email;
+    
+    //console.log('activeTab:', this.activeTab);
+  }
+
+  view_verify(): void {
+    this.activeTab = Tab.Verify;
+    
+    //console.log('activeTab:', this.activeTab);
+  }
+
+  view_professional():void {
+    this.activeTab = Tab.Professional;
+  }
+
+  next_verify(){
+    this.view_verify();
+  }
+
+  next_profile(){
+    this.view_profile();
+  }
+
+  next_professional(){
+    this.view_professional();
+  }
+
+  back_to_profile(){
+    this.view_profile();
+  }
+
+  back_to_email(){
+    this.view_email();
+  }
+
+  back_to_verify(){
+    this.view_verify();
+  }
 
   public signUp() : void{
     if(this.password == this.conpassword )

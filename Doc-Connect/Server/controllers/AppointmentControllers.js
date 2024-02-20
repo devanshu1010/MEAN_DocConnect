@@ -17,16 +17,18 @@ const bookAppointment = asyncHandler(async (req, res) => {
         if(!appointment)
             res.send({res : "Something went wrong. Failed to book Appointment."})
 
-        let patient =  await Patient.findByIdAndUpdate(req.body.Patient_id, {
-            $push : {Appointment_id : appointment._id},
-        },
-        {new : true}
+        let patient =  await Patient.findByIdAndUpdate(req.body.Patient_id, 
+            {
+                $push : {Appointment_id : appointment._id},
+            },
+            {new : true}
         );
 
-        let doctor =  await Doctor.findByIdAndUpdate(req.body.Doctor_id, {
-            $push : {Appointment_id : appointment._id},
-        },
-        {new : true}
+        let doctor =  await Doctor.findByIdAndUpdate(req.body.Doctor_id, 
+            {
+                $push : {Appointment_id : appointment._id},
+            },
+            {new : true}
         );
         
         res.send({res : "Appointment booked successfully"});

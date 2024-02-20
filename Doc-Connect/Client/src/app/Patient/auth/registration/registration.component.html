@@ -1,5 +1,5 @@
-<section class="bg-custom-gradient">
-    <div class="flex flex-col h-screen items-center justify-center px-6 py-8 mx-auto lg:py-0">
+<section class=" bg-custom-gradient">
+    <div class="flex flex-col min-h-screen h-screen items-center justify-center px-6 py-8 mx-auto lg:py-0">
         <a routerLink="/homepatient" routerLinkActive="active" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             <img class="w-420  mix-blend-color-burn" src="assets/Logo/logo1.png">
         </a>
@@ -9,65 +9,111 @@
                     Register in Doc Connect
                 </h1>
                 <form class="mt-4 space-y-4 md:space-y-6" action="#">
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="email" class="block mb-2 text-sm font-semibold text-gray-900">Email</label>
-                        <input [(ngModel)]="email" type="email" name="email" id="email" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="name@company.com" required="">
+                  <div *ngIf="getshow('email')" >
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                          <label for="email" class="block mb-2 text-sm font-semibold text-gray-900">Email</label>
+                          <input [(ngModel)]="email" type="email" name="email" id="email" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="name@company.com" required="">
+                      </div>
+
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                          <label for="fullname" class="block mb-2 text-sm font-semibold text-gray-900">Name</label>
+                          <input [(ngModel)]="fullname" type="text" name="fullname" id="fullname" placeholder="John Cena" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                          <label for="password" class="block mb-2 text-sm font-semibold text-gray-900">Password</label>
+                          <input [(ngModel)]="password" type="password" name="password" id="password" class="bg-gray-100 border border-{{value_border}} text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="••••••••" required="">
+                      </div>
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                          <label for="confpassword" class="block mb-2 text-sm font-semibold text-gray-900">Confirm Password</label>
+                          <input [(ngModel)]="confpassword" type="password" name="confpassword" id="confpassword" placeholder="••••••••" class="bg-gray-100 border border-{{value_border}} text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      </div>
                     </div>
 
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="fullname" class="block mb-2 text-sm font-semibold text-gray-900">Name</label>
-                        <input [(ngModel)]="fullname" type="text" name="fullname" id="fullname" placeholder="John Cena" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="password" class="block mb-2 text-sm font-semibold text-gray-900">Password</label>
-                        <input [(ngModel)]="password" type="password" name="password" id="password" class="bg-gray-100 border border-{{value_border}} text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="••••••••" required="">
-                    </div>
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="confpassword" class="block mb-2 text-sm font-semibold text-gray-900">Confirm Password</label>
-                        <input [(ngModel)]="confpassword" type="password" name="confpassword" id="confpassword" placeholder="••••••••" class="bg-gray-100 border border-{{value_border}} text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="dob" class="block mb-2 text-sm font-semibold text-gray-900">Date of Birth</label>
-                      <input [(ngModel)]="dob" type="date" name="dob" id="dob" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="age" class="block mb-2 text-sm font-semibold text-gray-900">Age</label>
-                      <input [(ngModel)]="age" type="text" name="age" id="age" placeholder="49" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="selectedBloodGroup" class="block mb-2 text-sm font-semibold text-gray-900">Blood Group</label>
-                      <select id="selectedBloodGroup" [(ngModel)]="selectedBloodGroup" name = "selectedBloodGroup" placeholder="Select Your Gender" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                        <option *ngFor="let bloodgroup of bloodGroups" [value]="bloodgroup.value">{{ bloodgroup.label }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="selectedGender" class="block mb-2 text-sm font-semibold text-gray-900">Gender</label>
-                      <select id="selectedGender" [(ngModel)]="selectedGender" name = "selectedGender" placeholder="Select Your Gender" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                        <!-- <option>Male</option>
-                        <option>Female</option> -->
-                        <option *ngFor="let gender of genders" [value]="gender.value">{{ gender.label }}</option>
-                      </select>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="profile_picture" class="block mb-2 text-sm font-semibold text-gray-900">Profile Picture</label>
-                        <input [(ngModel)]="profile_picture" type="text" name="profile_picture" id="profile_picture" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="" required="">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label for="phone_no" class="block mb-2 text-sm font-semibold text-gray-900">Phone No.</label>
-                        <input [(ngModel)]="phone_no" type="tel" name="phone_no" id="phone_no" pattern="[0-9]{5}-[0-9]{5}" placeholder="84123-49856" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
-                    </div>
-                  </div>
-                  <button on-click="signup()" type="submit" class="w-full text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Register</button>
-                  <p class="text-sm font-normal text-black">
+                    <button type="submit" on-click="next_verify()"
+                      class="float-right w-20 h-10 my-5 flex justify-center items-center text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
+                      <span> Next </span>
+                      <i class="fas fa-arrow-right fill-black" ></i>
+                    </button>
+                    <p class="mt-5 text-sm font-normal text-black">
                       Already have an account? <a  routerLink="/signinPatient" class="font-medium text-primary-700 hover:underline">Sign in</a>
-                  </p>
+                    </p>
+                  </div>
+
+                  <div *ngIf="getshow('verify')">
+                    <button type="submit" on-click="back_to_email()"
+                      class=" w-20 h-10 my-5 flex justify-center items-center text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
+                      <i class="fas fa-arrow-left fill-black" ></i>
+                      <span> Back </span>
+                    </button>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                          <label for="otp" class="block mb-2 text-sm font-semibold text-gray-900">Enter otp</label>
+                          <input [(ngModel)]="otp" type="text" name="otp" id="otp" placeholder="123456" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      </div>
+
+                    </div>
+
+                    <button type="submit" on-click="next_profile()"
+                      class="float-right w-20 h-10 my-5 flex justify-center items-center text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
+                      <span> Next </span>
+                      <i class="fas fa-arrow-right fill-black" ></i>
+                    </button>
+
+                  </div>
+
+                  <div *ngIf="getshow('profile')">
+                    <button type="submit" on-click="back_to_verify()"
+                      class=" w-20 h-10 my-5 flex justify-center items-center text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
+                      <i class="fas fa-arrow-left fill-black" ></i>
+                      <span> Back </span>
+                    </button>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label for="dob" class="block mb-2 text-sm font-semibold text-gray-900">Date of Birth</label>
+                        <input [(ngModel)]="dob" type="date" name="dob" id="dob" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      </div>
+                      <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label for="age" class="block mb-2 text-sm font-semibold text-gray-900">Age</label>
+                        <input [(ngModel)]="age" type="text" name="age" id="age" placeholder="49" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      </div>
+                      <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label for="selectedBloodGroup" class="block mb-2 text-sm font-semibold text-gray-900">Blood Group</label>
+                        <select id="selectedBloodGroup" [(ngModel)]="selectedBloodGroup" name = "selectedBloodGroup" placeholder="Select Your Gender" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                          <option *ngFor="let bloodgroup of bloodGroups" [value]="bloodgroup.value">{{ bloodgroup.label }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label for="selectedGender" class="block mb-2 text-sm font-semibold text-gray-900">Gender</label>
+                        <select id="selectedGender" [(ngModel)]="selectedGender" name = "selectedGender" placeholder="Select Your Gender" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                          <!-- <option>Male</option>
+                          <option>Female</option> -->
+                          <option *ngFor="let gender of genders" [value]="gender.value">{{ gender.label }}</option>
+                        </select>
+                      </div>
+                      <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label for="profile_picture" class="block mb-2 text-sm font-semibold text-gray-900">Profile Picture</label>
+                          <input [(ngModel)]="profile_picture" type="text" name="profile_picture" id="profile_picture" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="" required="">
+                      </div>
+                      <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label for="phone_no" class="block mb-2 text-sm font-semibold text-gray-900">Phone No.</label>
+                          <input [(ngModel)]="phone_no" type="tel" name="phone_no" id="phone_no" pattern="[0-9]{5}-[0-9]{5}" placeholder="84123-49856" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+                      </div>
+                    </div>
+                    <button on-click="signup()" type="submit" class="w-full text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Register</button>
+                    <p class="mt-5 text-sm font-normal text-black">
+                        Already have an account? <a  routerLink="/signinPatient" class="font-medium text-primary-700 hover:underline">Sign in</a>
+                    </p>
+                  </div>
+                  
+                  
                 </form>
             </div>
         </div>

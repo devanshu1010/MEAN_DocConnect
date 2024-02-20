@@ -106,10 +106,10 @@ const updateDoctor = asyncHandler(async (req, res) => {
         console.log(doctor)
         console.log("doctor found : ")
 
-        // if (!doctor) {
-        //     res.status(404);
-        //     throw new Error("Doctor not found.");
-        // }
+        if (!doctor) {
+            res.status(404);
+            throw new Error("Doctor not found.");
+        }
 
         const updateDoctor = await Doctor.findByIdAndUpdate(
             CurrDoctId,

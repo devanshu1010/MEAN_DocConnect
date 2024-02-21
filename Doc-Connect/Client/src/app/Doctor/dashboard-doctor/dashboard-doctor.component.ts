@@ -125,6 +125,7 @@ export class DashboardDoctorComponent implements OnInit {
     this.profile = false;
     this.appointments = false;
     this.slots = true;
+    console.log('activeTab:', this.activeTab);
   }
 
 

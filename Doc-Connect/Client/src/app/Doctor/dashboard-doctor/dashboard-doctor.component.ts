@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DoctorDashboardService } from './doctor-dashboard.service';
 import { DoctorService } from '../doctor.service';
-import { Doctor } from 'src/app/models/doctor';
+import { Doctor,Slot } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 enum Tab {
   Profile = 'profile',
   Appointments = 'appointments',
-  Slots = 'slots'
+  Slots = 'slot'
 }
 
 @Component({
@@ -38,7 +38,7 @@ export class DashboardDoctorComponent implements OnInit {
 
   profile: any; 
   appointments: any; 
-  slots: any; 
+  slot: any; 
 
   isEditProfileModalOpen = false;
 
@@ -97,8 +97,8 @@ export class DashboardDoctorComponent implements OnInit {
       return '1';  // Current tab, higher index
     } else if (tab === 'appointments') {
       return '2';  // Tab with label 'appointments'
-    } else if (tab === 'slots') {
-      return '3';  // Tab with label 'slots'
+    } else if (tab === 'slot') {
+      return '3';  // Tab with label 'slot'
     } else {
       return '0';  // Other tabs, lower index
     }
@@ -107,7 +107,7 @@ export class DashboardDoctorComponent implements OnInit {
     this.activeTab = Tab.Profile;
     this.profile = true;
     this.appointments = false;
-    this.slots = false;
+    this.slot = false;
   }
 
   // Change active tab to Appointments
@@ -115,7 +115,7 @@ export class DashboardDoctorComponent implements OnInit {
     this.activeTab = Tab.Appointments;
     this.profile = false;
     this.appointments = true;
-    this.slots = false;
+    this.slot = false;
     console.log('activeTab:', this.activeTab);
   }
 
@@ -124,7 +124,7 @@ export class DashboardDoctorComponent implements OnInit {
     this.activeTab = Tab.Slots;
     this.profile = false;
     this.appointments = false;
-    this.slots = true;
+    this.slot = true;
     console.log('activeTab:', this.activeTab);
   }
 
@@ -180,7 +180,7 @@ export class DashboardDoctorComponent implements OnInit {
       //console.log(temp);
 
       // Replace 'yourStartTime' and 'yourEndTime' with your actual time slot values
-      const timeSlot = {
+      /*const timeSlot = {
         day: currentDate,
         break : this.doctor?.Starting_time_second[temp] == 0 ? "No"  : "Yes",
         startTimeFirst: this.doctor?.Starting_time_first[temp],
@@ -195,7 +195,7 @@ export class DashboardDoctorComponent implements OnInit {
       };
 
       this.days.push(tempday);
-      this.timeSlots.push(timeSlot);
+      this.timeSlots.push(timeSlot);*/
     }
     //console.log("timeSlots : ");
     //console.log(this.timeSlots);
@@ -253,7 +253,7 @@ export class DashboardDoctorComponent implements OnInit {
     // console.log("selected slot : ");
     // console.log(this.selectedslots);
 
-    let befor_break = this.doctor.Ending_time_first[this.selectedslots] - this.doctor.Starting_time_first[this.selectedslots];
+    /*let befor_break = this.doctor.Ending_time_first[this.selectedslots] - this.doctor.Starting_time_first[this.selectedslots];
     let after_break = this.doctor.Ending_time_second[this.selectedslots] - this.doctor.Starting_time_second[this.selectedslots];
 
     let no_h = befor_break + after_break;
@@ -268,11 +268,19 @@ export class DashboardDoctorComponent implements OnInit {
     }
 
     const no_slot: number = no_h * multi;
-    let list_of_slot: number[] = Array.from({ length: no_slot }, () => 1);
-    this.doctor.Slots[this.selectedslots] = list_of_slot;
+
+    let Slots:Slot[] ;   
+    
+    while (no_slot) {
+      let s :Slot;
+      s.Time = this.doctor.Slots[this.selectedslots]
+    }
+
+    let list_of_slot: number[] = Array.from({ length: no_slot }, () => 1);*/
+    //this.doctor.Slots[this.selectedslots] = list_of_slot;
     console.log("doctor : ");
     console.log(this.doctor);
-    await this.updateDoctor(this.doctor);
+    //await this.updateDoctor(this.doctor);
     //await this.loadDoctorData();
     //this.calculateTimeSlots();
   }

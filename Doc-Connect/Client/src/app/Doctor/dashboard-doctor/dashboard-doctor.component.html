@@ -235,7 +235,7 @@
     </div>
   </div>
 
-  <div *ngIf="slots" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 z-50 h-auto mx">
+  <div *ngIf="slot" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 z-50 h-auto mx">
     <div class="h-full p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div
@@ -292,16 +292,22 @@
                             <label for="starting_time_first"
                               class="block mb-2 text-sm font-semibold text-gray-900">Starting
                               Time (First)</label>
-                            <input value="0" type="number" name="starting_time_first"
+                            <div class="flex">
+                              <input value="0" type="number" name="starting_time_first"
                               id="starting_time_first"
-                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5">
+                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-1/2 p-2.5">
+                              <input value="0" type="number" name="starting_time_first"
+                                id="starting_time_first"
+                                class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-1/2 p-2.5">
+                            </div>
                           </div>
                           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label for="ending_time_first" class="block mb-2 text-sm font-semibold text-gray-900">Ending
                               Time (First)</label>
-                            <input value="0" type="number" name="ending_time_first"
+                            <input value="0" type="" name="ending_time_first"
                               id="ending_time_first"
                               class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5">
+                            
                           </div>
                         </div>
   

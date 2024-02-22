@@ -1,3 +1,10 @@
+interface Slot {
+    Time: Date;
+    Booked: boolean;
+    Canceled: boolean;
+    Appointment_id?: string; // Assuming Appointment_id is optional
+}
+
 export interface Doctor{
     _id: string;
     Email:string;
@@ -23,7 +30,7 @@ export interface Doctor{
     Starting_time_second:number[];
     Ending_time_second:number[];
     Slot_length:number;
-    Slots:number[][];
+    Slots: { dayOfWeek: number; slots: Slot[] }[];
     Appointment_id:any[];
     Review_id:any[];
 }

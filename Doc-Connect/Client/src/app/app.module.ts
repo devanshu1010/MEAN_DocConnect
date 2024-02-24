@@ -23,6 +23,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +50,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxMaterialTimepickerModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

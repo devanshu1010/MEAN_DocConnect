@@ -293,9 +293,12 @@
                               class="block mb-2 text-sm font-semibold text-gray-900">Starting
                               Time (First)</label>
                             <div class="flex">
-                              <input value="0" type="number" name="starting_time_first"
+                              <!-- <ngx-timepicker value="0" [(ngModel)]="form_startinf_time_first"
                               id="starting_time_first"
                               class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-1/2 p-2.5">
+                              </ngx-timepicker> -->
+                              <input placeholder="time" [ngxTimepicker]="picker" [(ngModel)]="selectedTime" (timeSet)="onChange($event)">
+                              <ngx-material-timepicker #picker></ngx-material-timepicker>
                               <input value="0" type="number" name="starting_time_first"
                                 id="starting_time_first"
                                 class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-1/2 p-2.5">

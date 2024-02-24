@@ -36,6 +36,8 @@ export class DashboardDoctorComponent implements OnInit {
   doctorId: any;
   birthday: any | undefined;
 
+  selectedTime:any;
+
   profile: any; 
   appointments: any; 
   slot: any; 
@@ -246,7 +248,15 @@ export class DashboardDoctorComponent implements OnInit {
     });
   }  
 
+  onTimeSet(event: any) {
+    this.selectedTime = event;
+    console.log('Selected Time:', this.selectedTime);
+    // Perform additional actions if needed
+  }
+
   async submitForm(){
+
+    console.log(this.selectedTime);
     
     //console.log("doctor : ");
     //console.log(this.doctor);

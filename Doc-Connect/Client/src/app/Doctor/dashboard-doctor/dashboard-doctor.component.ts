@@ -36,6 +36,18 @@ export class DashboardDoctorComponent implements OnInit {
   doctorId: any;
   birthday: any | undefined;
 
+  startTimeFirst:string = '';
+  endTimeFirst:string = '';
+  startTimeSecond:string = '';
+  endTimeSecond:string = '';
+
+  compareTimes(endTime: string, startTime: string): boolean {
+    const endDateTime = new Date(`1970-01-01T${endTime}`);
+    const startDateTime = new Date(`1970-01-01T${startTime}`);
+
+    return endDateTime <= startDateTime;
+  }
+
   selectedTime:any;
 
   profile: any; 
@@ -256,8 +268,8 @@ export class DashboardDoctorComponent implements OnInit {
 
   async submitForm(){
 
-    console.log(this.selectedTime);
-    
+    console.log("Inside submitForm");
+    console.log(this.startTimeFirst);
     //console.log("doctor : ");
     //console.log(this.doctor);
     // console.log("selected slot : ");
@@ -266,7 +278,7 @@ export class DashboardDoctorComponent implements OnInit {
     /*let befor_break = this.doctor.Ending_time_first[this.selectedslots] - this.doctor.Starting_time_first[this.selectedslots];
     let after_break = this.doctor.Ending_time_second[this.selectedslots] - this.doctor.Starting_time_second[this.selectedslots];
 
-    let no_h = befor_break + after_break;
+    let no_h = befor_break + after_break; 
     let multi;
     if(this.doctor.Slot_length == 60)
     {
@@ -288,7 +300,7 @@ export class DashboardDoctorComponent implements OnInit {
 
     let list_of_slot: number[] = Array.from({ length: no_slot }, () => 1);*/
     //this.doctor.Slots[this.selectedslots] = list_of_slot;
-    console.log("doctor : ");
+    //console.log("doctor : ");
     console.log(this.doctor);
     //await this.updateDoctor(this.doctor);
     //await this.loadDoctorData();

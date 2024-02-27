@@ -1,7 +1,7 @@
 import { Time } from "@angular/common";
 
 export interface Slot {
-    Time: Date;
+    Time: String;
     Booked: boolean;
     Canceled: boolean;
     Appointment_id?: string; // Assuming Appointment_id is optional
@@ -27,12 +27,12 @@ export interface Doctor{
     Average_rating:number;
     Total_rating:number;
     Total_review:number;
-    Starting_time_first:Time[];
-    Ending_time_first:Time[];
-    Starting_time_second:Time[];
-    Ending_time_second:Time[];
+    Starting_time_first:String[];
+    Ending_time_first:String[];
+    Starting_time_second:String[];
+    Ending_time_second:String[];
     Slot_length:number;
-    Slots: { dayOfWeek: number; slots: Slot[] }[];
+    Slots: Slot[][];
     Appointment_id:any[];
     Review_id:any[];
 }

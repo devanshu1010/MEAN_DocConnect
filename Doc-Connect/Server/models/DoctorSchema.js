@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const SlotSchema = new mongoose.Schema({
     Time: {
-        type: Date,
+        type: String,
         required: true
     },
     Booked: {
@@ -105,15 +105,9 @@ const DoctorSchema = new mongoose.Schema({
             type : Number,
             default : 30
         },
-        Slots : [{
-            dayOfWeek: {
-                type: Number,
-                required: true,
-                min: 0,
-                max: 6 // Assuming 0 is Monday and 6 is Sunday
-            },
-            slots: [SlotSchema]
-        }],
+        Slots : [
+            [SlotSchema] //There is 7 * no.of slot length array
+        ],
         Appointment_id : {
             type : [mongoose.Schema.Types.ObjectId],
             ref : "Appointment",

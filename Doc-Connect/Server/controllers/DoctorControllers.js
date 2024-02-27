@@ -16,7 +16,7 @@ const createDoctor = asyncHandler(async (req, res) => {
             return;
         }
         let doctor1 =  await Doctor.findOne({Email:Email});
-        if (!doctor1 )
+        if (doctor1)
         {
             console.log("returnig ");
             res.status(400).json({ messag: "Email is not available." });

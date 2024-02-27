@@ -48,8 +48,10 @@ export class RegistrationComponentDoctor implements OnInit{
   ];
 
   slotTiming = [
+    { label : '15 minute', value : 15 },
     { label : '30 minute', value : 30 },
-    { label : '60 minute', value : 60 }
+    { label : '45 minute', value : 45 },
+    { label : '60 minute', value : 60 },
   ]
 
   email:string = '';
@@ -68,11 +70,11 @@ export class RegistrationComponentDoctor implements OnInit{
   experience:any;
   selectedSlotlen:number = 0;
   certificate:any;
-  S_time_first: Time[] = [{ hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }];
-  E_time_first: Time[] = [{ hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }];
-  S_time_second: Time[] = [{ hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }];
-  E_time_second: Time[] = [{ hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }, { hours: 0, minutes: 0 }];
-  Slots: { dayOfWeek: number; slots: Slot[] }[] = [];
+  S_time_first: String[] = ['', '', '', '', '', '', ''];
+  E_time_first: String[] = ['', '', '', '', '', '', ''];
+  S_time_second: String[] = ['', '', '', '', '', '', ''];
+  E_time_second: String[] = ['', '', '', '', '', '', ''];
+  Slots = [[], [], [], [], [], [], []];
   activeTab: Tab = Tab.Email;
   otp:any;
   
@@ -87,7 +89,6 @@ export class RegistrationComponentDoctor implements OnInit{
 
   view_profile(): void {
     this.activeTab = Tab.Profile;
-    
   }
 
   // Change active tab to Appointments

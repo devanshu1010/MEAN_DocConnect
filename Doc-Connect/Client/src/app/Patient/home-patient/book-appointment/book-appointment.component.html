@@ -316,25 +316,28 @@
         <p class="mt-8 font-serif text-xl font-bold text-blue-900">
           Select a time
         </p>
+        <div *ngIf = "timeSlots.length === 0" class="mt-8 font-serif text-xl font-bold text-red-900">
+          <p>No Slot On This Day.</p>
+        </div>
         <div class="mt-4 grid grid-cols-4 gap-2 lg:max-w-xl">
-          <div *ngFor="let timeSlot of timeSlots">
-            <button *ngIf="timeSlot.Slot == 1" (click)="assign_selected_Slot(timeSlot)" 
-            [ngClass]="{'bg-blue-900 text-blue-100': timeSlot.isSelected, 'bg-blue-100 text-blue-900': !timeSlot.isSelected}"
+          <div *ngFor="let timeSlot of timeSlots; let index = index">
+            <button *ngIf="!timeSlots[index].Booked" (click)="onChangeSlot(index)" 
+            [ngClass]="selectedSlot == index ? 'bg-blue-900 text-blue-100' : 'bg-blue-100 text-blue-900'"
             class="rounded-lg w-full  px-4 py-2 font-medium  active:scale-95"
             >
-              {{timeSlot.Time}} : 00
+              {{timeSlots[index].Time}}
             </button>
-            <button *ngIf="timeSlot.Slot != 1"  
+            <button *ngIf="timeSlots[index].Booked"  
             class="rounded-lg w-full bg-red-100 px-4 py-2 font-medium text-red-900 active:scale-95"
             disabled
             >
-              {{timeSlot.Time}} : 00
+              {{timeSlots[index].Time}}
             </button>
           </div>
         </div>
       </div>
 
-      <button (click)="bookAppointment()"
+      <button (click)="bookAppointment()" [disabled]="selectedSlot === -1" [ngStyle]="{'opacity': selectedSlot === -1 ? '0.5' : '1', 'cursor': selectedSlot === -1 ? 'not-allowed' : 'pointer'}"
         class="mt-8 w-48 rounded-full border-8 border-blue-500 bg-blue-600 px-10 py-2 text-lg font-bold text-white transition hover:translate-y-1"
       >
         Book Now

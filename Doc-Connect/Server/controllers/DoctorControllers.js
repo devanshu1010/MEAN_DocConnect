@@ -146,4 +146,34 @@ const searchDcotor = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = {Doctorlogin,getDoctor,createDoctor,updateDoctor,getDoctors};
+const updateDoctorSlot = asyncHandler(async (req, res) => {
+    const { appointment_id, day, slotNo } = req.body;
+    const CurrDoctId =  req.params.id; //req.user.id;
+    console.log(CurrDoctId)
+
+    try{
+        const doctor = await Doctor.findById(CurrDoctId.trim());
+
+        if (!doctor) {
+            return res.status(404).json({ error: 'Doctor not found' });
+        }
+
+        console.log(doctor);
+
+        delete doctor.Slots[day][slotNo]._id
+
+        doctor.Slots[day][slotNo].Booked = true;
+        doctor.Slots[day][slotNo].AppointmentId = appointment_id;
+
+        console.log(doctor);
+
+        await doctor.save();
+
+        res.status(200).json({mes : "Done"});
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({mes : "Something wrong"})
+    }
+})
+
+module.exports = {Doctorlogin,getDoctor,createDoctor,updateDoctor,getDoctors, updateDoctorSlot};

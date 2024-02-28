@@ -8,7 +8,7 @@ export interface Slot {
 }
 
 export interface Doctor{
-    _id: string;
+    // _id: string;
     Email:string;
     Name:string;
     Password:string;

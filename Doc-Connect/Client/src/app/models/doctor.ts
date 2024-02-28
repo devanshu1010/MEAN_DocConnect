@@ -4,7 +4,7 @@ export interface Slot {
     Time: String;
     Booked: boolean;
     Canceled: boolean;
-    Appointment_id?: string; // Assuming Appointment_id is optional
+    AppointmentId?: string; // Assuming Appointment_id is optional
 }
 
 export interface Doctor{

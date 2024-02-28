@@ -13,7 +13,7 @@ export class ServicesService {
   private url_create_orderId: string ="http://localhost:8082/api/create/orderId";
   private url_verify_payment: string ="http://localhost:8082/api/payment/verify";
   private url_appointment: string ="http://localhost:8082/api/patient/appointment/";
-  private url_payment: string = "http://localhost:8082/api/patient/payment/"
+  private url_payment: string = "http://localhost:8082/api/patient/payment/";
 
   constructor(private http: HttpClient) { }
 
@@ -99,6 +99,18 @@ export class ServicesService {
     const url = this.url_payment + 'createPayment';
 
     return this.http.post<any>(url, Data).pipe(
+      catchError((error: HttpErrorResponse) => {
+          console.error('Error in appointment Payment', error);
+          throw error;
+      })
+    );
+  }
+
+  updateDoctorSlotBook(Data:any, doctorId:String):Observable<any>
+  {
+    const url = this.url_get_doctor + doctorId + '/bookSlot';
+
+    return this.http.put<any>(url, Data).pipe(
       catchError((error: HttpErrorResponse) => {
           console.error('Error in appointment Payment', error);
           throw error;

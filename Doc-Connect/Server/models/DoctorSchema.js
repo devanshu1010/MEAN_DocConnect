@@ -15,7 +15,7 @@ const SlotSchema = new mongoose.Schema({
         required: true,
         default: false
     },
-    Appointment_id: { 
+    AppointmentId: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: "Appointment"
     }

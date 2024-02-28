@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const ReviewSchema = new mongoose.Schema(
     {
         Doctor_id : {
-            type : [mongoose.Schema.Types.ObjectId],
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Doctor",
             required : true
         },
         Patient_id : {
-            type : [mongoose.Schema.Types.ObjectId],
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Patient",
             required : true
         },

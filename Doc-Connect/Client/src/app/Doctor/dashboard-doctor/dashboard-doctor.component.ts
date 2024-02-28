@@ -4,6 +4,7 @@ import { DoctorService } from '../doctor.service';
 import { Doctor, Slot } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import mongoose from 'mongoose';
 
 enum Tab {
   Profile = 'profile',
@@ -273,6 +274,7 @@ export class DashboardDoctorComponent implements OnInit {
 
   loadDoctorData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
+      this.doctorId = '';
       this.doctorId = localStorage.getItem('userId');
 
       this.doctorServ.getDoctor(this.doctorId).subscribe(
@@ -403,6 +405,7 @@ export class DashboardDoctorComponent implements OnInit {
           Time : element,
           Booked : false,
           Canceled : false,
+          //AppointmentId : ''
         }
         slotTemp.push(temp);
       });
@@ -427,6 +430,7 @@ export class DashboardDoctorComponent implements OnInit {
         Time : element,
         Booked : false,
         Canceled : false,
+        //AppointmentId : '' 
       }
       slotTemp.push(temp);
     });

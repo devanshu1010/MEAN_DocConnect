@@ -8,35 +8,35 @@ const Doctor = require("../models/DoctorSchema");
 //@access public
 
 const bookAppointment = asyncHandler(async (req, res) => {
-    try{
+    try {
         console.log(req.body);
 
         const appointment = await Appointment.create(req.body);
         console.log('saved');
 
-        if(!appointment)
-            res.send({res : "Something went wrong. Failed to book Appointment."})
+        if (!appointment)
+            res.send({ res: "Something went wrong. Failed to book Appointment." })
 
-        let patient =  await Patient.findByIdAndUpdate(req.body.Patient_id, 
+        let patient = await Patient.findByIdAndUpdate(req.body.Patient_id,
             {
-                $push : {Appointment_id : appointment._id},
+                $push: { Appointment_id: appointment._id },
             },
-            {new : true}
+            { new: true }
         );
 
-        let doctor =  await Doctor.findByIdAndUpdate(req.body.Doctor_id, 
+        let doctor = await Doctor.findByIdAndUpdate(req.body.Doctor_id,
             {
-                $push : {Appointment_id : appointment._id},
+                $push: { Appointment_id: appointment._id},
             },
-            {new : true}
+            { new: true }
         );
-        
-        res.send({res : "Appointment booked successfully"});
+
+        res.send(appointment);
     }
-    catch(error){
+    catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
 
-module.exports = {bookAppointment};
+module.exports = { bookAppointment };

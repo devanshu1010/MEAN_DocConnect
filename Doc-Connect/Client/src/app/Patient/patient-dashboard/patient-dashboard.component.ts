@@ -39,6 +39,9 @@ export class PatientDashboardComponent implements OnInit
   patient?:Patient|any;
   patientId?: number | any;
 
+  allAppointments: any;
+  datePipe: any;
+
   get Tab() {
     return Tab;
   }
@@ -83,6 +86,30 @@ export class PatientDashboardComponent implements OnInit
     this.slots = true;
   }
 
+  loadDoctorData(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.patientId = '';
+      this.patientId = localStorage.getItem('userId');
+
+      this.services.getPatient(this.patientId).subscribe(
+        data => {
+          this.patient = data;
+          this.allAppointments = this.patient.Appointment_id;
+          console.log(this.allAppointments);
+          console.log("DashBoard");
+          console.log(this.patient);
+          
+          //this.calculateTimeSlots();
+          resolve();
+        },
+        error => {
+          console.error("error", error);
+          reject(error);
+        }
+      );
+    });
+  }
+
   constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
 
   async ngOnInit() : Promise<void> {
@@ -97,18 +124,13 @@ export class PatientDashboardComponent implements OnInit
         await this.router.navigate(['/signinPatient'], { replaceUrl: true });
       }
       else{
-        //console.log(isLogin);
-        // Read the doctorId from the route parameters
-        //console.log("hello");
-        //const params = await this.route.params.pipe(first()).toPromise();
-        //console.log(params);
-        //const id = params?.['id']; // Access the correct property name
-      
-        //if (id !== undefined) {
+
+        this.patientId = localStorage.getItem('userId');
+        this.view_profile();
           
-          this.patientId = localStorage.getItem('userId');
-          this.patient = await this.services.getPatient(this.patientId).toPromise();
-          console.log(this.patient);
+        await this.loadDoctorData();
+        // this.patient = await this.services.getPatient(this.patientId).toPromise();
+        // console.log(this.patient);
 
           setTimeout(async () => {
             try {

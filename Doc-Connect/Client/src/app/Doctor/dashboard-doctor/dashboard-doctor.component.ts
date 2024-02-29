@@ -45,13 +45,6 @@ export class DashboardDoctorComponent implements OnInit {
   startTimeSecond: string = '';
   endTimeSecond: string = '';
 
-  compareTimes(endTime: string, startTime: string): boolean {
-    const endDateTime = new Date(`1970-01-01T${endTime}`);
-    const startDateTime = new Date(`1970-01-01T${startTime}`);
-
-    return endDateTime <= startDateTime;
-  }
-
   selectedTime: any;
 
   profile: any;
@@ -59,6 +52,8 @@ export class DashboardDoctorComponent implements OnInit {
   slot: any;
 
   isEditProfileModalOpen = false;
+
+  allAppointments: any;
 
   currdate: Date = new Date();
   todaydate: any;
@@ -97,6 +92,13 @@ export class DashboardDoctorComponent implements OnInit {
   ];
 
   isButtonDisabled = true;
+
+  compareTimes(endTime: string, startTime: string): boolean {
+    const endDateTime = new Date(`1970-01-01T${endTime}`);
+    const startDateTime = new Date(`1970-01-01T${startTime}`);
+
+    return endDateTime <= startDateTime;
+  }
 
   onChangeFee(){
     if(this.doctor.Counselling_fee < 0)
@@ -280,6 +282,8 @@ export class DashboardDoctorComponent implements OnInit {
       this.doctorServ.getDoctor(this.doctorId).subscribe(
         data => {
           this.doctor = data;
+          this.allAppointments = this.doctor.Appointment_id;
+          console.log(this.allAppointments);
           console.log("DashBoard");
           console.log(this.doctor);
 

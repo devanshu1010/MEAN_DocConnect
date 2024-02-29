@@ -195,6 +195,9 @@ export class BookAppointmentComponent implements OnInit {
         // alert(response.razorpay_payment_id);
         // alert(response.razorpay_order_id);
         // alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
       });
       console.log(response);
       const verificationdata = response;
@@ -228,7 +231,7 @@ export class BookAppointmentComponent implements OnInit {
             Doctor_id : this.doctorId,
             Patient_id: this.patientId,
             Payment_id: paymentResponse.paymentId,
-            Starting_time: this.selectedSlot,
+            Starting_time: this.timeSlots[this.selectedSlot].Time,
             Day: this.datepickerValue.slice(0, 3),
             Date: this.datepickerValue
           }

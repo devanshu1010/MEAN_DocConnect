@@ -190,9 +190,9 @@ export class BookAppointmentComponent implements OnInit {
   private async handlePaymentResponse(response: any) {
     try {
       this.ngZone.run(() => {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
       });
       console.log(response);
       //const responses: any = await this.services.verifyPayment(response).toPromise();

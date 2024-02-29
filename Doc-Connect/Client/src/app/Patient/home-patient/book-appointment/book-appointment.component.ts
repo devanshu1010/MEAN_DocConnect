@@ -6,6 +6,8 @@ import { Patient } from 'src/app/models/patient';
 import { Doctor, Slot } from 'src/app/models/doctor';
 import { Payment } from 'src/app/models/payment';
 import { Appointment } from 'src/app/models/appointment';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentStatusDialogComponent } from './payment-status-dialog/payment-status-dialog.component';
 // import * as Razorpay from 'razorpay';
 
 
@@ -190,50 +192,85 @@ export class BookAppointmentComponent implements OnInit {
   private async handlePaymentResponse(response: any) {
     try {
       this.ngZone.run(() => {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
       });
       console.log(response);
-      //const responses: any = await this.services.verifyPayment(response).toPromise();
-      console.log(response);
-      this.payment = {
-        RazrPay_id : response.razorpay_payment_id,
-        Doctor_id : this.doctorId,
-        Patient_id: this.patientId,
-        Payable_amount: this.doctor.Counselling_fee,
-        Status: "Paid"
-      }
+      const verificationdata = response;
+      console.log('verificationdata');
+      console.log(verificationdata);
+      // const paymentVerificationResponse : any = await this.services.verifyPayment(response).toPromise();
+      // console.log(paymentVerificationResponse);
 
-      const paymentResponse:any = await this.services.appointmentPayment(this.payment).toPromise();
+      // Display payment verification status in a dialog
+      const dialogRef = this.dialog.open(PaymentStatusDialogComponent, {
+        data: verificationdata // Pass payment verification status to the dialog
+      });
 
-      this.appointment = {
-        Doctor_id : this.doctorId,
-        Patient_id: this.patientId,
-        Payment_id: paymentResponse.paymentId,
-        Starting_time: this.selectedSlot,
-        Day: this.datepickerValue.slice(0, 3),
-        Date: this.datepickerValue
-      }
+      // Listen to dialog's afterClosed event to handle success or failure
+      dialogRef.afterClosed().subscribe(async (result) => {
+        if (result) {
+          // Dialog closed due to success
+          // Proceed with redirection or any other actions
 
-      //This will also update slot to booked in Docto's Database
-      const appointmentResponse:any = await this.services.bookAppointment(this.appointment).toPromise();
-      console.log(appointmentResponse);
+          this.payment = {
+            RazrPay_id : response.razorpay_payment_id,
+            Doctor_id : this.doctorId,
+            Patient_id: this.patientId,
+            Payable_amount: this.doctor.Counselling_fee,
+            Status: "Paid"
+          }
+    
+          const paymentResponse:any = await this.services.appointmentPayment(this.payment).toPromise();
+    
+          this.appointment = {
+            Doctor_id : this.doctorId,
+            Patient_id: this.patientId,
+            Payment_id: paymentResponse.paymentId,
+            Starting_time: this.selectedSlot,
+            Day: this.datepickerValue.slice(0, 3),
+            Date: this.datepickerValue
+          }
+    
+          //This will also update slot to booked in Docto's Database
+          const appointmentResponse:any = await this.services.bookAppointment(this.appointment).toPromise();
+          console.log(appointmentResponse);
+    
+          console.log(appointmentResponse._id);
+    
+          const updateSlotObject = {
+            appointment_id : appointmentResponse._id,
+            day : this.getindex(this.appointment.Day),
+            slotNo : this.selectedSlot,
+            doctorId : this.doctor._id,
+          }
+    
+          console.log(updateSlotObject);
+    
+          const doctorSlotUpdate: any = await this.services.updateDoctorSlotBook(updateSlotObject, this.doctor._id).toPromise();
+    
+          //After this redirect to appointment page show that not need to refresh page.
+          this.ngZone.run(() => {
+            alert('Your appointment is booked.');
+          });
 
-      console.log(appointmentResponse._id);
+          this.router.navigate(['/dashboardPatient']);
 
-      const updateSlotObject = {
-        appointment_id : appointmentResponse._id,
-        day : this.getindex(this.appointment.Day),
-        slotNo : this.selectedSlot,
-        doctorId : this.doctor._id,
-      }
+        } else {
+          // Dialog closed due to failure
+          // Handle failure scenario
 
-      console.log(updateSlotObject);
+          this.ngZone.run(() => {
+            // alert(response.razorpay_payment_id);
+            // alert(response.razorpay_order_id);
+            alert('Please try again your payment.');
+          });
 
-      const doctorSlotUpdate: any = await this.services.updateDoctorSlotBook(updateSlotObject, this.doctor._id).toPromise();
+        }
+      });
 
-      //After this redirect to appointment page show that not need to refresh page.
+      
 
 
     } catch (error) {
@@ -413,7 +450,7 @@ export class BookAppointmentComponent implements OnInit {
   
   trackByIdentity = (index: number, item: any) => item;
 
-  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router,private ngZone: NgZone) {}
+  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router,private ngZone: NgZone , private dialog: MatDialog) {}
 
   async ngOnInit() : Promise<void> {
 

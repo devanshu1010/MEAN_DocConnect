@@ -52,19 +52,24 @@ app.use('/api/create/orderId',(req,res) => {
 });
 
 app.post("/api/payment/verify", (req, res)=> {
-    let body=req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
+    console.log(req.body);
+    const { razorpay_payment_id,razorpay_order_id,razorpay_signature } = req.body;
+    console.log(razorpay_payment_id)
+    let body=req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
 
     var crypto = require("crypto");
-    var expectedSignature = crypto.createhnac( sha256, process.env.key_secret)
+    var expectedSignature = crypto.createHmac('SHA256', process.env.key_secret)
                                             .update(body.toString())
                                             .digest('hex');
 
-    console.log("sig recived ", req.body.responce.response.razorpay_signature);
+    console.log("sig recived ", req.body.razorpay_signature);
     console.log("sig genrated ", expectedSignature);
 
-    if(expectedSignature === req.body.responce.response.razorpay_signature) 
-        responce ={"signatureIsValid":'true'}
-
+    if (expectedSignature === req.body.razorpay_signature) {
+        response = {"signatureIsValid": true};
+    } else {
+        response = {"signatureIsValid": false};
+    }
     res.send(response);
     
 });

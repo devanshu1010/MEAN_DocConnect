@@ -7,8 +7,7 @@ export interface Slot {
     AppointmentId?: string; // Assuming Appointment_id is optional
 }
 
-export interface Doctor{
-    // _id: string;
+export interface Doctor{    
     Email:string;
     Name:string;
     Password:string;

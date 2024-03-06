@@ -28,9 +28,10 @@ export class DoctorService {
   }
 
   updateDoctor(doctorId: any,updatedDoctor: Doctor):Observable<any>{
-    this.url_update_doctor += doctorId;
-    console.log(this.url_update_doctor);
-    return this.http.put<any>(this.url_update_doctor,updatedDoctor).pipe(
+    //this.url_update_doctor += doctorId;
+    const url_generated = this.url_update_doctor + doctorId;
+    //console.log(this.url_update_doctor);
+    return this.http.put<any>(url_generated,updatedDoctor).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in loginPatient:', error);
         throw error;

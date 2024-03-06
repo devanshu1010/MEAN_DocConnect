@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { ServicesService } from '../../services.service';
 import { Patient } from 'src/app/models/patient';
-import { Doctor } from 'src/app/models/doctor';
+import { Doctor, Slot } from 'src/app/models/doctor';
 import { Payment } from 'src/app/models/payment';
 import { Appointment } from 'src/app/models/appointment';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentStatusDialogComponent } from './payment-status-dialog/payment-status-dialog.component';
 // import * as Razorpay from 'razorpay';
 
 
@@ -25,7 +27,7 @@ export class BookAppointmentComponent implements OnInit {
   payment?: Payment|any;
   appointment?: Appointment|any; 
   payment_id?: string;
-  selectedSlot :number|undefined;
+  selectedSlot :number = -1;
   MONTH_NAMES = [
     'January',
     'February',
@@ -51,20 +53,27 @@ export class BookAppointmentComponent implements OnInit {
   year!: number;
   day!: number;
   indexofday!: number;  
+  temp!: number;
   no_of_days = [] as number[];
   blankdays = [] as number[];
 
-  timeSlots: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; }[] = [];
+  timeSlots: Slot[] = [];
 
   loading: boolean = true;
 
-  assign_selected_Slot(timeSlot: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; })
-  {
-    this.selectedSlot = timeSlot.Time;
-    //console.log(this.selectedSlot);
-    this.timeSlots.forEach(slot => (slot.isSelected = false));
-    timeSlot.isSelected = !timeSlot.isSelected;
+  onChangeSlot(index:number){
+    this.selectedSlot = index;
+
+    console.log(index);
   }
+
+  // assign_selected_Slot(timeSlot: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; })
+  // {
+  //   this.selectedSlot = timeSlot.Time;
+  //   //console.log(this.selectedSlot);
+  //   this.timeSlots.forEach(slot => (slot.isSelected = false));
+  //   timeSlot.isSelected = !timeSlot.isSelected;
+  // }
 
   getindex(str : string)
   {
@@ -102,15 +111,14 @@ export class BookAppointmentComponent implements OnInit {
 
   async bookAppointment() {
     try {
-
-      if(this.selectedSlot == undefined)
-      {
-        this.ngZone.run(() => {
+      // if(this.selectedSlot == undefined)
+      // {
+      //   this.ngZone.run(() => {
           
-          alert('please select Slot');
-        });
-        return
-      }
+      //     alert('please select Slot');
+      //   });
+      //   return
+      // }
 
       const data = {
         amount : this.doctor.Counselling_fee* 100
@@ -127,7 +135,7 @@ export class BookAppointmentComponent implements OnInit {
       const RazorpayOptions = {
         description: 'Appointment of Dr.' + this.doctor.Name,
         amount: this.doctor.Counselling_fee * 100,
-        name: 'Doc-Connect',// + this.doctor.Name,
+        name: `Doc-Connect + ${this.doctor.Name}`,
         key: 'rzp_test_C7vohyckaiJWR6',
         image: '../assets/Logo/logo21.jpg',
         order_id: this.orderId,
@@ -184,118 +192,177 @@ export class BookAppointmentComponent implements OnInit {
   private async handlePaymentResponse(response: any) {
     try {
       this.ngZone.run(() => {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
       });
       console.log(response);
-      //const responses: any = await this.services.verifyPayment(response).toPromise();
-      console.log(response);
-      this.payment = {
-        RazrPay_id : response.razorpay_payment_id,
-        Doctor_id : this.doctorId,
-        Patient_id: this.patientId,
-        Payable_amount: this.doctor.Counselling_fee,
-        Status: "Paid"
-      }
+      const verificationdata = response;
+      console.log('verificationdata');
+      console.log(verificationdata);
+      // const paymentVerificationResponse : any = await this.services.verifyPayment(response).toPromise();
+      // console.log(paymentVerificationResponse);
 
-      const paymentResponse:any = await this.services.appointmentPayment(this.payment).toPromise();
+      // Display payment verification status in a dialog
+      const dialogRef = this.dialog.open(PaymentStatusDialogComponent, {
+        data: verificationdata // Pass payment verification status to the dialog
+      });
 
-      this.appointment = {
-        Doctor_id : this.doctorId,
-        Patient_id: this.patientId,
-        Payment_id: paymentResponse.paymentId,
-        Starting_time: this.selectedSlot,
-        Day: this.datepickerValue.slice(0, 3),
-        Date: this.datepickerValue
-      }
+      // Listen to dialog's afterClosed event to handle success or failure
+      dialogRef.afterClosed().subscribe(async (result) => {
+        if (result) {
+          // Dialog closed due to success
+          // Proceed with redirection or any other actions
 
-      const appointmentResponse:any = await this.services.bookAppointment(this.appointment).toPromise();
+          this.payment = {
+            RazrPay_id : response.razorpay_payment_id,
+            Doctor_id : this.doctorId,
+            Patient_id: this.patientId,
+            Payable_amount: this.doctor.Counselling_fee,
+            Status: "Paid"
+          }
+    
+          const paymentResponse:any = await this.services.appointmentPayment(this.payment).toPromise();
+    
+          this.appointment = {
+            Doctor_id : this.doctorId,
+            Patient_id: this.patientId,
+            Payment_id: paymentResponse.paymentId,
+            Starting_time: this.timeSlots[this.selectedSlot].Time,
+            Day: this.datepickerValue.slice(0, 3),
+            Date: this.datepickerValue
+          }
+    
+          //This will also update slot to booked in Docto's Database
+          const appointmentResponse:any = await this.services.bookAppointment(this.appointment).toPromise();
+          console.log(appointmentResponse);
+    
+          console.log(appointmentResponse._id);
+    
+          const updateSlotObject = {
+            appointment_id : appointmentResponse._id,
+            day : this.getindex(this.appointment.Day),
+            slotNo : this.selectedSlot,
+            doctorId : this.doctor._id,
+          }
+    
+          console.log(updateSlotObject);
+    
+          const doctorSlotUpdate: any = await this.services.updateDoctorSlotBook(updateSlotObject, this.doctor._id).toPromise();
+    
+          //After this redirect to appointment page show that not need to refresh page.
+          this.ngZone.run(() => {
+            alert('Your appointment is booked.');
+          });
+
+          this.router.navigate(['/dashboardPatient']);
+
+        } else {
+          // Dialog closed due to failure
+          // Handle failure scenario
+
+          this.ngZone.run(() => {
+            // alert(response.razorpay_payment_id);
+            // alert(response.razorpay_order_id);
+            alert('Please try again your payment.');
+          });
+
+        }
+      });
+
+      
+
 
     } catch (error) {
       console.error('Error getting doctor:', error);
   
       // Handle error (e.g., display an error message)
     }
-    
   }
 
   calculateSlot(){
     //console.log('calculateSlot function called');
     this.timeSlots = [];
     let date  = this.datepickerValue;
+    this.selectedSlot = -1;
     //console.log(date);
     let t = date.substr(0, 3);
     //console.log(t);
 
-    let temp : number = 0;
-    temp = this.getindex(t);
+    this.temp = this.getindex(t);
     // console.log(temp);
 
-    let time1_start = this.doctor.Starting_time_first[temp];
-    let time1_end = this.doctor.Ending_time_first[temp];
-    let time2_start = this.doctor.Starting_time_second[temp];
-    let time2_end = this.doctor.Ending_time_second[temp];
+    this.timeSlots = this.doctor.Slots[this.temp];
 
-    if(time2_start == 0)
-    {
-      let slot = this.doctor.Slots[temp];
-      //console.log(slot);
-      let count1 = time1_end - time1_start;
-      let count = 0;
-      //console.log(count);
-      while (count1 >0 ) {
+    //console.log(this.timeSlots);
+
+    // let time1_start = this.doctor.Starting_time_first[temp];
+    // let time1_end = this.doctor.Ending_time_first[temp];
+    // let time2_start = this.doctor.Starting_time_second[temp];
+    // let time2_end = this.doctor.Ending_time_second[temp];
+
+    // if(time2_start == 0)
+    // {
+    //   let slot = this.doctor.Slots[temp];
+    //   //console.log(slot);
+    //   let count1 = time1_end - time1_start;
+    //   let count = 0;
+    //   //console.log(count);
+    //   while (count1 >0 ) {
         
-        const timeSlot = {
-          Time: time1_start,
-          Slot : slot[count],
-          isSelected: false
-        };
+    //     const timeSlot = {
+    //       Time: time1_start,
+    //       Slot : slot[count],
+    //       isSelected: false
+    //     };
 
-        this.timeSlots.push(timeSlot);
-        count += 1;
-        time1_start += 1;
-        count1 -= 1;
-      }
-    }
-    else
-    {
-      let slot = this.doctor.Slots[temp];
-      //console.log(slot);
-      let count1 = time1_end - time1_start;
-      let count = 0;
-      //console.log(count);
-      while (count1 >0 ) {
+    //     this.timeSlots.push(timeSlot);
+    //     count += 1;
+    //     time1_start += 1;
+    //     count1 -= 1;
+    //   }
+    // }
+    // else
+    // {
+    //   let slot = this.doctor.Slots[temp];
+    //   //console.log(slot);
+    //   let count1 = time1_end - time1_start;
+    //   let count = 0;
+    //   //console.log(count);
+    //   while (count1 >0 ) {
         
-        const timeSlot = {
-          Time: time1_start,
-          Slot : slot[count],
-          isSelected: false
-        };
+    //     const timeSlot = {
+    //       Time: time1_start,
+    //       Slot : slot[count],
+    //       isSelected: false
+    //     };
 
-        this.timeSlots.push(timeSlot);
-        count += 1;
-        time1_start += 1;
-        count1 -= 1;
-      }
+    //     this.timeSlots.push(timeSlot);
+    //     count += 1;
+    //     time1_start += 1;
+    //     count1 -= 1;
+    //   }
 
-      let count2 = time2_end - time2_start;
+    //   let count2 = time2_end - time2_start;
 
-      while (count2 >0 ) {
+    //   while (count2 >0 ) {
         
-        const timeSlot = {
-          Time: time2_start,
-          Slot : slot[count],
-          isSelected: false
-        };
+    //     const timeSlot = {
+    //       Time: time2_start,
+    //       Slot : slot[count],
+    //       isSelected: false
+    //     };
 
-        this.timeSlots.push(timeSlot);
-        count += 1;
-        time2_start += 1;
-        count2 -= 1;
-      }
+    //     this.timeSlots.push(timeSlot);
+    //     count += 1;
+    //     time2_start += 1;
+    //     count2 -= 1;
+    //   }
 
-    }
+    // }
 
     // console.log(this.timeSlots);
 
@@ -384,10 +451,9 @@ export class BookAppointmentComponent implements OnInit {
     this.no_of_days = daysArray;
   }
   
-
   trackByIdentity = (index: number, item: any) => item;
 
-  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router,private ngZone: NgZone) {}
+  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router,private ngZone: NgZone , private dialog: MatDialog) {}
 
   async ngOnInit() : Promise<void> {
 

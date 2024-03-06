@@ -23,6 +23,10 @@ import { LogoutComponent } from './logout/logout.component';
 import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { PaymentStatusDialogComponent } from './Patient/home-patient/book-appointment/payment-status-dialog/payment-status-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,13 +46,16 @@ import { NotFoundComponent } from './not-found/not-found.component';
     LogoutComponent,
     PatientDashboardComponent,
     NotFoundComponent,
+    PaymentStatusDialogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxMaterialTimepickerModule,
+    MatDialogModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

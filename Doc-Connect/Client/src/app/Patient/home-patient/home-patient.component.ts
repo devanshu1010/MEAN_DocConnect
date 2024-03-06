@@ -10,7 +10,7 @@ import { Doctor } from 'src/app/models/doctor';
 })
 export class HomePatientComponent implements OnInit {
   
-  doctors: Doctor[] | undefined;
+  doctors: Doctor[] | undefined | any;
   
   constructor(private navbarService: NavbarService ,private services : ServicesService) {}
   

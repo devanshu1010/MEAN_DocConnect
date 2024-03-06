@@ -7,12 +7,12 @@ const PaymentSchema = new mongoose.Schema(
             required : true
         },
         Doctor_id : {
-            type : [mongoose.Schema.Types.ObjectId],
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Doctor",
             required : true
         },
         Patient_id : {
-            type : [mongoose.Schema.Types.ObjectId],
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Patient",
             required : true
         },

@@ -1,0 +1,14 @@
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 574px;
+    overflow: hidden;
+  }
+  
+  img {
+    width: 100%;
+    height: auto;
+    transition: opacity 1.5s ease-in-out;
+  }
+  

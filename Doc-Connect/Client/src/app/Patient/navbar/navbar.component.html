@@ -1,34 +1,39 @@
-<nav class="w-full flex align-center items-center bg-custom-gradient" >
+<nav *ngIf="!hideNavbar" class="fixed flex top-0 left-0 z-10 w-full align-center items-center bg-custom-gradient" >
     <div class="mx-6 my-2">
-        <a href="#" >
+        <a routerLink="/homepatient" routerLinkActive="active" class="cursor-pointer" >
             <img class="flex float-left w-64 mix-blend-color-burn" src="assets/Logo/logo1.png" alt="image">
         </a>
     </div>
     <div class="ml-auto">
         <ul class="flex float-right items-center ">
-            <li class="my-3 mx-5">
-                <input type="text" class="font-semibold text-lg border-2 border-black border-opacity-25 rounded-l-xl placeholder:text-white placeholder:font-semibold placeholder:tracking-wide selection:text-white selection:font-semibold selection:tracking-wide focus:border-blue-50 px-1 py-1 w-56 h-9 bg-black bg-opacity-10" name="search1" id="search1" placeholder=" Search here">
-                <button class="flex float-right items-center font-semibold text-lg w-9 h-9 px-2 py-2 bg-black bg-opacity-10 border-2 border-black border-opacity-25 rounded-r-xl">
-                    <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                </button>
+            <li *ngIf="!isLogin" class="my-3 mx-5">
+                <a (click)="signInDoctor()" class="font-semibold text-lg text-white px-1 py-1 cursor-pointer" >For Doctor</a>
             </li>
             <li class="my-3 mx-5">
-                <a class="font-semibold text-lg text-white" href="#">Home</a>
+                <div>
+                    <input type="text" class="font-semibold text-lg border-2 border-black border-opacity-25 rounded-l-xl placeholder:text-white placeholder:font-semibold placeholder:tracking-wide selection:text-white selection:font-semibold selection:tracking-wide focus:border-blue-50 px-1 py-1 w-56 h-9 bg-black bg-opacity-10" name="search1" id="search1" placeholder=" Search here">
+                    <button class="flex float-right items-center font-semibold text-lg w-9 h-9 px-2 py-2 bg-black bg-opacity-10 border-2 border-black border-opacity-25 rounded-r-xl">
+                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                    </button>
+                </div>
+            </li>
+            <li class="my-3 mx-5 ">
+                <a routerLink="/homepatient" routerLinkActive="active" class="font-semibold text-lg text-white">Home</a>
             </li>
             <li class="my-3 mx-5">
-                <a class="font-semibold text-lg text-white px-1 py-1" href="#">About Us</a>
+                <a routerLink="/homepatient" routerLinkActive="active" class="font-semibold text-lg text-white px-1 py-1" >About Us</a>
             </li>
             <li class="my-3 mx-5">
-                <a  class="font-semibold text-lg text-white px-1 py-1" href="#">Dashboard</a>
+                <a routerLink="/dashboardPatient" routerLinkActive="active"  class="font-semibold text-lg text-white px-1 py-1" >Dashboard</a>
             </li>
-            <li class="my-3 mx-5">
-                <a routerLink="/signinPatient" routerLinkActive="active" class="font-semibold text-lg text-white px-1 py-1" href="#">Login</a>
+            <li *ngIf="!isLogin" class="my-3 mx-5">
+                <a routerLink="/signinPatient" routerLinkActive="active" class="font-semibold text-lg text-white px-1 py-1">Login</a>
             </li>
-            <li class="my-3 mx-5">
-                <a routerLink="/registerPatient" routerLinkActive="active" class="font-semibold text-lg text-white px-1 py-1" href="#">Register</a>
+            <li *ngIf="!isLogin" class="my-3 mx-5">
+                <a routerLink="/registerPatient" routerLinkActive="active" class="font-semibold text-lg text-white px-1 py-1" >Register</a>
             </li>
-            <li class="my-3 mx-5">
-                <a class="font-semibold text-lg text-white px-1 py-1" href="#">Logout</a>
+            <li *ngIf="isLogin"  class="my-3 mx-5">
+                <a routerLink="/logout" routerLinkActive="active" class="font-semibold text-lg text-white px-1 py-1" >Logout</a>
             </li>
         </ul>
     </div>

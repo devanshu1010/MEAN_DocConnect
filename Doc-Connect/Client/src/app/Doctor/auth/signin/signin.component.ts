@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DoctorAuthService } from '../doctor-auth.service';
 import { Router } from '@angular/router';
 import { ObjectId } from 'mongoose';
+import { NavbarService } from 'src/app/navbar.service';
 
 @Component({
   selector: 'app-signin-doctor',
@@ -19,7 +20,7 @@ export class SigninComponentDoctor implements OnInit{
   doctor: any;
   userId: any;
 
-  constructor (public doctorAuthServ:DoctorAuthService,private router: Router){}
+  constructor (public doctorAuthServ:DoctorAuthService,private navbarService: NavbarService,private router: Router){}
   
   public signin():void {
     console.log("clicked");
@@ -49,7 +50,9 @@ export class SigninComponentDoctor implements OnInit{
 
           this.email='';
           this.password='';
-          
+          localStorage.setItem('isLogin',"true");
+          localStorage.setItem('mode','Doctor');
+          this.navbarService.setMode('Doctor');
           this.router.navigate(['/homedoctor']);
 
         },
@@ -69,8 +72,10 @@ export class SigninComponentDoctor implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log("In login");
     localStorage.removeItem("userId");
-    
+    this.navbarService.setHideNavbar(true);
+    this.router.navigate(['/signinDoctor']);
   }
 
 }

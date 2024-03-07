@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from 'src/app/models/patient';
 import { PatientAuthService } from '../patientAuth.service';
+import { Router } from '@angular/router';
+import { NavbarService } from 'src/app/navbar.service';
+
+enum Tab {
+  Profile = 'profile',
+  Email = 'email',
+  Verify = 'verify',
+}
 
 @Component({
   selector: 'app-registration-patient',
@@ -19,6 +27,7 @@ export class RegistrationComponentPatient implements OnInit{
   phone_no:any;
   selectedBloodGroup:any = 0;
   selectedGender:any = 0;
+  otp:any;
 
   patient:Patient | undefined;
 
@@ -41,13 +50,60 @@ export class RegistrationComponentPatient implements OnInit{
   ];
   
   value_border:any = "gray-400";
+
+  activeTab: Tab = Tab.Email;
   
-  constructor (public patientServ:PatientAuthService){}
+  constructor (public patientServ:PatientAuthService,private navbarService: NavbarService,private router: Router){}
 
   ngOnInit(): void{
     this.selectedGender = '0';
     this.selectedBloodGroup = '0';
+    this.navbarService.setHideNavbar(true);
   }
+
+  get Tab() {
+    return Tab;
+  }
+
+  getshow(tab: string)
+  {
+    return tab === this.activeTab ? 1 : 0;
+  }
+
+  view_profile(): void {
+    this.activeTab = Tab.Profile;
+    
+  }
+
+  // Change active tab to Appointments
+  view_email(): void {
+    this.activeTab = Tab.Email;
+    
+    //console.log('activeTab:', this.activeTab);
+  }
+
+  view_verify(): void {
+    this.activeTab = Tab.Verify;
+    
+    //console.log('activeTab:', this.activeTab);
+  }
+
+  next_verify(){
+    this.view_verify();
+  }
+
+  next_profile(){
+    this.view_profile();
+  }
+
+  back_to_email(){
+    this.view_email();
+  }
+
+  back_to_verify(){
+    this.view_verify();
+  }
+  
   
   signup(): void {
 
@@ -72,7 +128,7 @@ export class RegistrationComponentPatient implements OnInit{
 
       console.log("patient : ");
       console.log(this.patient);
-      
+      this.router.navigate(['/signinpatient']);
     }
     else{
       this.value_border="red-500";

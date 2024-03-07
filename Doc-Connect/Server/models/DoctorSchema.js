@@ -1,5 +1,26 @@
 const mongoose = require("mongoose");
 
+const SlotSchema = new mongoose.Schema({
+    Time: {
+        type: String,
+        required: true
+    },
+    Booked: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    Canceled: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    AppointmentId: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Appointment"
+    }
+});
+
 const DoctorSchema = new mongoose.Schema({
         Email : {
             type : String,
@@ -84,9 +105,9 @@ const DoctorSchema = new mongoose.Schema({
             type : Number,
             default : 30
         },
-        Slots : {
-            type : [[Number]]
-        },
+        Slots : [
+            [SlotSchema] //There is 7 * no.of slot length array
+        ],
         Appointment_id : {
             type : [mongoose.Schema.Types.ObjectId],
             ref : "Appointment",

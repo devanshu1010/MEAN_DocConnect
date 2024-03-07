@@ -1,9 +1,9 @@
 <div>
   <!-- <app-home-doctor></app-home-doctor> -->
-  <!-- <app-navbar-doctor></app-navbar-doctor> -->
+  <app-navbar-doctor *ngIf="mode == 'Doctor'" ></app-navbar-doctor>
   <!-- <app-registration-doctor></app-registration-doctor> -->
   <!-- <app-signin-doctor></app-signin-doctor> -->
-  <!-- <app-navbar-patient></app-navbar-patient> -->
+  <app-navbar-patient *ngIf="mode == 'Patient'" (onSignInDoctorClicked)="change_mode()"></app-navbar-patient>
   <!-- <app-signin-patient></app-signin-patient> -->
   <!-- <app-registration-patient></app-registration-patient> -->
 </div>

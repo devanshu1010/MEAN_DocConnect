@@ -1,32 +1,28 @@
-<app-navbar-doctor></app-navbar-doctor>
-<div class="flex flex-wrap">
-  <div class="w-full md:w-1/6 px-4 py-4 md:mb-0 bg-blue-600 border-2 rounded-xl z-50 h-auto mx">
+<div class="flex flex-wrap min-vh-screen">
+  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 h-full mx">
     <form>
-      <ul class="w-full flex flex-col items-center ">
-        <!-- <div class="indicator">
+      <ul class="w-full flex flex-col items-center">
+        <!-- <div class="indicator bg-blue-300" [@slideIndicator]="getTabIndex(activeTab)">
           <span></span>
         </div> -->
-        <li (click)="view_profile()" name="profile" id="profile"
-          class="py-3 items-center active inline-block w-full border-2 border-blue-600 hover:bg-blue-500 hover:border-blue-700 rounded-xl ">
-          <a class="w-full font-semibold  text-lg text-white px-1 py-1 ">Profile</a>
+        
+        <li (click)="view_profile()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"[@slideA]="getshow(Tab.Profile)" >
+          <a class="w-full font-semibold text-lg text-white px-1 py-1" >Profile</a>
         </li>
-        <li (click)="view_appointments()" id="appointments"
-          class="py-3 items-center inline-block w-full hover:bg-blue-500 border-2 border-blue-600  hover:border-blue-700 rounded-xl ">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Appointments</a>
+        <li (click)="view_appointments()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer" [@slideA]="getshow(Tab.Appointments)">
+          <a class="w-full font-semibold text-lg text-white px-1 py-1"  >Appointments</a>
         </li>
-        <li (click)="view_slots()" id="slots"
-          class="py-3 items-center inline-block w-full hover:bg-blue-500 border-2 border-blue-600  hover:border-blue-700 rounded-xl  ">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Slots</a>
+        <li (click)="view_slots()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer" [@slideA]="getshow(Tab.Slots)">
+          <a class="w-full font-semibold text-lg text-white px-1 py-1" >Slots</a>
         </li>
-        <li
-          class="py-3 items-center inline-block w-full hover:bg-blue-500 border-2 border-blue-600  hover:border-blue-700  rounded-xl ">
+        <li class="py-3 items-center inline-block w-full rounded-xl">
           <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
         </li>
       </ul>
     </form>
-  </div>
-  <div *ngIf="profile" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300  border-2 rounded-xl z-50 h-auto mx">
-    <!-- bg-gray-200 -->
+  </div>  
+  <div *ngIf="profile" class="w-full mt-14 top-14 md:w-5/6 mb-6 md:mb-0 bg-blue-300  h-auto mx">
+    
     <div class="h-full  p-8">
       <div class="bg-white rounded-xl shadow-xl pb-8">
         <div class="w-full h-[250px]">
@@ -49,28 +45,7 @@
             <p class="text-sm text-gray-500">Nadiad, Gujarat</p>
           </div>
         </div>
-        <!-- <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
-          <div class="flex items-center space-x-4 mt-2">
-            <button
-              class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
-                </path>
-              </svg>
-              <span>Connect</span>
-            </button>
-            <button
-              class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              <span>Message</span>
-            </button>
-          </div>
-        </div> -->
+        
       </div>
 
       <div class="mt-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
@@ -135,7 +110,7 @@
     (closeModal)="closeModal()" [@fadeInOut]="isEditProfileModalOpen ? 'visible' : 'hidden'">
   </app-edit-profile>
 
-  <div *ngIf="appointments" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 border-2 rounded-xl z-50 h-auto mx">
+  <div *ngIf="appointments" class="w-full mt-14 md:w-5/6 mb-6 md:mb-0 bg-blue-300  h-auto mx">
     <div class="h-full  p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
@@ -143,13 +118,16 @@
             <thead>
               <tr class="text-lg text-gray-900 font-bold tracking-wide text-left  uppercase border-b bg-white ">
                 <th class="px-4 py-3">Patient</th>
+                <th class="px-4 py-3">Date</th>
+                <th class="px-4 py-3">Time</th>
                 <th class="px-4 py-3">Amount</th>
                 <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3">Date</th>
+                <th class="px-4 py-3">Invite</th>
+                <th class="px-4 py-3">Cancel</th>
               </tr>
             </thead>
           
-            <tbody class="bg-white divide-y dark:divide-gray-700 ">
+            <tbody *ngFor = "let appointment of allAppointments; let index = index" class="bg-white divide-y dark:divide-gray-700 ">
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3">
                   <div class="flex items-center text-sm">
@@ -161,13 +139,19 @@
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>
-                      <p class="font-semibold text-gray-700 ">Raj Bharad</p>
+                      <p class="font-semibold text-gray-700 ">{{ allAppointments[index].Patient_id.Name }}</p>
                       <p class="text-xs text-gray-600 ">Senior Software Engineer</p>
                     </div>
                   </div>
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-sm">
-                  500
+                  {{ allAppointments[index].Date.slice(0, 10) }}
+                </td>
+                <td class="px-4 py-3 text-gray-700 text-sm">
+                  {{ allAppointments[index].Starting_time }}
+                </td>
+                <td class="px-4 py-3 text-gray-700 text-sm">
+                  {{ allAppointments[index].Payment_id.Payable_amount }}
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-xs">
                   <span
@@ -176,7 +160,10 @@
                   </span>
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-sm">
-                  6/10/2020
+                  <span class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs ">join</span>
+                </td>
+                <td class="px-4 py-3 text-gray-700 text-sm">
+                  <span class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-red-600 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs ">Cancel</span>
                 </td>
               </tr>
             </tbody>
@@ -248,7 +235,7 @@
     </div>
   </div>
 
-  <div *ngIf="slots" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 border-2 rounded-xl z-50 h-auto mx">
+  <div *ngIf="slot" class="mt-14 w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
     <div class="h-full p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div
@@ -265,7 +252,7 @@
                       <label for="counselling_fee" class="block mb-2 text-sm font-semibold text-gray-900">Counselling
                         Fee</label>
                       <input [(ngModel)]="doctor.Counselling_fee" type="number" name="counselling_fee"
-                        id="counselling_fee"
+                        id="counselling_fee" (change) = "onChangeFee()"
                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                         required="">
                     </div>
@@ -286,13 +273,25 @@
                     </div>
                   </div>
                   <div class="flex flex-wrap w-full">
-                    <div class="md:w-1/3 ml">
+                    <!-- <div class="md:w-1/3 ml">
                       <div class="flex flex-wrap mr-6">
                         <label for="selectedslots" class="block mb-2 text-sm font-semibold text-gray-900">Day</label>
                         <select id="selectedslots" [(ngModel)]="selectedslots" name="selectedslots"
                           class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                           required="">
-                          <option *ngFor="let day of days" [value]="day.value">{{ day.label }}</option>
+                          <option *ngFor="let day of Alldays" [value]="day.value">{{ day.label }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div *ngIf = "selectedslots == -1; then defaultvalueblock else slotbookingblock"> </div> -->
+
+                    <div class="md:w-1/3 ml">
+                      <div class="flex flex-wrap mr-6">
+                        <label for="DayDropdown" class="block mb-2 text-sm font-semibold text-gray-900">Day</label>
+                        <select id="DayDropdown" [(ngModel)]="selectedDay" name="DayDropdown"  (change) = "onChange()"
+                          class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
+                          required="">
+                          <option *ngFor="let day of Alldays" [value]="day.value">{{ day.label }}</option>
                         </select>
                       </div>
                     </div>
@@ -305,16 +304,22 @@
                             <label for="starting_time_first"
                               class="block mb-2 text-sm font-semibold text-gray-900">Starting
                               Time (First)</label>
-                            <input value="0" type="number" name="starting_time_first"
-                              id="starting_time_first"
-                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5">
+                            <div class="flex">                          
+                              <input value="0" type="time" [(ngModel)]="startTimeFirst" (change) = "onChange()" name="starting_time_first" placeholder="Enter Starting Time"
+                                id="starting_time_first"
+                                class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required>
+                            </div>
                           </div>
                           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label for="ending_time_first" class="block mb-2 text-sm font-semibold text-gray-900">Ending
                               Time (First)</label>
-                            <input value="0" type="number" name="ending_time_first"
+                              <input value="0" type="time" [(ngModel)]="endTimeFirst"  (change) = "onChange()" name="ending_time_first" placeholder="Enter Starting Time"
                               id="ending_time_first"
-                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5">
+                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required>
+                             
+                          </div>
+                          <div *ngIf="compareTimes(endTimeFirst, startTimeFirst)" class="w-full px-3 mb-6 md:mb-0">
+                            <p style="color: red;">Ending time must be greater than starting time.</p>
                           </div>
                         </div>
   
@@ -322,16 +327,22 @@
                           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label for="starting_time_second"
                               class="block mb-2 text-sm font-semibold text-gray-900">Starting Time (Second)</label>
-                            <input value="0" type="number" name="starting_time_second"
+                              <input value="0" type="time" [(ngModel)]="startTimeSecond"  (change) = "onChange()" name="starting_time_second" placeholder="Enter Starting Time"
                               id="starting_time_second"
-                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5">
+                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required>
                           </div>
                           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label for="ending_time_second" class="block mb-2 text-sm font-semibold text-gray-900">Ending
                               Time (Second)</label>
-                            <input value="0" type="number" name="ending_time_second"
+                              <input value="0" type="time" [(ngModel)]="endTimeSecond"  (change) = "onChange()" name="ending_time_second" placeholder="Enter Starting Time"
                               id="ending_time_second"
-                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5">
+                              class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required>
+                          </div>
+                          <div *ngIf="compareTimes(startTimeSecond, endTimeFirst)" class="w-full px-3 mb-6 md:mb-0">
+                            <p style="color: red;">Starting time of seconde must be greater than ending time of first. </p>
+                          </div>
+                          <div *ngIf="compareTimes(endTimeSecond, startTimeSecond)" class="w-full px-3 mb-6 md:mb-0">
+                            <p style="color: red;">Ending time must be greater than starting time.</p>
                           </div>
                         </div>
                       </div>
@@ -377,6 +388,13 @@
                     </ng-template>
                   </div>
 
+                  <div *ngIf ="slotFirstRelatedString" style="color: red;">
+                    {{slotFirstRelatedString}}
+                  </div>
+                  <div *ngIf ="slotSecondeRelatedString" style="color: red;">
+                    {{slotSecondeRelatedString}}
+                  </div>
+
                   <!-- <div *ngFor="let slot of timeSlots">
                       {{ slot.day | date: 'EEEE' }}: {{ slot.startTime }} - {{ slot.endTime }}
                     </div> -->
@@ -384,14 +402,134 @@
               </div>
             </div>
             <div>
-              <button type="submit"
+              <button type="submit" [disabled]="isButtonDisabled" [ngStyle]="{'opacity': isButtonDisabled ? '0.5' : '1', 'cursor': isButtonDisabled ? 'not-allowed' : 'pointer'}"
                 class="w-full my-3 text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Save
                 Changes</button>
             </div>
           </form>
         </div>
       </div>
-      <div class="w-full overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full overflow-hidden rounded-lg shadow">
+        <div
+          class="bg-blue-300 rounded-lg  max-h overflow-hidden scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+          
+            <div class="w-full backdrop-blur-lg bg-white/50 md:mt-0 sm:max-w-6xl xl:p-0 rounded-lg shadow">
+              <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-none tracking-normal text-gray-950 md:text-2xl">
+                  Your Weekly Slots
+                </h1>
+                <div class="mt-4 space-y-4 md:space-y-6" action="#">
+                  <div class="w-full overflow-hidden rounded-lg shadow">
+                    <div class="w-full overflow-x-auto">
+                      <table class="w-full whitespace-no-wrap">
+                        <thead>
+                          <tr class="text-lg text-gray-900 font-bold tracking-wide text-left  uppercase border-b bg-white ">
+                            <th class="px-4 py-3">Days</th>
+                            <th class="px-4 py-3">Break</th>
+                            <th class="px-4 py-3">Starting Time</th>
+                            <th class="px-4 py-3">Ending Time</th>
+                          </tr>
+                        </thead>
+            
+                        <tbody *ngFor="let i of days; let index = index" class="bg-white divide-y dark:divide-gray-700 ">
+                          
+                          <div *ngIf = "doctor.Starting_time_first[index] !== ''; then Showblock"> </div>
+                          
+                          <ng-template #Showblock>
+                            <tr class="text-gray-700 dark:text-gray-400">
+                              <td class="px-4 py-3">
+                                <div class="flex items-center text-sm">
+                                  <div>
+                                    <p class="font-semibold text-gray-700 ">
+                                      {{ days[index] }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="px-4 py-3 text-gray-700 text-sm">
+                                <div class="flex items-center text-sm">
+                                  <div *ngIf = "doctor.Starting_time_second[index] !== '';">
+                                    <p class="font-semibold text-gray-700 ">
+                                      Yes
+                                    </p>
+                                  </div>
+                                  <div *ngIf = "doctor.Starting_time_second[index] === '';">
+                                    <p class="font-semibold text-gray-700 ">
+                                      No  
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+            
+                              <div *ngIf = "doctor.Starting_time_second[index] !== ''; then thenBlock else elseBlock"> </div>
+                              
+                              <ng-template #thenBlock>
+                                <td class="px-4 py-3 text-gray-700 text-xs">
+                                  <div class="flex items-center text-sm">
+                                    <div>
+                                      <p class="font-semibold text-gray-700 ">
+                                        First  : {{ doctor.Starting_time_first[index] }}
+                                      </p>
+                                      <p class="font-semibold text-gray-700 ">
+                                        Second : {{ doctor.Starting_time_second[index] }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td class="px-4 py-3 text-gray-700 text-sm">
+                                  <div class="flex items-center text-sm">
+                                    <div>
+                                      <p class="font-semibold text-gray-700 ">
+                                        First  : {{ doctor.Ending_time_first[index] }}
+                                      </p>
+                                      <p class="font-semibold text-gray-700 ">
+                                        Second : {{ doctor.Ending_time_second[index] }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                              </ng-template>
+                              <ng-template #elseBlock>
+                                <td class="px-4 py-3 text-gray-700 text-xs">
+                                  <div class="flex items-center text-sm">
+                                    <div>
+                                      <p class="font-semibold text-gray-700 ">
+                                        First : {{ doctor.Starting_time_first[index] }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td class="px-4 py-3 text-gray-700 text-sm">
+                                  <div class="flex items-center text-sm">
+                                    <div>
+                                      <p class="font-semibold text-gray-700 ">
+                                        First : {{ doctor.Ending_time_first[index] }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                              </ng-template>
+                            </tr>
+                          </ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div
+                      class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t  bg-gray-50 sm:grid-cols-9 ">
+                      <span class="flex items-center col-span-3">
+                        Showing days for which slot is booked
+                      </span>
+                      <span class="col-span-2"></span>
+                    </div>
+                  </div>
+                  
+
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">
             <thead>
@@ -488,7 +626,7 @@
           </span>
           <span class="col-span-2"></span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

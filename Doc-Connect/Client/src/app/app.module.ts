@@ -16,6 +16,16 @@ import { DatePipe } from '@angular/common';
 import { EditProfileComponent } from './Doctor/dashboard-doctor/edit-profile/edit-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimationComponent } from './animation/animation.component';
+import { HomePatientComponent } from './Patient/home-patient/home-patient.component';
+import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-card.component';
+import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
+import { LogoutComponent } from './logout/logout.component';
+import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-dashboard.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { PaymentStatusDialogComponent } from './Patient/home-patient/book-appointment/payment-status-dialog/payment-status-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -29,14 +39,23 @@ import { AnimationComponent } from './animation/animation.component';
     HomeDoctorComponent,
     DashboardDoctorComponent,
     EditProfileComponent,
-    AnimationComponent
+    AnimationComponent,
+    HomePatientComponent,
+    DoctorCardComponent,
+    BookAppointmentComponent,
+    LogoutComponent,
+    PatientDashboardComponent,
+    NotFoundComponent,
+    PaymentStatusDialogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxMaterialTimepickerModule,
+    MatDialogModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

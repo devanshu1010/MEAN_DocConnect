@@ -1,4 +1,13 @@
-export interface Doctor{
+import { Time } from "@angular/common";
+
+export interface Slot {
+    Time: String;
+    Booked: boolean;
+    Canceled: boolean;
+    AppointmentId?: string; // Assuming Appointment_id is optional
+}
+
+export interface Doctor{    
     Email:string;
     Name:string;
     Password:string;
@@ -17,12 +26,12 @@ export interface Doctor{
     Average_rating:number;
     Total_rating:number;
     Total_review:number;
-    Starting_time_first:number[];
-    Ending_time_first:number[];
-    Starting_time_second:number[];
-    Ending_time_second:number[];
+    Starting_time_first:String[];
+    Ending_time_first:String[];
+    Starting_time_second:String[];
+    Ending_time_second:String[];
     Slot_length:number;
-    Slots:number[][];
+    Slots: Slot[][];
     Appointment_id:any[];
     Review_id:any[];
 }

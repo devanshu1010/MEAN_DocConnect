@@ -1,0 +1,45 @@
+/* not-found.component.css */
+/* Add this to your global styles or component styles */
+ @keyframes zoomIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+#broken-glass-video{
+    position: absolute;
+    object-fit: cover;
+    max-width: 1536px;
+}
+
+.zoom-in-text {
+    animation: zoomIn 10.8s forwards infinite; 
+} 
+
+.container {
+    position: fixed; 
+    left: 0;        
+}
+
+.overlay {
+    position: absolute;
+    top: 45%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+} /**/

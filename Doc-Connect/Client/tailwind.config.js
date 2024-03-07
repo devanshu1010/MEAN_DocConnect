@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'custom-gradient': 'linear-gradient(to right, #68e8f7be, #364dffea)',
+        'custom-gradient': 'linear-gradient(to right, #68e8f7, #364dff)',
         'custon-bgcolor' : 'linear-gradient(to right, )'
       },
       colors: {
@@ -16,5 +16,8 @@ module.exports = {
   },
   plugins: [
     require('tailwind-scrollbar'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavbarService } from 'src/app/navbar.service';
 
 @Component({
   selector: 'app-navbar-patient',
@@ -7,22 +8,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponentPatient  implements OnInit {
+  @Output() onSignInDoctorClicked: EventEmitter<any> = new EventEmitter();
 
-  public showNavbar: boolean = true;
+  public isLogin : boolean = false;
 
-  // Method to hide the navbar
-  public hideNavbar(): void {
-    this.showNavbar = false;
+  public hideNavbar: boolean = false;
+
+  signInDoctor() {
+    // Any logic specific to signing in as a doctor
+    // console.log("clicked");
+    this.onSignInDoctorClicked.emit();
   }
 
-  // Method to show the navbar
-  public Navbar(): void {
-    this.showNavbar = true;
-  }
-
-  constructor( private router: Router) { }
+  constructor( private router: Router,private navbarService: NavbarService) { }
   
   ngOnInit() {
-    this.showNavbar = true;
+
+    // this.isLogin= false;
+    this.navbarService.hideNavbar$.subscribe((hide) => {
+      this.hideNavbar = hide;
+    });
+
+    this.navbarService.isLogin$.subscribe((value) => {
+      // console.log(value);
+       this.isLogin = value;
+    });    
   }
 }

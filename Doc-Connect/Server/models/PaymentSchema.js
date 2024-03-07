@@ -2,13 +2,17 @@ const mongoose = require("mongoose");
 
 const PaymentSchema = new mongoose.Schema(
     {
+        RazrPay_id : {
+            type : String,
+            required : true
+        },
         Doctor_id : {
-            type : [mongoose.Schema.Types.ObjectId],
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Doctor",
             required : true
         },
         Patient_id : {
-            type : [mongoose.Schema.Types.ObjectId],
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Patient",
             required : true
         },
@@ -19,7 +23,7 @@ const PaymentSchema = new mongoose.Schema(
         Status : {
             type : String,
             required : true,
-            default : "Paid"
+            default : "Pending"
         }
     },
     {

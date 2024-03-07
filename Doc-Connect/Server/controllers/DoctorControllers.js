@@ -1,5 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Doctor = require("../models/DoctorSchema");
+const Patient = require('../models/PatientSchema');  // Adjust the path accordingly
+const Appointment = require('../models/AppointmentSchema');
+const mongoose = require('mongoose');
 
 //@dec Create new doctor
 //@route POST /api/doctor/auth/signup
@@ -8,16 +11,15 @@ const createDoctor = asyncHandler(async (req, res) => {
     try {
         console.log("The request body is : ", req.body);
         const { Email, Password } = req.body;
-        
+
         if (!Email || !Password) {
 
             console.log("returnig ");
             res.status(400).json({ messag: "All fields are required" });
             return;
         }
-        let doctor1 =  await Doctor.findOne({Email:Email});
-        if (!doctor1 )
-        {
+        let doctor1 = await Doctor.findOne({ Email: Email });
+        if (doctor1) {
             console.log("returnig ");
             res.status(400).json({ messag: "Email is not available." });
             return;
@@ -39,15 +41,15 @@ const createDoctor = asyncHandler(async (req, res) => {
 const Doctorlogin = asyncHandler(async (req, res) => {
     try {
         console.log("The request body is : ", req.body);
-        console.log(req);   
+        console.log(req);
         const { Email, Password } = req.body;
 
-        const doctor = await Doctor.findOne({Email:Email,Password:Password});
+        const doctor = await Doctor.findOne({ Email: Email, Password: Password });
 
         if (!doctor) {
             res.status(404);
             throw new Error("doctor not found.");
-        }else{
+        } else {
             res.status(200).json(doctor);
         }
 
@@ -64,7 +66,42 @@ const Doctorlogin = asyncHandler(async (req, res) => {
 const getDoctor = asyncHandler(async (req, res) => {
     try {
         console.log(req.params.id);
-        const doctor = await Doctor.findById(req.params.id);//.populate('Appointment_id').populate('Review_id');
+
+        const currentDate = new Date();
+        console.log('Current Date:', currentDate);
+
+        // Increase the date by one day
+        const nextDay = new Date(currentDate);
+        nextDay.setDate(currentDate.getDate() + 1);
+        console.log('Next Day:', nextDay);
+        const doctor = await Doctor.findById(req.params.id).populate({
+            path: 'Appointment_id',
+            populate: [
+                { path: 'Patient_id' },
+                { path: 'Payment_id' }
+            ],
+            options: {
+                sort: {
+                    'Date': -1  // Sort in descending order
+                },
+            }
+        });
+
+        doctor.Appointment_id.sort((a, b) => {
+            const dateA = new Date(a.Date);
+            const dateB = new Date(b.Date);
+
+            if (dateA.toDateString() === nextDay.toDateString()) {
+                return -1; // Move appointment A to the beginning
+            } else if (dateB.toDateString() === nextDay.toDateString()) {
+                return 1; // Move appointment B to the beginning
+            } else {
+                // Continue with regular sorting based on date
+                return dateB - dateA;
+            }
+        });
+
+        console.log(currentDate)
         console.log(doctor);
         if (!doctor) {
             res.status(404);
@@ -80,11 +117,24 @@ const getDoctor = asyncHandler(async (req, res) => {
 
 });
 
+//@dec Get all doctors
+//@route GET /api/doctor
+//@acsess public 
+const getDoctors = asyncHandler(async (req, res) => {
+    try {
+        const doctors = await Doctor.find();
+        res.status(200).json(doctors);
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
 //@dec update a doctor
 //@route PUT /api/doctor/:id
 //@acsess public
 const updateDoctor = asyncHandler(async (req, res) => {
-    const CurrDoctId =  req.params.id; //req.user.id;
+    const CurrDoctId = req.params.id; //req.user.id;
     console.log(CurrDoctId)
     try {
         const doctor = await Doctor.findById(CurrDoctId.trim());
@@ -93,10 +143,10 @@ const updateDoctor = asyncHandler(async (req, res) => {
         console.log(doctor)
         console.log("doctor found : ")
 
-        // if (!doctor) {
-        //     res.status(404);
-        //     throw new Error("Doctor not found.");
-        // }
+        if (!doctor) {
+            res.status(404);
+            throw new Error("Doctor not found.");
+        }
 
         const updateDoctor = await Doctor.findByIdAndUpdate(
             CurrDoctId,
@@ -133,4 +183,34 @@ const searchDcotor = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = {Doctorlogin,getDoctor,createDoctor,updateDoctor};
+const updateDoctorSlot = asyncHandler(async (req, res) => {
+    const { appointment_id, day, slotNo } = req.body;
+    const CurrDoctId = req.params.id; //req.user.id;
+    console.log(CurrDoctId)
+
+    try {
+        const doctor = await Doctor.findById(CurrDoctId.trim());
+
+        if (!doctor) {
+            return res.status(404).json({ error: 'Doctor not found' });
+        }
+
+        console.log(doctor);
+
+        delete doctor.Slots[day][slotNo]._id
+
+        doctor.Slots[day][slotNo].Booked = true;
+        doctor.Slots[day][slotNo].AppointmentId = appointment_id;
+
+        console.log(doctor);
+
+        await doctor.save();
+
+        res.status(200).json({ mes: "Done" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ mes: "Something wrong" })
+    }
+})
+
+module.exports = { Doctorlogin, getDoctor, createDoctor, updateDoctor, getDoctors, updateDoctorSlot };

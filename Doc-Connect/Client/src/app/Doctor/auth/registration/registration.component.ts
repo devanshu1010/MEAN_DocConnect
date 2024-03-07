@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Doctor } from 'src/app/models/doctor';
+import { Doctor, Slot } from 'src/app/models/doctor';
 import { DoctorAuthService } from '../doctor-auth.service';
 import { Router } from '@angular/router';
+import { NavbarService } from 'src/app/navbar.service';
+import { Time } from "@angular/common";
+
+enum Tab {
+  Profile = 'profile',
+  Email = 'email',
+  Verify = 'verify',
+  Professional = 'professional'
+}
 
 @Component({
   selector: 'app-registration-doctor',
@@ -39,8 +48,10 @@ export class RegistrationComponentDoctor implements OnInit{
   ];
 
   slotTiming = [
+    { label : '15 minute', value : 15 },
     { label : '30 minute', value : 30 },
-    { label : '60 minute', value : 60 }
+    { label : '45 minute', value : 45 },
+    { label : '60 minute', value : 60 },
   ]
 
   email:string = '';
@@ -59,16 +70,74 @@ export class RegistrationComponentDoctor implements OnInit{
   experience:any;
   selectedSlotlen:number = 0;
   certificate:any;
+  S_time_first: String[] = ['', '', '', '', '', '', ''];
+  E_time_first: String[] = ['', '', '', '', '', '', ''];
+  S_time_second: String[] = ['', '', '', '', '', '', ''];
+  E_time_second: String[] = ['', '', '', '', '', '', ''];
+  Slots = [[], [], [], [], [], [], []];
+  activeTab: Tab = Tab.Email;
+  otp:any;
   
-  constructor (public doctorAuthServ:DoctorAuthService,private router: Router){}
+  constructor (public doctorAuthServ:DoctorAuthService,private router: Router,private navbarService: NavbarService){}
   
   doctor:Doctor | undefined;
+
+  getshow(tab: string)
+  {
+    return tab === this.activeTab ? 1 : 0;
+  }
+
+  view_profile(): void {
+    this.activeTab = Tab.Profile;
+  }
+
+  // Change active tab to Appointments
+  view_email(): void {
+    this.activeTab = Tab.Email;
+    
+    //console.log('activeTab:', this.activeTab);
+  }
+
+  view_verify(): void {
+    this.activeTab = Tab.Verify;
+    
+    //console.log('activeTab:', this.activeTab);
+  }
+
+  view_professional():void {
+    this.activeTab = Tab.Professional;
+  }
+
+  next_verify(){
+    this.view_verify();
+  }
+
+  next_profile(){
+    this.view_profile();
+  }
+
+  next_professional(){
+    this.view_professional();
+  }
+
+  back_to_profile(){
+    this.view_profile();
+  }
+
+  back_to_email(){
+    this.view_email();
+  }
+
+  back_to_verify(){
+    this.view_verify();
+  }
 
   public signUp() : void{
     if(this.password == this.conpassword )
     {
       console.log("Signed up");
       const doctorData: Doctor = {
+        // _id : '',
         Email: this.email,
         Name: this.name,
         Password: this.password,
@@ -87,12 +156,12 @@ export class RegistrationComponentDoctor implements OnInit{
         Average_rating: 0,
         Total_rating: 0,
         Total_review: 0,
-        Starting_time_first: [0, 0, 0, 0, 0, 0, 0],
-        Ending_time_first: [0, 0, 0, 0, 0, 0, 0],
-        Starting_time_second: [0, 0, 0, 0, 0, 0, 0],
-        Ending_time_second: [0, 0, 0, 0, 0, 0, 0],
-        Slot_length: this.selectedSlotlen,
-        Slots: [[]],
+        Starting_time_first: this.S_time_first,
+        Ending_time_first: this.E_time_first,
+        Starting_time_second: this.S_time_second,
+        Ending_time_second: this.E_time_second,
+        Slot_length : this.selectedSlotlen,
+        Slots: this.Slots,
         Appointment_id:[],
         Review_id: []
       };
@@ -104,7 +173,7 @@ export class RegistrationComponentDoctor implements OnInit{
       console.log("patient : ");
       console.log(this.doctor);
       
-      this.router.navigate(['/signinpatient']);
+      this.router.navigate(['/signinDoctor']);
     }
     else{
       console.log("Something Wrong.");
@@ -116,5 +185,6 @@ export class RegistrationComponentDoctor implements OnInit{
     this.selectedCategory = '0';
     this.selectedSpeciality = '0';
     this.selectedSlotlen = 0;
+    this.navbarService.setHideNavbar(true);
   }
 }

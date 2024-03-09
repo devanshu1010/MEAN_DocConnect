@@ -12,6 +12,8 @@ import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-c
 import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
 import { LogoutComponent } from './logout/logout.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-consulting/doctor-consulting.component';
+import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'homepatient',pathMatch:'full'},
@@ -21,6 +23,8 @@ const routes: Routes = [
   {path:'registerPatient',component:RegistrationComponentPatient},
   {path:'dashboardPatient',component:PatientDashboardComponent},
   {path:'dashboardDoctor',component:DashboardDoctorComponent},
+  {path:'DoctorConsulting',component:DoctorConsultingComponent},
+  {path:'PatientConsulting',component:PatientConsultingComponent},
   {path:'homedoctor',component:HomeDoctorComponent},
   {path:'homepatient',component:HomePatientComponent},
   {path:'doctor-details/:id', component: DoctorCardComponent },

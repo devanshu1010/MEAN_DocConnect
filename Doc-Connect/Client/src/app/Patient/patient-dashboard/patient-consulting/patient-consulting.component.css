@@ -1,0 +1,4 @@
+#maindiv {
+    height: calc(100vh - 3.5rem); /* Subtract navbar height */
+    width: 100%;
+}

@@ -46,12 +46,36 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         const { appointmentId } = req.body;
         
         const updateAppointment = await Appointment.findById(appointmentId);
+        //console.log(updateAppointment);
 
-        updateAppointment.Status = "Cancled"
+        //res.status(200).json({ appointment : updateAppointment });
+        updateAppointment.Status = "Canceled"
         await updateAppointment.save();
 
-    } catch(err) {
+        const day = updateAppointment.Day;
+        //console.log(day);
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        const index = days.indexOf(day);
 
+        const doctor = await Doctor.findById(updateAppointment.Doctor_id);
+
+        const slotIndex = doctor.Slots[index].findIndex(obj => obj.Time === updateAppointment.Starting_time);
+
+        console.log(slotIndex);
+
+        if(doctor.Slots[index][slotIndex].Booked === true)
+            doctor.Slots[index][slotIndex].Booked = false
+
+        doctor.Slots[index][slotIndex].Canceled = true
+        doctor.Slots[index][slotIndex].AppointmentId = null
+
+        doctor.save();
+
+        //console.log(index);
+        res.status(200).json({ appointment : updateAppointment, index : index, slotIndex});
+
+    } catch(err) {
+        res.status(500).json({mes : "Internal server error."})
     }
 });
 

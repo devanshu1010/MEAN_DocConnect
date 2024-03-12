@@ -43,12 +43,18 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
       {
         urls: [
           'stun:stun1.l.google.com:19302',
-          // 'stun:stun2.l.google.com:19302',
+          'stun:stun2.l.google.com:19302', // Optional additional STUN server
         ],
       },
+      {
+        urls: ['turn:numb.viagenie.ca'],
+        credential: 'muazkh',
+        username: 'webrtc@live.com',
+      },
     ],
-    iceCandidatePoolSize: 2,
-  }
+    iceCandidatePoolSize: 5,
+  };
+  
 
   constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ) { }
 
@@ -132,6 +138,10 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
 
     // Create an offer and add the local stream to the peer connection
     try {
+      if (!this.localStream) {
+        console.error("Local stream not available. Please start webcam first.");
+        return;
+      }
       console.log("InitiaeCall called.");
       const callDocRef = await this.firebaseService.createCallDocument();
       console.log("createCallDocument completed.");

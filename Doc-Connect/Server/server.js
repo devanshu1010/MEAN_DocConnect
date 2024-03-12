@@ -27,6 +27,8 @@ app.use('/api/doctor',require('./routes/DoctorRoutes'));
 
 app.use('/api/patient/appointment', require('./routes/PatientAppointmentRoutes'));
 
+app.use('/api/doctor/appointment', require('./routes/DoctorAppointmentRoutes'));
+
 app.use('/api/patient/payment', require('./routes/PaymetRoutes'));
 
 var instance = new Razorpay({

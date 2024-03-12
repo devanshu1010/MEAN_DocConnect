@@ -6,7 +6,6 @@ const Doctor = require("../models/DoctorSchema");
 //@dec Book Appointment
 //@route POST api/patient/appoitment/bookAppointment
 //@access public
-
 const bookAppointment = asyncHandler(async (req, res) => {
     try {
         console.log(req.body);
@@ -39,4 +38,11 @@ const bookAppointment = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { bookAppointment };
+//@dec Cancle Appointment
+//@route POST api/doctor/appoitment/cancleAppointment
+//@access private
+const cancleAppointment = asyncHandler(async(req, res) => {
+    
+});
+
+module.exports = { bookAppointment, cancleAppointment };

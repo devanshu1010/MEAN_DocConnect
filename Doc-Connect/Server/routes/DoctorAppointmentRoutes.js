@@ -4,4 +4,4 @@ const { cancleAppointment } = require('../controllers/AppointmentControllers')
 
 router.route("/cancleAppointment").post(cancleAppointment);
 
-module.exports = router
+module.exports = router;

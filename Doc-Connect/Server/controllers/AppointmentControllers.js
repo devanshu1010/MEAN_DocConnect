@@ -8,7 +8,7 @@ const Doctor = require("../models/DoctorSchema");
 //@access public
 const bookAppointment = asyncHandler(async (req, res) => {
     try {
-        console.log(req.body);
+        //console.log(req.body);
 
         const appointment = await Appointment.create(req.body);
         console.log('saved');
@@ -42,7 +42,17 @@ const bookAppointment = asyncHandler(async (req, res) => {
 //@route POST api/doctor/appoitment/cancleAppointment
 //@access private
 const cancleAppointment = asyncHandler(async(req, res) => {
-    
+    try {
+        const { appointmentId } = req.body;
+        
+        const updateAppointment = await Appointment.findById(appointmentId);
+
+        updateAppointment.Status = "Cancled"
+        await updateAppointment.save();
+
+    } catch(err) {
+
+    }
 });
 
 module.exports = { bookAppointment, cancleAppointment };

@@ -5,4 +5,5 @@ export interface Appointment {
     Starting_time:any;
     Day:any;
     Date:any;
+    Status:string;
 }

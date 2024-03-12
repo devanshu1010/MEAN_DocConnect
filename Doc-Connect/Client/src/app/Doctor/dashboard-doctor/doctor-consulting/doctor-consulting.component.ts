@@ -111,9 +111,17 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   async startWebcam()
   {
     console.log("in startWebcame");
-    this.localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    this.localStream = await navigator.mediaDevices.getUserMedia({ 
+      video: true, 
+      audio: { 
+        autoGainControl: true, 
+        noiseSuppression: true, 
+        echoCancellation: true 
+      } 
+    });    
     this.isLocal = true;
     
+    this.localStream.getAudioTracks()[0].enabled = false;
     console.log("in startWebcame1");
     // Push tracks from local stream to peer connection
     this.localStream.getTracks().forEach((track) => {

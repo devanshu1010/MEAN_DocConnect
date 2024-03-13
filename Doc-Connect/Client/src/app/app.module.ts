@@ -22,10 +22,13 @@ import { BookAppointmentComponent } from './Patient/home-patient/book-appointmen
 import { LogoutComponent } from './logout/logout.component';
 import { PatientDashboardComponent } from './Patient/patient-dashboard/patient-dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { PaymentStatusDialogComponent } from './Patient/home-patient/book-appointment/payment-status-dialog/payment-status-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AngularFireModule } from '@angular/fire/compat'
+import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-consulting/doctor-consulting.component';
+import { firebaseConfig } from './Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
+import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PatientDashboardComponent,
     NotFoundComponent,
     PaymentStatusDialogComponent,
+    DoctorConsultingComponent,
+    PatientConsultingComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +61,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserAnimationsModule,
     NgxMaterialTimepickerModule,
     MatDialogModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

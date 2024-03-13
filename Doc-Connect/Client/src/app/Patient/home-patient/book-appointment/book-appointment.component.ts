@@ -233,7 +233,8 @@ export class BookAppointmentComponent implements OnInit {
             Payment_id: paymentResponse.paymentId,
             Starting_time: this.timeSlots[this.selectedSlot].Time,
             Day: this.datepickerValue.slice(0, 3),
-            Date: this.datepickerValue
+            Date: this.datepickerValue,
+            Status : "Approved"
           }
     
           //This will also update slot to booked in Docto's Database
@@ -272,10 +273,6 @@ export class BookAppointmentComponent implements OnInit {
 
         }
       });
-
-      
-
-
     } catch (error) {
       console.error('Error getting doctor:', error);
   

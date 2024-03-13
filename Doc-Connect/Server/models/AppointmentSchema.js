@@ -28,6 +28,11 @@ const AppointmentSchema = new mongoose.Schema(
         Date : {
             type : Date,
             required : true
+        },
+        Status : {
+            type : String,
+            required : true,
+            default : "Approved"
         }
     },
     {

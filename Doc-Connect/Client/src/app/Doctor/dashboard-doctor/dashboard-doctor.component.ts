@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { DoctorDashboardService } from './doctor-dashboard.service';
 import { DoctorService } from '../doctor.service';
 import { Doctor, Slot } from 'src/app/models/doctor';
@@ -100,6 +100,28 @@ export class DashboardDoctorComponent implements OnInit {
     return endDateTime <= startDateTime;
   }
 
+  async cancleAppointmet(appointmentId:any){
+    console.log("Inside cancleAppointmet");
+    var mes:any
+    return new Promise<void>((resolve, reject) => {
+      this.doctorServ.cancelAppoinment(appointmentId).subscribe(
+        data => {
+          mes = data.mes;
+
+          this.ngZone.run(() => {
+            alert(mes);
+          });
+          this.loadDoctorData();
+          resolve();
+        },
+        error => {
+          console.error(error);
+          reject(error);
+        }
+      )
+    });
+  }
+
   onChangeFee(){
     if(this.doctor.Counselling_fee < 0)
       this.isButtonDisabled = true;
@@ -133,7 +155,8 @@ export class DashboardDoctorComponent implements OnInit {
 
   constructor(
     public doctorServ: DoctorService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone:NgZone
   ) { }
   get Tab() {
     return Tab;

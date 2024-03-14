@@ -10,6 +10,7 @@ export class DoctorService {
 
   private url_getdoctor: string = "http://localhost:8082/api/doctor/";
   private url_update_doctor: string ="http://localhost:8082/api/doctor/";
+  private url_cancle_appoinment: string = "http://localhost:8082/api/doctor/appointment/cancleAppointment"
 
   constructor(private http: HttpClient) { }
 
@@ -32,6 +33,17 @@ export class DoctorService {
     const url_generated = this.url_update_doctor + doctorId;
     //console.log(this.url_update_doctor);
     return this.http.put<any>(url_generated,updatedDoctor).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error in loginPatient:', error);
+        throw error;
+      })
+    );
+  }
+
+  cancelAppoinment(appointmentId: any):Observable<any>{
+    //console.log(this.url_update_doctor);\
+    const appointmentIdObj = { appointmentId : appointmentId }
+    return this.http.put<any>(this.url_cancle_appoinment,appointmentIdObj).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in loginPatient:', error);
         throw error;

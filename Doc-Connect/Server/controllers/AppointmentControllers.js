@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const Appointment = require("../models/AppointmentSchema");
 const Patient = require("../models/PatientSchema");
 const Doctor = require("../models/DoctorSchema");
+const dotenv = require('dotenv');
+const nodemailer = require('nodemailer');
 
 //@dec Book Appointment
 //@route POST api/patient/appoitment/bookAppointment
@@ -50,7 +52,6 @@ const cancleAppointment = asyncHandler(async(req, res) => {
 
         //res.status(200).json({ appointment : updateAppointment });
         updateAppointment.Status = "Canceled"
-        await updateAppointment.save();
 
         const day = updateAppointment.Day;
         //console.log(day);
@@ -69,10 +70,39 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         doctor.Slots[index][slotIndex].Canceled = true
         doctor.Slots[index][slotIndex].AppointmentId = null
 
-        doctor.save();
+        const patient = await Patient.findById(updateAppointment.Patient_id);
+        console.log(patient.Email);
+
+        let transporter = nodemailer.createTransport({
+            service:'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            }
+        });
+
+        let mailOptions = {
+            from: `"DocConnect" <${process.env.EMAIL}>`, // sender address
+            to: patient.Email, // list of receivers
+            subject: "Cancle Appointment", // Subject line
+            text : "Cancle appointment due to some reason."
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                return
+            } else {
+                console.log("Mail send sucessfully.");
+            }
+        });
+
+        await updateAppointment.save();
+        await doctor.save();
 
         //console.log(index);
-        res.status(200).json({ appointment : updateAppointment, index : index, slotIndex});
+        res.status(200).json({ mes : "Appointment cancel successfully." });
 
     } catch(err) {
         res.status(500).json({mes : "Internal server error."})

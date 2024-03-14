@@ -321,7 +321,7 @@
         </div>
         <div class="mt-4 grid grid-cols-4 gap-2 lg:max-w-xl">
           <div *ngFor="let timeSlot of timeSlots; let index = index">
-            <button *ngIf="!timeSlots[index].Booked" (click)="onChangeSlot(index)" 
+            <button *ngIf="!timeSlots[index].Booked && !timeSlots[index].Canceled" (click)="onChangeSlot(index)" 
             [ngClass]="selectedSlot == index ? 'bg-blue-900 text-blue-100' : 'bg-blue-100 text-blue-900'"
             class="rounded-lg w-full  px-4 py-2 font-medium  active:scale-95"
             >
@@ -334,7 +334,7 @@
               {{timeSlots[index].Time}}
             </button>
             <button *ngIf="timeSlots[index].Canceled"  
-            class="rounded-lg w-full bg-gray-200 px-4 py-2 font-medium text-black active:scale-95"
+            class="rounded-lg w-full bg-red-200 px-4 py-2 font-medium text-red-700 active:scale-95"
             disabled
             >
               {{timeSlots[index].Time}}

@@ -115,7 +115,7 @@ export class DashboardDoctorComponent implements OnInit {
           resolve();
         },
         error => {
-          console.error(error);
+          console.error("error", error);
           reject(error);
         }
       )

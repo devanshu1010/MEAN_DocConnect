@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DoctorService } from '../../doctor.service';
 import { FirebaseserviceService } from './firebaseservice.service';
 import { Doctor } from 'src/app/models/doctor';
+import { Router } from '@angular/router';
 
 interface CallData {
   offer: any; // Adjust the type according to the actual type of offer data
@@ -27,6 +28,9 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   localStream!: MediaStream; // Store the local media stream
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
+
+  isAudioMuted: boolean = false;
+  isVideoStopped: boolean = false;
 
   app:any;
   analytics:any;
@@ -56,7 +60,7 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   };
   
 
-  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ) { }
+  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -83,6 +87,29 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
     this.peerConnection.close();
     if (this.localStream) {
       this.localStream.getTracks().forEach((track) => track.stop());
+    }
+    this.router.navigate(['/dashboardDoctor']);
+  }
+
+  // Function to mute audio
+  toggleAudio() {
+    if (this.localStream) {
+      const audioTrack = this.localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        this.isAudioMuted = audioTrack.enabled; // Update isAudioMuted status
+      }
+    }
+  }
+
+  // Function to toggle video stop
+  toggleVideo() {
+    if (this.localStream) {
+      const videoTrack = this.localStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status
+      }
     }
   }
 

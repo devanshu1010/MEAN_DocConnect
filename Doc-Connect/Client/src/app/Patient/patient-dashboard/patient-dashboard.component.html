@@ -45,7 +45,7 @@
                 </div>
               </div> -->
               <div class="flex flex-col items-center -mt-20">
-                  <img alt="assets/Logo/logo1.png" src="https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256&h=256" class="w-40 h-40  rounded-full">
+                  <img alt="Miss" [src]="patient.Profile_picture" class="w-40 h-40  rounded-full">
               </div>
             </div>
             <div class="text-center mt-8">
@@ -82,7 +82,7 @@
                         <li class="flex border-b py-2">
                           <span class="font-bold w-32">Email:</span>
                           <span class="text-gray-700"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                              data-cfemail="01606c606f6560736e7272416479606c716d642f626e6c">bharadraj2003@gmail.com</a></span>
+                              data-cfemail="01606c606f6560736e7272416479606c716d642f626e6c">{{patient.Email}}</a></span>
                         </li>
                         <li class="flex border-b py-2">
                           <span class="font-bold w-32">Languages:</span>

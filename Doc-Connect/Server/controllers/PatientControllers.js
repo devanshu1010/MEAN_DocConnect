@@ -1,5 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const Patient = require("../models/PatientSchema");
+const cloudinary = require('cloudinary').v2;
+const dotenv = require('dotenv');
+dotenv.config();
+//const upload = multer({ dest: 'uploads/' });
 
 //@dec Create new patient
 //@route POST /api/patient/auth/signup
@@ -16,10 +20,41 @@ const createPatient = asyncHandler(async (req, res) => {
             return;
         }
 
-        const patient = await Patient.create(req.body);
-        console.log("saved");
-        res.status(201).json(patient);
+        cloudinary.config({
+            cloud_name: process.env.CLOUD_NAME,
+            api_key: process.env.CLOUD_API_KEY,
+            api_secret: process.env.CLOUD_API_SECRET
+        });
 
+        // Upload image to Cloudinary
+        cloudinary.uploader.upload(req.body.Profile_picture, {
+            public_id: 'profileImage of ' + req.body.Name
+        }, async (error, result) => {
+
+            if (error) {
+                console.error('Error uploading image to Cloudinary:', error);
+                return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
+            }
+
+            if (!result || !result.secure_url) {
+                console.error('Invalid Cloudinary response:', result);
+                return res.status(500).json({ message: 'Invalid Cloudinary response' });
+            }
+
+            // Save user with Cloudinary URL
+            const patientData = {
+                ...req.body,
+            };
+
+            patientData.Profile_picture = result.secure_url;
+
+            console.log(patientData.Profile_picture);
+            console.log(result.secure_url);
+
+            const patient = await Patient.create(patientData);
+            console.log("Patient created successfully");
+            res.status(200).json(patient);
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });
@@ -32,15 +67,15 @@ const createPatient = asyncHandler(async (req, res) => {
 const Patientlogin = asyncHandler(async (req, res) => {
     try {
         console.log("The request body is : ", req.body);
-        console.log(req);   
+        console.log(req);
         const { Email, Password } = req.body;
 
-        const patient = await Patient.findOne({Email:Email,Password:Password});
+        const patient = await Patient.findOne({ Email: Email, Password: Password });
 
         if (!patient) {
             res.status(404);
             throw new Error("patient not found.");
-        }else{
+        } else {
             res.status(200).json(patient);
         }
 
@@ -94,7 +129,7 @@ const getPatient = asyncHandler(async (req, res) => {
         });
 
         console.log(currentDate)
-        
+
         //const patient = await Patient.findById(req.params.id);//.populate('Appointment_id').populate('Review_id');
         console.log(patient);
         if (!patient) {
@@ -112,4 +147,4 @@ const getPatient = asyncHandler(async (req, res) => {
 
 });
 
-module.exports = {createPatient,getPatient,Patientlogin};
+module.exports = { createPatient, getPatient, Patientlogin };

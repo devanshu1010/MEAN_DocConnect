@@ -11,7 +11,7 @@
             <!-- Product image -->
             <div class="lg:row-end-1 lg:col-span-5">
                 <div class="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256"
+                    <img [src] = "doctor.Profile_photo ? doctor.Profile_photo : 'https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256' "
                         alt="Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles."
                         class="object-center object-cover">
                 </div>

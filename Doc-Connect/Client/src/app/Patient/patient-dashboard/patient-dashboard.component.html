@@ -45,7 +45,7 @@
                 </div>
               </div> -->
               <div class="flex flex-col items-center -mt-20">
-                  <img alt="Miss" [src]="patient.Profile_picture" class="w-40 h-40  rounded-full">
+                  <img alt="Miss" [src]="patient.Profile_picture? patient.Profile_picture : '../../../assets/profile.jpeg'" class="w-40 h-40  rounded-full">
               </div>
             </div>
             <div class="text-center mt-8">
@@ -116,7 +116,7 @@
           <table class="w-full whitespace-no-wrap">
             <thead>
               <tr class="text-lg text-gray-900 font-bold tracking-wide text-left  uppercase border-b bg-white ">
-                <th class="px-4 py-3">Patient</th>
+                <th class="px-4 py-3">Doctor</th>
                 <th class="px-4 py-3">Date</th>
                 <th class="px-4 py-3">Time</th>
                 <th class="px-4 py-3">Amount</th>
@@ -133,7 +133,7 @@
                     <!-- Avatar with inset shadow -->
                     <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                       <img class="object-cover w-full h-full rounded-full"
-                        src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" alt=""
+                        [src] ="allAppointments[index].Doctor_id.Profile_photo ? allAppointments[index].Doctor_id.Profile_photo : '../../../assets/profile.jpeg' " alt=""
                         loading="lazy" />
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>

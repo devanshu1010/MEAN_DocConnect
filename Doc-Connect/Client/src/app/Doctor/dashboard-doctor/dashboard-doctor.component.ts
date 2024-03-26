@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { DoctorDashboardService } from './doctor-dashboard.service';
 import { DoctorService } from '../doctor.service';
 import { Doctor, Slot } from 'src/app/models/doctor';
@@ -100,6 +100,28 @@ export class DashboardDoctorComponent implements OnInit {
     return endDateTime <= startDateTime;
   }
 
+  async cancleAppointmet(appointmentId:any){
+    console.log("Inside cancleAppointmet");
+    var mes:any
+    return new Promise<void>((resolve, reject) => {
+      this.doctorServ.cancelAppoinment(appointmentId).subscribe(
+        data => {
+          mes = data.mes;
+
+          this.ngZone.run(() => {
+            alert(mes);
+          });
+          this.loadDoctorData();
+          resolve();
+        },
+        error => {
+          console.error("error", error);
+          reject(error);
+        }
+      )
+    });
+  }
+
   onChangeFee(){
     if(this.doctor.Counselling_fee < 0)
       this.isButtonDisabled = true;
@@ -133,7 +155,8 @@ export class DashboardDoctorComponent implements OnInit {
 
   constructor(
     public doctorServ: DoctorService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone:NgZone
   ) { }
   get Tab() {
     return Tab;
@@ -384,7 +407,7 @@ export class DashboardDoctorComponent implements OnInit {
 
     if (slotFirstOption.floorEndTime != slotFirstOption.ceilEndTime) {
       if (slotFirstOption.floorEndTime == this.startTimeFirst) {
-        this.slotFirstRelatedString = `You should select ending time ${slotFirstOption.ceilEndTime} for utilize your all time`;
+        this.slotFirstRelatedString = `You should select ending time ${slotFirstOption.ceilEndTime} or utilize your all time`;
         return;
       }
       this.slotFirstRelatedString = `You should select ending time ${slotFirstOption.floorEndTime} or ${slotFirstOption.ceilEndTime} for utilize your all time`;
@@ -403,17 +426,6 @@ export class DashboardDoctorComponent implements OnInit {
         this.slotSecondeRelatedString = `You should select ending time for Second ${slotSecondOption.floorEndTime} or ${slotSecondOption.ceilEndTime} for utilize your all time`;
         return;
       }
-
-      slotSecondOption.floorSlots.forEach(element => {
-        const temp: Slot = {
-          Time : element,
-          Booked : false,
-          Canceled : false,
-          //AppointmentId : ''
-        }
-        slotTemp.push(temp);
-      });
-      console.log(slotSecondOption.floorSlots);
     }
 
     console.log(this.doctor.Counselling_fee);
@@ -438,6 +450,22 @@ export class DashboardDoctorComponent implements OnInit {
       }
       slotTemp.push(temp);
     });
+
+    if(this.startTimeSecond !== '')
+    {
+      const slotSecondOption = this.provideslotFirstOption(this.startTimeSecond, this.endTimeSecond, slotLength);
+
+      slotSecondOption.floorSlots.forEach(element => {
+        const temp: Slot = {
+          Time : element,
+          Booked : false,
+          Canceled : false,
+          //AppointmentId : ''
+        }
+        slotTemp.push(temp);
+      });
+      console.log(slotSecondOption.floorSlots);
+    }
 
     this.doctor.Slots[this.selectedDay] = slotTemp;
 

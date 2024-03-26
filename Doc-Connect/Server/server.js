@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 connectDB();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 //console.log("hello");
 const corsOptions = {
     origin: 'http://localhost:4200', // Replace with your Angular app's URL

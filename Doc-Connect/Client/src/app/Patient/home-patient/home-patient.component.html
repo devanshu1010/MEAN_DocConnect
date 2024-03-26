@@ -31,7 +31,7 @@
             class="mb-2 h-24 w-24 overflow-hidden rounded-full bg-gray-200 shadow-lg md:mb-4 md:h-32 md:w-32"
           >
             <img
-              src="https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256"
+              [src] ="doctor.Profile_photo ? doctor.Profile_photo : 'https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256' "
               loading="lazy"
               alt="Photo by Radu Florin"
               class="h-full w-full object-cover object-center"

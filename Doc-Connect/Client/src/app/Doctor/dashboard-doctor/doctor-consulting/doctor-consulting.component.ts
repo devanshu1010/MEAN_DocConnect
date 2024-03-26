@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DoctorService } from '../../doctor.service';
 import { FirebaseserviceService } from './firebaseservice.service';
 import { Doctor } from 'src/app/models/doctor';
+import { Router } from '@angular/router';
 
 interface CallData {
   offer: any; // Adjust the type according to the actual type of offer data
@@ -28,6 +29,9 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
 
+  isAudioMuted: boolean = false;
+  isVideoStopped: boolean = false;
+
   app:any;
   analytics:any;
 
@@ -43,14 +47,20 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
       {
         urls: [
           'stun:stun1.l.google.com:19302',
-          // 'stun:stun2.l.google.com:19302',
+          'stun:stun2.l.google.com:19302', // Optional additional STUN server
         ],
       },
+      {
+        urls: ['turn:numb.viagenie.ca'],
+        credential: 'muazkh',
+        username: 'webrtc@live.com',
+      },
     ],
-    iceCandidatePoolSize: 2,
-  }
+    iceCandidatePoolSize: 5,
+  };
+  
 
-  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ) { }
+  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -77,6 +87,29 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
     this.peerConnection.close();
     if (this.localStream) {
       this.localStream.getTracks().forEach((track) => track.stop());
+    }
+    this.router.navigate(['/dashboardDoctor']);
+  }
+
+  // Function to mute audio
+  toggleAudio() {
+    if (this.localStream) {
+      const audioTrack = this.localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        this.isAudioMuted = audioTrack.enabled; // Update isAudioMuted status
+      }
+    }
+  }
+
+  // Function to toggle video stop
+  toggleVideo() {
+    if (this.localStream) {
+      const videoTrack = this.localStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status
+      }
     }
   }
 
@@ -105,9 +138,17 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   async startWebcam()
   {
     console.log("in startWebcame");
-    this.localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    this.localStream = await navigator.mediaDevices.getUserMedia({ 
+      video: true, 
+      audio: { 
+        autoGainControl: true, 
+        noiseSuppression: true, 
+        echoCancellation: true 
+      } 
+    });    
     this.isLocal = true;
     
+    this.localStream.getAudioTracks()[0].enabled = false;
     console.log("in startWebcame1");
     // Push tracks from local stream to peer connection
     this.localStream.getTracks().forEach((track) => {
@@ -132,6 +173,10 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
 
     // Create an offer and add the local stream to the peer connection
     try {
+      if (!this.localStream) {
+        console.error("Local stream not available. Please start webcam first.");
+        return;
+      }
       console.log("InitiaeCall called.");
       const callDocRef = await this.firebaseService.createCallDocument();
       console.log("createCallDocument completed.");

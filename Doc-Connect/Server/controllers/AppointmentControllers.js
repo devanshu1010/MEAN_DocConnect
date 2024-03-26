@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const Appointment = require("../models/AppointmentSchema");
 const Patient = require("../models/PatientSchema");
 const Doctor = require("../models/DoctorSchema");
+const dotenv = require('dotenv');
+const nodemailer = require('nodemailer');
 
 //@dec Book Appointment
 //@route POST api/patient/appoitment/bookAppointment
@@ -50,7 +52,6 @@ const cancleAppointment = asyncHandler(async(req, res) => {
 
         //res.status(200).json({ appointment : updateAppointment });
         updateAppointment.Status = "Canceled"
-        await updateAppointment.save();
 
         const day = updateAppointment.Day;
         //console.log(day);
@@ -69,10 +70,63 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         doctor.Slots[index][slotIndex].Canceled = true
         doctor.Slots[index][slotIndex].AppointmentId = null
 
-        doctor.save();
+        const patient = await Patient.findById(updateAppointment.Patient_id);
+        console.log(patient.Email);
+
+        let transporter = nodemailer.createTransport({
+            service:'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            }
+        });
+
+        let mailOptions = {
+            from: `"DocConnect" <${process.env.EMAIL}>`, // sender address
+            to: patient.Email, // list of receivers
+            subject: "Cancle Appointment", // Subject line
+            html: `
+                    <html>
+                    <head>
+                        <title>Cancel Appointment</title>
+                        <!-- Include Tailwind CSS from CDN -->
+                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                    </head>
+                    <body class="bg-gray-400">
+                        <div class="container mx-auto py-8">
+                            <!-- Logo -->
+                            <div class="text-center mb-8">
+                                <img src="https://example.com/path/to/your/logo.png" alt="Company Logo" class="w-32 h-32 mx-auto mix-blend-color-burn">
+                            </div>
+                            <!-- Email Content -->
+                            <h1 class="text-3xl text-center font-bold mb-4">Cancel Appointment</h1>
+                            <p class="mb-4">Dear ${patient.Name},</p>
+                            <p class="mb-2">We regret to inform you that your appointment on ${updateAppointment.Date} has been canceled by Dr. ${doctor.Name}.</p>
+                            <p class="mb-6">We apologize for any inconvenience caused. We will refund you as soon as possible.</p>
+                            <p class="mb-">Sincerely,</p>
+                            <p class="mb-2">DocConnect Team</p>
+                        </div>
+                    </body>
+                    </html>
+            
+                `
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                return
+            } else {
+                console.log("Mail send sucessfully.");
+            }
+        });
+
+        await updateAppointment.save();
+        await doctor.save();
 
         //console.log(index);
-        res.status(200).json({ appointment : updateAppointment, index : index, slotIndex});
+        res.status(200).json({ mes : "Appointment cancel successfully." });
 
     } catch(err) {
         res.status(500).json({mes : "Internal server error."})

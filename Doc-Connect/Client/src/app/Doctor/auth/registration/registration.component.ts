@@ -61,7 +61,7 @@ export class RegistrationComponentDoctor implements OnInit{
   dob:any;
   age:any;
   selectedGender:string = '';
-  profilepic:any;
+  profilepic:any = '../../../../assets/profile.jpeg';
   phnumber:any;
   bio:any;
   about:any;
@@ -81,6 +81,17 @@ export class RegistrationComponentDoctor implements OnInit{
   constructor (public doctorAuthServ:DoctorAuthService,private router: Router,private navbarService: NavbarService){}
   
   doctor:Doctor | undefined;
+
+  async loadFile(event: any) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profilepic = reader.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 
   getshow(tab: string)
   {

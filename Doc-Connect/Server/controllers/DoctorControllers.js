@@ -3,6 +3,9 @@ const Doctor = require("../models/DoctorSchema");
 const Patient = require('../models/PatientSchema');  // Adjust the path accordingly
 const Appointment = require('../models/AppointmentSchema');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
+const dotenv = require('dotenv');
+dotenv.config();
 
 //@dec Create new doctor
 //@route POST /api/doctor/auth/signup
@@ -13,11 +16,11 @@ const createDoctor = asyncHandler(async (req, res) => {
         const { Email, Password } = req.body;
 
         if (!Email || !Password) {
-
             console.log("returnig ");
             res.status(400).json({ messag: "All fields are required" });
             return;
         }
+
         let doctor1 = await Doctor.findOne({ Email: Email });
         if (doctor1) {
             console.log("returnig ");
@@ -25,9 +28,40 @@ const createDoctor = asyncHandler(async (req, res) => {
             return;
         }
 
-        const doctor = await Doctor.create(req.body);
-        console.log("saved");
-        res.status(201).json(doctor);
+        cloudinary.config({
+            cloud_name: process.env.CLOUD_NAME,
+            api_key: process.env.CLOUD_API_KEY,
+            api_secret: process.env.CLOUD_API_SECRET
+        });
+
+        cloudinary.uploader.upload(req.body.Profile_photo, {
+            public_id: 'profileImage of ' + req.body.Name
+        }, async (error, result) => {
+
+            if (error) {
+                console.error('Error uploading image to Cloudinary:', error);
+                return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
+            }
+
+            if (!result || !result.secure_url) {
+                console.error('Invalid Cloudinary response:', result);
+                return res.status(500).json({ message: 'Invalid Cloudinary response' });
+            }
+
+            // Save user with Cloudinary URL
+            const doctorData = {
+                ...req.body,
+            };
+
+            doctorData.Profile_photo = result.secure_url;
+
+            console.log(doctorData.Profile_photo);
+            console.log(result.secure_url);
+
+            const doctor = await Doctor.create(doctorData);
+            console.log("saved");
+            res.status(201).json(doctor);
+        });
 
     } catch (error) {
         console.log(error);

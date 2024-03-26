@@ -3,6 +3,7 @@ import { Patient } from 'src/app/models/patient';
 import { PatientAuthService } from '../patientAuth.service';
 import { Router } from '@angular/router';
 import { NavbarService } from 'src/app/navbar.service';
+//import profileImg from '../../../../assets/profile.jpeg'
 
 enum Tab {
   Profile = 'profile',
@@ -23,11 +24,11 @@ export class RegistrationComponentPatient implements OnInit{
   fullname:any;
   dob:any;
   age:any;
-  profile_picture:any;
   phone_no:any;
   selectedBloodGroup:any = 0;
   selectedGender:any = 0;
   otp:any;
+  profileImg:any = '../../../../assets/profile.jpeg';
 
   patient:Patient | undefined;
 
@@ -54,6 +55,17 @@ export class RegistrationComponentPatient implements OnInit{
   activeTab: Tab = Tab.Email;
   
   constructor (public patientServ:PatientAuthService,private navbarService: NavbarService,private router: Router){}
+
+  async loadFile(event: any) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profileImg = reader.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 
   ngOnInit(): void{
     this.selectedGender = '0';
@@ -116,7 +128,7 @@ export class RegistrationComponentPatient implements OnInit{
         Name: this.fullname,
         DoB: this.dob,
         Age: this.age,
-        Profile_picture: this.profile_picture,
+        Profile_picture: this.profileImg,
         Gender: this.selectedGender,
         Phone_no: this.phone_no,
         BloodGroup: this.selectedBloodGroup,

@@ -407,7 +407,7 @@ export class DashboardDoctorComponent implements OnInit {
 
     if (slotFirstOption.floorEndTime != slotFirstOption.ceilEndTime) {
       if (slotFirstOption.floorEndTime == this.startTimeFirst) {
-        this.slotFirstRelatedString = `You should select ending time ${slotFirstOption.ceilEndTime} for utilize your all time`;
+        this.slotFirstRelatedString = `You should select ending time ${slotFirstOption.ceilEndTime} or utilize your all time`;
         return;
       }
       this.slotFirstRelatedString = `You should select ending time ${slotFirstOption.floorEndTime} or ${slotFirstOption.ceilEndTime} for utilize your all time`;
@@ -426,17 +426,6 @@ export class DashboardDoctorComponent implements OnInit {
         this.slotSecondeRelatedString = `You should select ending time for Second ${slotSecondOption.floorEndTime} or ${slotSecondOption.ceilEndTime} for utilize your all time`;
         return;
       }
-
-      slotSecondOption.floorSlots.forEach(element => {
-        const temp: Slot = {
-          Time : element,
-          Booked : false,
-          Canceled : false,
-          //AppointmentId : ''
-        }
-        slotTemp.push(temp);
-      });
-      console.log(slotSecondOption.floorSlots);
     }
 
     console.log(this.doctor.Counselling_fee);
@@ -461,6 +450,22 @@ export class DashboardDoctorComponent implements OnInit {
       }
       slotTemp.push(temp);
     });
+
+    if(this.startTimeSecond !== '')
+    {
+      const slotSecondOption = this.provideslotFirstOption(this.startTimeSecond, this.endTimeSecond, slotLength);
+
+      slotSecondOption.floorSlots.forEach(element => {
+        const temp: Slot = {
+          Time : element,
+          Booked : false,
+          Canceled : false,
+          //AppointmentId : ''
+        }
+        slotTemp.push(temp);
+      });
+      console.log(slotSecondOption.floorSlots);
+    }
 
     this.doctor.Slots[this.selectedDay] = slotTemp;
 

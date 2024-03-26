@@ -85,7 +85,31 @@ const cancleAppointment = asyncHandler(async(req, res) => {
             from: `"DocConnect" <${process.env.EMAIL}>`, // sender address
             to: patient.Email, // list of receivers
             subject: "Cancle Appointment", // Subject line
-            text : "Cancle appointment due to some reason."
+            html: `
+                    <html>
+                    <head>
+                        <title>Cancel Appointment</title>
+                        <!-- Include Tailwind CSS from CDN -->
+                        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                    </head>
+                    <body class="bg-gray-400">
+                        <div class="container mx-auto py-8">
+                            <!-- Logo -->
+                            <div class="text-center mb-8">
+                                <img src="https://example.com/path/to/your/logo.png" alt="Company Logo" class="w-32 h-32 mx-auto mix-blend-color-burn">
+                            </div>
+                            <!-- Email Content -->
+                            <h1 class="text-3xl text-center font-bold mb-4">Cancel Appointment</h1>
+                            <p class="mb-4">Dear ${patient.Name},</p>
+                            <p class="mb-2">We regret to inform you that your appointment on ${updateAppointment.Date} has been canceled by Dr. ${doctor.Name}.</p>
+                            <p class="mb-6">We apologize for any inconvenience caused. We will refund you as soon as possible.</p>
+                            <p class="mb-">Sincerely,</p>
+                            <p class="mb-2">DocConnect Team</p>
+                        </div>
+                    </body>
+                    </html>
+            
+                `
         };
 
         // send mail with defined transport object

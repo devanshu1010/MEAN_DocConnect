@@ -46,26 +46,51 @@
                 <div *ngIf="getshow('verify')">
                   <button type="submit" on-click="back_to_email()"
                     class=" w-20 h-10 my-5 flex justify-center items-center text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
-                    <i class="fas fa-arrow-left fill-black" ></i>
+                    <i class="fas fa-arrow-left fill-black"></i>
                     <span> Back </span>
                   </button>
-
+      
                   <div class="flex flex-wrap -mx-3 mb-6">
-
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="otp" class="block mb-2 text-sm font-semibold text-gray-900">Enter otp</label>
-                        <input [(ngModel)]="otp" type="text" name="otp" id="otp" placeholder="123456" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" required="">
+      
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                      <label for="otp" class="block mb-2 text-sm font-semibold text-gray-900">Varify Email</label>
+                      <input [(ngModel)]="entered_otp" type="text" name="otp" id="otp" placeholder="123456"
+                        class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
+                        required="">
                     </div>
-
+      
+                    <div class="w-1/3 md:w-1/3 px-3 mb-6 md:mb-0">
+                      <label for="otp" class="block mb-2 text-sm font-semibold text-gray-900">OTP will send to your Email</label>
+                      <button type="submit" on-click="genOTP()"
+                        class="block w-full p-2.5 text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2 space-x-2 transition duration-100">
+                        <span> Click to Get OTP </span>
+                        <i class="fas fa-arrow-right fill-black"></i>
+                      </button>
+      
+                    </div>
+                    <div class="w-1/3 md:w-1/3 px-3 mb-6 md:mb-0">
+                      <label for="otp" class="block mb-2 text-sm font-semibold text-gray-900">OTP will send to your Email</label>
+                      <button type="submit" on-click="varify_email()"
+                        class="block w-full p-2.5 text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2 space-x-2 transition duration-100">
+                        <span> Click to Varify OTP </span>
+                        <i class="fas fa-arrow-right fill-black"></i>
+                      </button>
+      
+                    </div>
                   </div>
-
-                  <button type="submit" on-click="next_profile()"
+      
+                  <button type="submit" [disabled]="!varifyEmail" on-click="next_profile()"
+                    [ngStyle]="{'opacity': !varifyEmail ? '0.5' : '1', 'cursor': !varifyEmail ? 'not-allowed' : 'pointer'}"
                     class="float-right w-20 h-10 my-5 flex justify-center items-center text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-10 py-2.5 space-x-2 transition duration-100">
                     <span> Next </span>
-                    <i class="fas fa-arrow-right fill-black" ></i>
+                    <i class="fas fa-arrow-right fill-black"></i>
                   </button>
-
+      
                 </div>
+                <div *ngIf="message">
+                  <p class="text-red-700">{{message}}</p>
+                </div>
+      
 
                 <div *ngIf="getshow('profile')">
                   <button type="submit" on-click="back_to_verify()"

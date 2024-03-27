@@ -29,6 +29,7 @@ import { AngularFireModule } from '@angular/fire/compat'
 import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-consulting/doctor-consulting.component';
 import { firebaseConfig } from './Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
+import { EditPatientComponent } from './Patient/patient-dashboard/edit-patient/edit-patient.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-
     NotFoundComponent,
     PaymentStatusDialogComponent,
     DoctorConsultingComponent,
-    PatientConsultingComponent
+    PatientConsultingComponent,
+    EditPatientComponent
   ],
   imports: [
     BrowserModule,

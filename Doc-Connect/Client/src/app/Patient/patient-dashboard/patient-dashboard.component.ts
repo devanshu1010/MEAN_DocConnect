@@ -39,6 +39,8 @@ export class PatientDashboardComponent implements OnInit
   patient?:Patient|any;
   patientId?: number | any;
 
+  isEditProfileModalOpen = false;
+
   allAppointments: any;
   datePipe: any;
 
@@ -86,7 +88,15 @@ export class PatientDashboardComponent implements OnInit
     this.slots = true;
   }
 
-  loadDoctorData(): Promise<void> {
+  openEditProfilePopup() {
+    this.isEditProfileModalOpen = true;
+  }
+
+  closeModal() {
+    this.isEditProfileModalOpen = false;
+  }
+
+  loadPatientData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.patientId = '';
       this.patientId = localStorage.getItem('userId');
@@ -110,6 +120,28 @@ export class PatientDashboardComponent implements OnInit
     });
   }
 
+  updatePatient(updatedPatient: Patient): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      console.log(this.patientId);
+      // Use your DoctorService to update the doctor data
+      this.services.updatePatient(this.patientId, updatedPatient).subscribe(
+        async data => {
+          // Handle successful update, maybe show a success message
+          console.log('Patient updated successfully');
+          // Reload the doctor data after the update
+          await this.loadPatientData();
+          resolve();
+        },
+        error => {
+          console.error('Error updating doctor', error);
+          // Handle error, maybe show an error message
+          reject(error);
+        }
+      );
+    }
+    );
+  }
+
   constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
 
   async ngOnInit() : Promise<void> {
@@ -128,7 +160,7 @@ export class PatientDashboardComponent implements OnInit
         this.patientId = localStorage.getItem('userId');
         this.view_profile();
           
-        await this.loadDoctorData();
+        await this.loadPatientData();
         // this.patient = await this.services.getPatient(this.patientId).toPromise();
         // console.log(this.patient);
 

@@ -8,19 +8,22 @@
 
         <li (click)="view_profile()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Profile)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
+          <i class="fa-regular fa-user fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold mdc-text-field--with-trailing-icon px-3 py-1">Profile</a>
         </li>
         <li (click)="view_appointments()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Appointments)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Appointments</a>
+          <i class="fa-regular fa-calendar-check fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold text-lg px-3 py-1">Appointments</a>
         </li>
         <li (click)="view_slots()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Slots)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Slots</a>
+          <i class="fa-solid fa-circle-info fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold text-lg px-3 py-1">Slots</a>
         </li>
-        <li class="py-3 items-center inline-block w-full rounded-xl">
+        <!-- <li class="py-3 items-center inline-block w-full rounded-xl">
           <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
-        </li>
+        </li> -->
       </ul>
     </form>
   </div>

@@ -1,23 +1,28 @@
-<div class=" mt-14 flex flex-wrap min-vh-screen">
+<div class="py-40">
+  </div>
+<div class=" mt-14 flex bg-blue-300 flex-wrap min-vh-screen">
   <!-- <div class="fixed pl-4 mt-1 py-4 md:mb-0 bg-blue-600 mx h-screen w-full md:w-1/6  text-white  z-50 mx "> -->
-  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4  py-4 md:mb-0 bg-blue-600 h-full mx">
+  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 h-full mx rounded-3xl">
     <form>
       <ul class="w-full flex flex-col items-center">
         <li (click)="view_profile()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Profile)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
+          <i class="fa-regular fa-user fa-lg" style=" font-weight: bold;"></i>
+          <a class="bgw-full font-semibold text-lg  px-3 py-1">Profile</a>
         </li>
         <li (click)="view_appointments()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Appointments)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Appointments</a>
+          <i class="fa-regular fa-calendar-check fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold text-lg px-3 py-1">Appointments</a>
         </li>
         <li (click)="view_slots()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Slots)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Slots</a>
+          <i class="fa-solid fa-video fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold text-lg  px-3 py-1">Join Meeting</a>
         </li>
-        <li class="py-3 items-center inline-block w-full rounded-xl">
+        <!-- <li class="py-3 items-center inline-block w-full rounded-xl">
           <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
-        </li>
+        </li> -->
       </ul>
     </form>
   </div> 

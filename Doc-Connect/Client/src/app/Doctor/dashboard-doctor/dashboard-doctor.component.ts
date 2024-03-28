@@ -4,7 +4,6 @@ import { DoctorService } from '../doctor.service';
 import { Doctor, Slot } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import mongoose from 'mongoose';
 
 enum Tab {
   Profile = 'profile',
@@ -23,9 +22,14 @@ enum Tab {
       state('3', style({ transform: 'translateY(104px)' })),
       transition('* => *', animate('0.3s ease-out'))
     ]),
+    // trigger('slideA', [
+    //   state('1', style({ transform: 'translateX(+30px)' })),
+    //   state('0', style({ transform: 'translateY(0px)' })),
+    //   transition('* => *', animate('0.3s ease-out'))
+    // ])
     trigger('slideA', [
-      state('1', style({ transform: 'translateX(+30px)' })),
-      state('0', style({ transform: 'translateY(0px)' })),
+      state('1', style({ transform: 'translateX(+30px)', color: '#68e8f7' })), 
+      state('0', style({ transform: 'translateY(0px)', color: '#ffffff' })),
       transition('* => *', animate('0.3s ease-out'))
     ])
   ]

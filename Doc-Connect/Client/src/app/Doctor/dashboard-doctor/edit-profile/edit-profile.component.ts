@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Doctor } from 'src/app/models/doctor';
 
 @Component({
@@ -6,7 +6,7 @@ import { Doctor } from 'src/app/models/doctor';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit {
   @Input() doctor: Doctor | undefined;
   @Output() saveChanges = new EventEmitter<Doctor>();
   @Output() closeModal = new EventEmitter<void>();
@@ -56,5 +56,21 @@ export class EditProfileComponent {
   selectedCategory:string = '';
   selectedSpeciality:string = '';
   selectedSlotlen:number = 0;
+
+  async loadFile(event: any) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+      // const reader = new FileReader();
+      // reader.onload = () => {
+      //   this.doctor?.Profile_photo = reader.result;
+      // };
+      // reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  async ngOnInit(): Promise<void> {
+
+    console.log(this.doctor);
+  }
 
 }

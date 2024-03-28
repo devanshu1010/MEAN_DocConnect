@@ -2,7 +2,7 @@
     <div class="mt-4" style="margin-top: 1rem; margin-bottom: 1.5rem;">
         
         <div class="bg-blue-300 p-4 rounded-lg my-6 max-h-screen overflow-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
-            <form *ngIf="doctor" (submit)="submitForm()">
+            <form *ngIf="patient" (submit)="submitForm()">
                 <!-- Add similar fields for other properties in the Doctor schema -->
                 <div class="w-full backdrop-blur-lg bg-white/50 md:mt-0 sm:max-w-4xl xl:p-0 rounded-lg shadow ">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -19,7 +19,7 @@
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="fullname"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Name</label>
-                                    <input [(ngModel)]="doctor.Name" type="text" name="fullname" id="fullname"
+                                    <input [(ngModel)]="patient.Name" type="text" name="fullname" id="fullname"
                                         placeholder="John Cena"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
@@ -28,7 +28,7 @@
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="password"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Password</label>
-                                    <input [(ngModel)]="doctor.Password" type="password" name="password" id="password"
+                                    <input [(ngModel)]="patient.Password" type="password" name="password" id="password"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         placeholder="••••••••" required="">
                                 </div>
@@ -38,20 +38,20 @@
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="dob" class="block mb-2 text-sm font-semibold text-gray-900">Date of
                                         Birth</label>
-                                    <input [(ngModel)]="doctor.DoB" type="date" name="dob" id="dob"
+                                    <input [(ngModel)]="patient.DoB" type="date" name="dob" id="dob"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
-                                        required="" [value]="doctor.DoB" placeholder="doctor.DoB">
+                                        required="" [value]="patient.DoB" placeholder="patient.DoB">
                                 </div>
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="age" class="block mb-2 text-sm font-semibold text-gray-900">Age</label>
-                                    <input [(ngModel)]="doctor.Age" type="text" name="age" id="age" placeholder="49"
+                                    <input [(ngModel)]="patient.Age" type="text" name="age" id="age" placeholder="49"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                 </div>
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                     <label for="selectedGender"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Gender</label>
-                                    <select id="selectedGender" [(ngModel)]="doctor.Gender" name="selectedGender"
+                                    <select id="selectedGender" [(ngModel)]="patient.Gender" name="selectedGender"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                         <option *ngFor="let gender of genders" [value]="gender.value">{{ gender.label }}
@@ -65,7 +65,7 @@
                                         class="block mb-2 text-sm font-semibold text-gray-900">Profile Picture</label>
                                     <div class="flex items-center pl-3 space-x-6">
                                         <div class="shrink-0">
-                                            <img id='preview_img' class="h-16 w-16 object-cover rounded-full" [src]="doctor.Profile_photo"  alt="Current profile photo" />
+                                            <img id='preview_img' class="h-16 w-16 object-cover rounded-full" [src]="patient.Profile_picture"  alt="Current profile photo" />
                                         </div>
                                         <label class="block">
                                             <span class="sr-only">Choose profile photo</span>
@@ -83,12 +83,13 @@
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="phone_no" class="block mb-2 text-sm font-semibold text-gray-900">Phone
                                         No.</label>
-                                    <input [(ngModel)]="doctor.Phone_no" type="tel" name="phone_no" id="phone_no"
+                                    <input [(ngModel)]="patient.Phone_no" type="tel" name="phone_no" id="phone_no"
                                         pattern="[0-9]{5}-[0-9]{5}" placeholder="84123-49856"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                 </div>
                             </div>
+                            <!--                             
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="bio" class="block mb-2 text-sm font-semibold text-gray-900">Bio</label>
@@ -161,7 +162,7 @@
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         required="">
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

@@ -147,4 +147,36 @@ const getPatient = asyncHandler(async (req, res) => {
 
 });
 
-module.exports = { createPatient, getPatient, Patientlogin };
+//@dec update a patient
+//@route PUT /api/patient/:id
+//@acsess public
+const updatePatient = asyncHandler(async (req, res) => {
+    const CurrPatientId = req.params.id; //req.user.id;
+    console.log(CurrPatientId)
+    try {
+        const patient = await Patient.findById(CurrPatientId.trim());
+        console.log("in update patient");
+        console.log("patient found : ")
+        console.log(patient)
+
+        if (!patient) {
+            res.status(404);
+            throw new Error("Patient not found.");
+        }
+
+        const updatePatient = await Patient.findByIdAndUpdate(
+            CurrPatientId,
+            req.body,
+            { new: true },
+        )
+        console.log(updatePatient);
+        res.status(200).json(updatePatient);
+
+    } catch (error) {
+        console.log("pateint not found.");
+        console.log(error);
+    }
+
+});
+
+module.exports = { createPatient, getPatient, Patientlogin, updatePatient };

@@ -455,6 +455,7 @@ export class BookAppointmentComponent implements OnInit {
   async ngOnInit() : Promise<void> {
 
     try {
+      this.loading = true;
       let isLogin = localStorage.getItem('isLogin');
 
       if(isLogin == "false" || isLogin == null) 
@@ -474,27 +475,25 @@ export class BookAppointmentComponent implements OnInit {
         if (id !== undefined) {
           this.doctorId = id;
           this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
-          this.patientId = localStorage.getItem('userId');
-          this.patient = await this.services.getPatient(this.patientId).toPromise();
+          // this.patientId = localStorage.getItem('userId');
+          this.patient = await this.services.getPatient().toPromise();
           console.log(this.patient);
 
-          setTimeout(async () => {
-            try {
-              // Fetch the doctor details using the service
+          this.loading = false;
+
+          // setTimeout(async () => {
+          //   try {
+          //     // Fetch the doctor details using the service
               
-              // Reset loading when the data is fetched successfully
-              this.loading = false;
-              // You can perform other operations with this.doctor if needed
-            } catch (error) {
-              console.error('Error fetching doctor details:', error);
-              // Handle the error if needed
-              this.loading = false; // Ensure loading is reset in case of an error
-            }
-          }, 2000);
-          //this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
-          
-          //console.log("Home Page");
-          //console.log(this.doctor);
+          //     // Reset loading when the data is fetched successfully
+          //     this.loading = false;
+          //     // You can perform other operations with this.doctor if needed
+          //   } catch (error) {
+          //     console.error('Error fetching doctor details:', error);
+          //     // Handle the error if needed
+          //     this.loading = false; // Ensure loading is reset in case of an error
+          //   }
+          // }, 2000);
         } else {
             console.error("Error: 'id' parameter is undefined.");
         }

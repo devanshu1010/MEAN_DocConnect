@@ -19,6 +19,7 @@ enum Tab {
 })
 export class RegistrationComponentPatient implements OnInit {
 
+  otpLength: number = 6;
   email: any;
   password: any;
   confpassword: any;
@@ -88,11 +89,21 @@ export class RegistrationComponentPatient implements OnInit {
     });
   }
 
+  autoVerify(event: any) {
+    const enteredOTP = event.target.value;
+    this.entered_otp = enteredOTP;
+    if (enteredOTP.length === 6) {
+        this.varify_email(); // Automatically verify OTP when 6 digits are entered
+    }
+}
   varify_email() {
-    if(this.actual_otp == this.entered_otp)
+    console.log(this.actual_otp);
+    console.log(this.entered_otp);
+    if(this.actual_otp === this.entered_otp)
     {
       this.varifyEmail = true;
       this.message = '';
+      this.next_profile();
     }
     else{
       this.message = "OTP is incorrect !!!";

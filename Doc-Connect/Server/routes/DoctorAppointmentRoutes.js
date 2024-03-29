@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { cancleAppointment } = require('../controllers/AppointmentControllers')
+const { isAuthDoctor} = require('../Services/comman');
 
-router.route("/cancleAppointment").put(cancleAppointment);
+const { cancelAppointment } = require('../controllers/AppointmentControllers')
+
+router.route("/cancelAppointment").put( isAuthDoctor(), cancelAppointment);
 
 module.exports = router;

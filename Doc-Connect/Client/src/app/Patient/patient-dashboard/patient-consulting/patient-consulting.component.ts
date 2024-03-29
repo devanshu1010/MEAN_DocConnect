@@ -43,7 +43,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
       {
         urls: [
           'stun:stun1.l.google.com:19302',
-          // 'stun:stun2.l.google.com:19302',
+          'stun:stun2.l.google.com:19302',
         ],
       },
     ],
@@ -82,10 +82,10 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
   loadPatinetData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.patientId = '';
-      this.patientId = localStorage.getItem('userId');
+      // this.patientId = '';
+      // this.patientId = localStorage.getItem('userId');
 
-      this.services.getPatient(this.patientId).subscribe(
+      this.services.getPatient().subscribe(
         data => {
           this.patient = data;
           console.log("DashBoard");

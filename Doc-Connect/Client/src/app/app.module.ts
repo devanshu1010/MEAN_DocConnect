@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponentPatient } from './Patient/navbar/navbar.component';
 import { RegistrationComponentPatient } from './Patient/auth/registration/registration.component';
 import { SigninComponentPatient } from './Patient/auth/signin/signin.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
 import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
 import { DatePipe } from '@angular/common';
@@ -30,6 +30,7 @@ import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-cons
 import { firebaseConfig } from './Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
 import { EditPatientComponent } from './Patient/patient-dashboard/edit-patient/edit-patient.component';
+import { JwtInterceptorService } from './Doctor/jwt-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,9 @@ import { EditPatientComponent } from './Patient/patient-dashboard/edit-patient/e
     MatDialogModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }            
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -99,9 +99,9 @@ export class PatientDashboardComponent implements OnInit
   loadPatientData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.patientId = '';
-      this.patientId = localStorage.getItem('userId');
+      //this.patientId = localStorage.getItem('userId');
 
-      this.services.getPatient(this.patientId).subscribe(
+      this.services.getPatient().subscribe(
         data => {
           this.patient = data;
           this.allAppointments = this.patient.Appointment_id;
@@ -124,12 +124,14 @@ export class PatientDashboardComponent implements OnInit
     return new Promise<void>((resolve, reject) => {
       console.log(this.patientId);
       // Use your DoctorService to update the doctor data
-      this.services.updatePatient(this.patientId, updatedPatient).subscribe(
+      this.services.updatePatient( updatedPatient).subscribe(
         async data => {
+
+          this.patient = data;
           // Handle successful update, maybe show a success message
           console.log('Patient updated successfully');
           // Reload the doctor data after the update
-          await this.loadPatientData();
+          //await this.loadPatientData();
           resolve();
         },
         error => {
@@ -138,8 +140,7 @@ export class PatientDashboardComponent implements OnInit
           reject(error);
         }
       );
-    }
-    );
+    });
   }
 
   constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
@@ -157,7 +158,7 @@ export class PatientDashboardComponent implements OnInit
       }
       else{
 
-        this.patientId = localStorage.getItem('userId');
+        // this.patientId = localStorage.getItem('userId');
         this.view_profile();
           
         await this.loadPatientData();

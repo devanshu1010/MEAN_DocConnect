@@ -12,8 +12,8 @@ export class ServicesService {
   private url_get_doctor: string ="http://localhost:8082/api/doctor/";
   private url_get_patient: string ="http://localhost:8082/api/patient/";
   private url_update_patient: string ="http://localhost:8082/api/patient/";
-  private url_create_orderId: string ="http://localhost:8082/api/create/orderId";
-  private url_verify_payment: string ="http://localhost:8082/api/payment/verify";
+  private url_create_orderId: string ="http://localhost:8082/api/patient/payment/createOrderId";
+  private url_verify_payment: string ="http://localhost:8082/api/patient/payment/verify";
   private url_appointment: string ="http://localhost:8082/api/patient/appointment/";
   private url_payment: string = "http://localhost:8082/api/patient/payment/";
 
@@ -42,9 +42,9 @@ export class ServicesService {
     );
   }
 
-  getPatient(patientId: any):Observable<any>{
+  getPatient():Observable<any>{
     // console.log(doctorId);
-    const url = this.url_get_patient + patientId;
+    const url = this.url_get_patient;// + patientId;
     // console.log( "url "+ url)
     return this.http.get<any>(url).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -54,9 +54,9 @@ export class ServicesService {
     );
   }
 
-  updatePatient(patientId: any,updatedPatient: Patient):Observable<any>{
+  updatePatient(updatedPatient: Patient):Observable<any>{
     
-    const url_generated = this.url_update_patient + patientId;
+    const url_generated = this.url_update_patient;// + patientId;
     //console.log(this.url_update_doctor);
     return this.http.put<any>(url_generated,updatedPatient).pipe(
       catchError((error: HttpErrorResponse) => {

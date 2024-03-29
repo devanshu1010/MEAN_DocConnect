@@ -10,15 +10,15 @@ export class DoctorService {
 
   private url_getdoctor: string = "http://localhost:8082/api/doctor/";
   private url_update_doctor: string ="http://localhost:8082/api/doctor/";
-  private url_cancle_appoinment: string = "http://localhost:8082/api/doctor/appointment/cancleAppointment"
+  private url_cancel_appoinment: string = "http://localhost:8082/api/doctor/appointment/cancelAppointment"
 
   constructor(private http: HttpClient) { }
 
   getDoctor(doctorId: any):Observable<any>{
-    console.log(this.url_getdoctor);
+    // console.log(this.url_getdoctor);
     const url = this.url_getdoctor + doctorId;
-    console.log(doctorId);
-    console.log(this.url_getdoctor);
+    // console.log(doctorId);
+    // console.log(this.url_getdoctor);
     return this.http.get<any>(url).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in Geting Doctor:', error);
@@ -30,7 +30,7 @@ export class DoctorService {
 
   updateDoctor(doctorId: any,updatedDoctor: Doctor):Observable<any>{
     //this.url_update_doctor += doctorId;
-    const url_generated = this.url_update_doctor + doctorId;
+    const url_generated = this.url_update_doctor;
     //console.log(this.url_update_doctor);
     return this.http.put<any>(url_generated,updatedDoctor).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -43,7 +43,7 @@ export class DoctorService {
   cancelAppoinment(appointmentId: any):Observable<any>{
     //console.log(this.url_update_doctor);\
     const appointmentIdObj = { appointmentId : appointmentId }
-    return this.http.put<any>(this.url_cancle_appoinment,appointmentIdObj).pipe(
+    return this.http.put<any>(this.url_cancel_appoinment,appointmentIdObj).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in loginPatient:', error);
         throw error;

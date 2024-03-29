@@ -12,6 +12,12 @@ const bookAppointment = asyncHandler(async (req, res) => {
     try {
         //console.log(req.body);
 
+        if(req.user.id != req.body.Patient_id)
+        {
+            res.status(401);
+            throw new Error("UNAUTHORIZED ACCESS");
+        }
+
         const appointment = await Appointment.create(req.body);
         console.log('saved');
 
@@ -41,14 +47,25 @@ const bookAppointment = asyncHandler(async (req, res) => {
 });
 
 //@dec Cancle Appointment
-//@route POST api/doctor/appoitment/cancleAppointment
+//@route PUT api/doctor/appoitment/cancelAppointment
 //@access private
-const cancleAppointment = asyncHandler(async(req, res) => {
+const cancelAppointment = asyncHandler(async(req, res) => {
     try {
         const { appointmentId } = req.body;
         
         const updateAppointment = await Appointment.findById(appointmentId);
         //console.log(updateAppointment);
+
+        if (!updateAppointment) {
+            res.status(404);
+            throw new Error("Appointment not found.");
+        }
+
+        if(updateAppointment.Doctor_id != req.user.id)
+        {
+            res.status(401);
+            throw new Error("UNAUTHORIZED ACCESS");
+        }
 
         //res.status(200).json({ appointment : updateAppointment });
         updateAppointment.Status = "Canceled"
@@ -84,7 +101,7 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         let mailOptions = {
             from: `"DocConnect" <${process.env.EMAIL}>`, // sender address
             to: patient.Email, // list of receivers
-            subject: "Cancle Appointment", // Subject line
+            subject: "Cancel Appointment", // Subject line
             html: `
                     <html>
                     <head>
@@ -133,4 +150,4 @@ const cancleAppointment = asyncHandler(async(req, res) => {
     }
 });
 
-module.exports = { bookAppointment, cancleAppointment };
+module.exports = { bookAppointment, cancelAppointment };

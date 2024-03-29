@@ -46,7 +46,7 @@ export class SigninComponentPatient implements OnInit{
           console.log("userId");
           console.log(this.userId);
           localStorage.removeItem("userId");
-          localStorage.setItem('userId',this.patient._id);
+          // localStorage.setItem('userId',this.patient._id);
 
           this.email='';
           this.password='';

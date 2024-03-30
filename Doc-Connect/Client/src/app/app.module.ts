@@ -31,6 +31,7 @@ import { firebaseConfig } from './Doctor/dashboard-doctor/doctor-consulting/fire
 import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
 import { EditPatientComponent } from './Patient/patient-dashboard/edit-patient/edit-patient.component';
 import { JwtInterceptorService } from './Doctor/jwt-interceptor.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { JwtInterceptorService } from './Doctor/jwt-interceptor.service';
     BrowserAnimationsModule,
     NgxMaterialTimepickerModule,
     MatDialogModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    NgxSkeletonLoaderModule
   ],
   providers: [DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }            

@@ -8,6 +8,7 @@ import { Payment } from 'src/app/models/payment';
 import { Appointment } from 'src/app/models/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentStatusDialogComponent } from './payment-status-dialog/payment-status-dialog.component';
+import { animate, state, style, transition } from '@angular/animations';
 // import * as Razorpay from 'razorpay';
 
 
@@ -16,7 +17,16 @@ declare var Razorpay : any;
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
-  styleUrls: ['./book-appointment.component.css']
+  styleUrls: ['./book-appointment.component.css'],
+  // animations: [
+  //   trigger('fadeInOut', [
+  //     state('void', style({ opacity : 0 })), 
+  //     state('*', style({ opacity : 1 })),
+  //     transition('void => *', animate('1s ease-out')), 
+  //     transition('* => void', animate('1s ease-out'))
+  //   ])
+  // ]
+  
 })
 export class BookAppointmentComponent implements OnInit {
   doctorId?: number;
@@ -506,3 +516,7 @@ export class BookAppointmentComponent implements OnInit {
     }
   }
 }
+function trigger(arg0: string, arg1: any[]): any {
+  throw new Error('Function not implemented.');
+}
+

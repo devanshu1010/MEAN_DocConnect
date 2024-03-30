@@ -106,14 +106,24 @@ export class RegistrationComponentDoctor implements OnInit{
   }
 
   varify_email() {
-    if(this.actual_otp == this.entered_otp)
+    console.log(this.actual_otp);
+    console.log(this.entered_otp);
+    if(this.actual_otp === this.entered_otp)
     {
       this.varifyEmail = true;
       this.message = '';
+      this.next_profile();
     }
     else{
-      this.varifyEmail = false;
       this.message = "OTP is incorrect !!!";
+    }
+  }
+
+  autoVerify(event: any) {
+    const enteredOTP = event.target.value;
+    this.entered_otp = enteredOTP;
+    if (enteredOTP.length === 6) {
+        this.varify_email(); // Automatically verify OTP when 6 digits are entered
     }
   }
 

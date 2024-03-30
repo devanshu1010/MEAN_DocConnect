@@ -112,11 +112,13 @@
     </div>
   </div>
 
-  <app-edit-profile *ngIf="isEditProfileModalOpen" [doctor]="doctor" (saveChanges)="updateDoctor($event)"
+  <div *ngIf="isEditProfileModalOpen">
+    <app-edit-profile  [@fadeInOut] [doctor]="doctor" (saveChanges)="updateDoctor($event)"
     (closeModal)="closeModal()" >
-  </app-edit-profile>
-
-  <div *ngIf="appointments" class="w-full mt-14 md:w-5/6 mb-6 md:mb-0 bg-blue-300  h-auto mx">
+    </app-edit-profile>
+  </div>
+  
+  <div *ngIf="appointments" class="w-full mt-14 top-14 md:w-5/6 mb-6 md:mb-0 bg-blue-300  h-auto mx">
     <div class="h-full  p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">

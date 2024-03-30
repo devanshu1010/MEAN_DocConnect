@@ -12,7 +12,7 @@ const bookAppointment = asyncHandler(async (req, res) => {
     try {
         //console.log(req.body);
 
-        if(req.user.id != req.body.Patient_id)
+        if(req.user._id != req.body.Patient_id)
         {
             res.status(401);
             throw new Error("UNAUTHORIZED ACCESS");
@@ -61,7 +61,7 @@ const cancelAppointment = asyncHandler(async(req, res) => {
             throw new Error("Appointment not found.");
         }
 
-        if(updateAppointment.Doctor_id != req.user.id)
+        if(updateAppointment.Doctor_id != req.user._id)
         {
             res.status(401);
             throw new Error("UNAUTHORIZED ACCESS");

@@ -83,7 +83,7 @@ const createDoctor = asyncHandler(async (req, res) => {
                       );
                       res
                         .status(201)
-                        .json({ id: doctor.id, token });
+                        .json({ _id: doctor_id, token });
                     }
                   });*/
                 const token = jwt.sign(
@@ -93,7 +93,7 @@ const createDoctor = asyncHandler(async (req, res) => {
                 res
                     .cookie('jwt', token, { expires: new Date(Date.now() + 9000000), httpOnly: true })
                     .status(201)
-                    .json({ id: doctor.id, token });
+                    .json({ _id: doctor._id, token });
             });
           }
         );
@@ -199,10 +199,10 @@ const getDoctors = asyncHandler(async (req, res) => {
 //@route PUT /api/doctor/:id
 //@acsess public
 const updateDoctor = asyncHandler(async (req, res) => {
-    const CurrDoctId = req.user.id;
+    const CurrDoctId = req.user._id;
     console.log(CurrDoctId)
     try {
-        const doctor = await Doctor.findById(CurrDoctId.trim());
+        const doctor = await Doctor.findById(CurrDoctId);
         console.log("in update doctor");
         console.log("doctor found : ")
         console.log(doctor)
@@ -250,7 +250,7 @@ const searchDcotor = asyncHandler(async (req, res) => {
 
 const updateDoctorSlot = asyncHandler(async (req, res) => {
     const { appointment_id, day, slotNo } = req.body;
-    const CurrDoctId = req.params.id; //req.user.id;
+    const CurrDoctId = req.params.id; //req.user._id;
     console.log(CurrDoctId)
 
     try {

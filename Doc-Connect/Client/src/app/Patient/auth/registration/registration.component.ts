@@ -95,7 +95,8 @@ export class RegistrationComponentPatient implements OnInit {
     if (enteredOTP.length === 6) {
         this.varify_email(); // Automatically verify OTP when 6 digits are entered
     }
-}
+  }
+  
   varify_email() {
     console.log(this.actual_otp);
     console.log(this.entered_otp);

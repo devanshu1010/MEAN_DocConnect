@@ -9,7 +9,7 @@ exports.isAuthPatient = (req,res,done) =>{
 }
 
 exports.sanitizeUser = (user) => {
-    return { id: user.id };
+    return { _id: user._id };
 };
 
 exports.cookieExtractor = function (req) {

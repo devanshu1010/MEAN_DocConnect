@@ -8,7 +8,7 @@ import { Payment } from 'src/app/models/payment';
 import { Appointment } from 'src/app/models/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentStatusDialogComponent } from './payment-status-dialog/payment-status-dialog.component';
-import { animate, state, style, transition } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 // import * as Razorpay from 'razorpay';
 
 
@@ -18,14 +18,17 @@ declare var Razorpay : any;
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
   styleUrls: ['./book-appointment.component.css'],
-  // animations: [
-  //   trigger('fadeInOut', [
-  //     state('void', style({ opacity : 0 })), 
-  //     state('*', style({ opacity : 1 })),
-  //     transition('void => *', animate('1s ease-out')), 
-  //     transition('* => void', animate('1s ease-out'))
-  //   ])
-  // ]
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 })),
+      ]),
+    ])
+  ]
   
 })
 export class BookAppointmentComponent implements OnInit {
@@ -76,14 +79,6 @@ export class BookAppointmentComponent implements OnInit {
 
     console.log(index);
   }
-
-  // assign_selected_Slot(timeSlot: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; })
-  // {
-  //   this.selectedSlot = timeSlot.Time;
-  //   //console.log(this.selectedSlot);
-  //   this.timeSlots.forEach(slot => (slot.isSelected = false));
-  //   timeSlot.isSelected = !timeSlot.isSelected;
-  // }
 
   getindex(str : string)
   {
@@ -485,7 +480,7 @@ export class BookAppointmentComponent implements OnInit {
         if (id !== undefined) {
           this.doctorId = id;
           this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
-          // this.patientId = localStorage.getItem('userId');
+          this.patientId = localStorage.getItem('userId');
           this.patient = await this.services.getPatient().toPromise();
           console.log(this.patient);
 
@@ -516,7 +511,5 @@ export class BookAppointmentComponent implements OnInit {
     }
   }
 }
-function trigger(arg0: string, arg1: any[]): any {
-  throw new Error('Function not implemented.');
-}
+
 

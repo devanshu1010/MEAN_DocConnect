@@ -3,6 +3,7 @@ const Payment = require("../models/PaymentSchema");
 const Razorpay = require('razorpay');
 const dotenv = require('dotenv').config();
 const crypto = require("crypto");
+const { response } = require("express");
 
 const instance = new Razorpay({
     key_id: process.env.key_id,
@@ -15,6 +16,14 @@ const instance = new Razorpay({
 const createPayment = asyncHandler(async (req, res) => {
     try{
         console.log("Create Payment Body : ", req.body);
+        const Patient_id = req.user._id;
+        console.log("Patient_id : ", Patient_id);
+        console.log("req.body.Patient_id : ", req.body.Patient_id);
+        if(Patient_id != req.body.Patient_id)
+        {
+            res.status(401);
+            throw new Error("UNAUTHORIZED ACCESS");
+        }
 
         const payment = await Payment.create(req.body);
         console.log('saved');
@@ -65,11 +74,14 @@ const verifyPayment = asyncHandler( async(req, res) =>{
     console.log("sig recived ", req.body.razorpay_signature);
     console.log("sig genrated ", expectedSignature);
 
+    var response={};
     if (expectedSignature === req.body.razorpay_signature) {
         response = {"signatureIsValid": true};
+        console.log("response : ", response);
     } else {
         response = {"signatureIsValid": false};
     }
+    console.log("response : ", response);
     res.send(response);
 
 });

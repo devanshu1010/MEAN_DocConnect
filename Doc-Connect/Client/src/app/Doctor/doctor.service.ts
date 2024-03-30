@@ -2,15 +2,16 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Doctor } from '../models/doctor';
+import { baseUrl } from 'environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-
-  private url_getdoctor: string = "http://localhost:8082/api/doctor/";
-  private url_update_doctor: string ="http://localhost:8082/api/doctor/";
-  private url_cancel_appoinment: string = "http://localhost:8082/api/doctor/appointment/cancelAppointment"
+ 
+  private url_getdoctor: string = baseUrl +"api/doctor/";
+  private url_update_doctor: string = baseUrl +"api/doctor/";
+  private url_cancel_appoinment: string = baseUrl + "api/doctor/appointment/cancelAppointment";
 
   constructor(private http: HttpClient) { }
 

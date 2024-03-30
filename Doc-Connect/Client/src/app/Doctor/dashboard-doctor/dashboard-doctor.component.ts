@@ -30,6 +30,15 @@ enum Tab {
       state('1', style({ transform: 'translateX(+30px)', color: '#68e8f7' })), 
       state('0', style({ transform: 'translateY(0px)', color: '#ffffff' })),
       transition('* => *', animate('0.3s ease-out'))
+    ]),
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 })),
+      ]),
     ])
   ]
 })

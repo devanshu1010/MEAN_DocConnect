@@ -41,8 +41,8 @@ export class SigninComponentDoctor implements OnInit{
           this.incorrect=false;
           //console.log("Login successful");
           console.log("data : ", data);
-          
-          this.userId = data.id;
+          console.log("data_id : ", data._id);
+          this.userId = data._id;
           console.log("userId");
           console.log(this.userId);
           localStorage.removeItem("userId");

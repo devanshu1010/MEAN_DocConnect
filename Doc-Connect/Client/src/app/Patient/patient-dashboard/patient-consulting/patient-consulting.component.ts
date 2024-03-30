@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseserviceService } from 'src/app/Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { ServicesService } from '../../services.service';
 import { Patient } from 'src/app/models/patient';
+import { Router } from '@angular/router';
 
 interface CallData {
   offer: any; // Adjust the type according to the actual type of offer data
@@ -16,7 +17,7 @@ interface CallData {
 })
 export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
-  isDoctor:Boolean = false;
+  isPatient:Boolean = false;
   isLocal:Boolean = false;
   isRemote:Boolean = false;
   patient!: Patient;
@@ -27,6 +28,9 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   localStream!: MediaStream; // Store the local media stream
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
+
+  isAudioMuted: boolean = false;
+  isVideoStopped: boolean = false;
 
   app:any;
   analytics:any;
@@ -43,14 +47,19 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
       {
         urls: [
           'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302',
+          'stun:stun2.l.google.com:19302', // Optional additional STUN server
         ],
       },
+      {
+        urls: ['turn:numb.viagenie.ca'],
+        credential: 'muazkh',
+        username: 'webrtc@live.com',
+      },
     ],
-    iceCandidatePoolSize: 2,
+    iceCandidatePoolSize: 5,
   }
 
-  constructor( private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ) { }
+  constructor( private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -78,16 +87,40 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     if (this.localStream) {
       this.localStream.getTracks().forEach((track) => track.stop());
     }
+    this.router.navigate(['/dashboardPatient']);
+  }
+
+  // Function to mute audio
+  toggleAudio() {
+    if (this.localStream) {
+      const audioTrack = this.localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        this.isAudioMuted = audioTrack.enabled; // Update isAudioMuted status
+      }
+    }
+  }
+
+  // Function to toggle video stop
+  toggleVideo() {
+    if (this.localStream) {
+      const videoTrack = this.localStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status
+      }
+    }
   }
 
   loadPatinetData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      // this.patientId = '';
-      // this.patientId = localStorage.getItem('userId');
+      this.patientId = '';
+      this.patientId = localStorage.getItem('userId');
 
       this.services.getPatient().subscribe(
         data => {
           this.patient = data;
+          this.isPatient = true;
           console.log("DashBoard");
           console.log(this.patient);
           
@@ -106,9 +139,17 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   async startWebcam()
   {
     console.log("in startWebcame");
-    this.localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    this.localStream = await navigator.mediaDevices.getUserMedia({ 
+      video: true, 
+      audio: { 
+        autoGainControl: true, 
+        noiseSuppression: true, 
+        echoCancellation: true 
+      } 
+    });
     this.isLocal = true;
     
+    this.localStream.getAudioTracks()[0].enabled = false;
     console.log("in startWebcame1");
     // Push tracks from local stream to peer connection
     this.localStream.getTracks().forEach((track) => {
@@ -158,24 +199,31 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
       await callDocRef.set({ offer });
 
       // Listen for remote answer
-    const unsubscribe = callDocRef.onSnapshot((snapshot: { data: () => any; }) => {
-      const data = snapshot.data();
-      if (!this.peerConnection.currentRemoteDescription && data?.answer) {
-        const answerDescription = new RTCSessionDescription(data.answer);
-        this.peerConnection.setRemoteDescription(answerDescription);
-        unsubscribe(); // Unsubscribe from further snapshot changes
-      }
-    });
-
-    // When answered, add candidate to peer connection
-    answerCandidates.onSnapshot((snapshot: { docChanges: () => any[]; }) => {
-      snapshot.docChanges().forEach((change: { type: string; doc: { data: () => RTCIceCandidateInit | undefined; }; }) => {
-        if (change.type === 'added') {
-          const candidate = new RTCIceCandidate(change.doc.data());
-          this.peerConnection.addIceCandidate(candidate);
+      const unsubscribe = callDocRef.onSnapshot((snapshot: { data: () => any; }) => {
+        console.log("listing remote changes");
+        const data = snapshot.data();
+        if (!this.peerConnection.currentRemoteDescription && data?.answer) {
+          console.log("listened remote changes");
+          const answerDescription = new RTCSessionDescription(data.answer);
+          this.peerConnection.setRemoteDescription(answerDescription);
+          unsubscribe(); // Unsubscribe from further snapshot changes
         }
       });
-    });
+
+      // When answered, add candidate to peer connection
+      answerCandidates.onSnapshot((snapshot: { docChanges: () => any[]; }) => {
+        console.log("adding remote changes");
+        snapshot.docChanges().forEach((change: { type: string; doc: { data: () => RTCIceCandidateInit | undefined; }; }) => {
+          if (change.type === 'added') {
+            console.log("adding candidate.");
+            const candidate = new RTCIceCandidate(change.doc.data());
+            console.log(candidate);
+            this.peerConnection.addIceCandidate(candidate);
+            console.log(this.peerConnection);
+            
+          }
+        });
+      });
       console.log("InitiaeCall completed.");
 
       // const offer = await this.peerConnection.createOffer();
@@ -332,7 +380,4 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   }
 
   
-}
-function take(arg0: number): import("rxjs").OperatorFunction<any, unknown> {
-  throw new Error('Function not implemented.');
 }

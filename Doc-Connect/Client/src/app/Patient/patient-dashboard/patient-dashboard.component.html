@@ -28,7 +28,7 @@
   </div> 
 
   <!-- <main *ngIf="profile" class="flex-1 w-full md:w-5/6 bg-blue-300 overflow-x-hidden pl-64"> -->
-  <main *ngIf="profile" class="bg-blue-300 w-full md:w-5/6 mb-6 md:mb-0 h-auto mt-1">
+  <main *ngIf="profile" [@fadeInOut] class="bg-blue-300 w-full md:w-5/6 mb-6 md:mb-0 h-auto mt-1">
     <div class="h-screen" >
       <section class="relative h-1/2">
         <div class="absolute top-0 w-full h-full bg-no-repeat" style="
@@ -116,11 +116,13 @@
     </section>
   </main>
 
-  <app-edit-patient *ngIf="isEditProfileModalOpen" [patient]="patient" (saveChanges)="updatePatient($event)"
-    (closeModal)="closeModal()" >
-  </app-edit-patient>
+  <div *ngIf="isEditProfileModalOpen" >
+    <app-edit-patient [@fadeInOut] [patient]="patient" (saveChanges)="updatePatient($event)"
+      (closeModal)="closeModal()" >
+    </app-edit-patient>
+  </div>
 
-  <div *ngIf="appointments" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
+  <div *ngIf="appointments" [@fadeInOut] class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
     <div class="h-full  p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">

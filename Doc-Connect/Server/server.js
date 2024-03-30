@@ -70,6 +70,9 @@ passport.use('doctor-local',
       done
     ) {
       // by default passport uses username
+      
+      console.log("doctor - local");
+      console.log("done",done);
       console.log({ Email, Password });
       try {
         const doctor = await Doctor.findOne({ Email: Email });
@@ -100,7 +103,7 @@ passport.use('doctor-local',
                       sanitizeUser(doctor),
                       process.env.JWT_SECRET_KEY
                     );
-              done(null,{ id: doctor.id,  token });
+              done(null,{ _id: doctor._id,  token });
             }
           });
       
@@ -115,8 +118,12 @@ passport.use('doctor-jwt',
   new JwtStrategy(opts, async function(jwt_payload, done) {
 
     try {
-      const doctor = await Doctor.findOne({id: jwt_payload.sub}) 
-        
+      console.log("doctor - jwt");
+      console.log("jwt_payload",jwt_payload);
+      console.log("done",done);
+      console.log("jwt_payload.id",jwt_payload._id);
+      const doctor = await Doctor.findById(jwt_payload._id) //findOne({id: jwt_payload.sub}) 
+        console.log("doctor : ", doctor);  
         if (doctor) {
           done(null, doctor);
         } else {
@@ -136,6 +143,9 @@ passport.use('patient-local',
       Password,
       done
     ) {
+      
+      console.log("patinet - local");
+      console.log("done",done);
       // by default passport uses username
       console.log({ Email, Password });
       try {
@@ -167,7 +177,7 @@ passport.use('patient-local',
                       sanitizeUser(patient),
                       process.env.JWT_SECRET_KEY
                     );
-              done(null,{ id: patient.id,  token });
+              done(null,{ _id: patient._id,  token });
             }
           });
       
@@ -182,8 +192,13 @@ passport.use('patient-jwt',
   new JwtStrategy(opts, async function(jwt_payload, done) {
 
     try {
-      const patient = await Patient.findOne({id: jwt_payload.sub}) 
-        
+      
+      console.log("patient - jwt");
+      console.log("jwt_payload",jwt_payload);
+      console.log("done",done);
+      console.log("jwt_payload.id",jwt_payload._id);
+      const patient = await Patient.findById(jwt_payload._id); //.findOne({id: jwt_payload.sub}) 
+      console.log("patient : ", patient);  
         if (patient) {
           return done(null, patient);
         } else {
@@ -199,7 +214,7 @@ passport.use('patient-jwt',
 passport.serializeUser(function(user, cb) {
     process.nextTick(function() {
       console.log("serializeUser call : ",user);
-      return cb(null, {id : user.id});
+      return cb(null, {_id : user._id});
     });
 });
 

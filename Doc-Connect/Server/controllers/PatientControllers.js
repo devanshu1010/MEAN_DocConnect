@@ -79,7 +79,7 @@ const createPatient = asyncHandler(async (req, res) => {
                     sanitizeUser(patient),
                     process.env.JWT_SECRET_KEY
                     );
-                res.status(201).json({ id: patient.id, token });
+                res.status(201).json({ _id: patient._id, token });
                 // res.status(200).json(patient);
             });
           }
@@ -113,7 +113,7 @@ const checkPatient = asyncHandler(async (req, res) => {
 const getPatient = asyncHandler(async (req, res) => {
     try {
         //console.log(req.params.id);
-        const patientId = req.user.id;
+        const patientId = req.user._id;
 
         const currentDate = new Date();
         console.log('Current Date:', currentDate);
@@ -173,7 +173,7 @@ const getPatient = asyncHandler(async (req, res) => {
 //@route PUT /api/patient/
 //@acsess public
 const updatePatient = asyncHandler(async (req, res) => {
-    const CurrPatientId = req.user.id;
+    const CurrPatientId = req.user._id;
     console.log(CurrPatientId)
     try {
         const patient = await Patient.findById(CurrPatientId.trim());

@@ -36,63 +36,16 @@
                 </form>
             </div>
         </div>
-        <!-- <div class="h-1/6 flex flex-row bg-blue-800 w-full m-1 rounded-2xl" >
-            hi
-        </div> -->
-        <!--         
-        <h1 class="text-xl ">
-            Video Call
-        </h1>
-        <div class="mt-4 " >
-            <div>
-                <h2>1. Start your Webcam</h2>
-                <div class="videos mt-8 ">
-                    <span class="bg-blue-400" >
-                        <h3>Local Stream</h3>
-                        <video #webcamVideo autoplay muted playsinline [srcObject]="localStream" class="bg-bl
-                        "></video>
-                    </span>
-                    <span class="bg-blue-800">
-                        <h3>Remote Stream</h3>
-                        <video #remoteVideo autoplay muted playsinline [srcObject]="remoteStream"></video>
-                    </span>
-                </div>
-            </div>
-
-            <h2>1. Start your Webcam</h2>
-
-            <div>
-                <button id="webcamButton" (click)="startWebcam()" [disabled]="localStream">
-                    Start Webcam
-                </button>
-            </div>
-
-            <h2>2. Create a new Call</h2>
-
-            <div>
-                <button id="callButton" (click)="initiateCall()" [disabled]="!localStream || callId">
-                    Create Call (offer)
-                </button>
-            </div>
-
-            <form class="mt-4 space-y-4 md:space-y-6" action="#">
-                <div>
-                    <label for="callId" class="block mb-2 text-sm font-semibold text-gray-900">Email</label>
-                
-                    <input [(ngModel)]="callId" type="text" name="callId" id="callId" class="bg-gray-100 border-2 border-red-500 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"  required="">
-                    
-                </div>
-                
-                <button (click)="answerCall()" type="submit" class="w-full text-primary-700 font-bold hover:bg-primary-700 focus:bg-primary-700 focus:text-white focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Sign in</button>
-                
-            </form>
-
-            <h2>4. Hangup</h2>
-
-            <button id="hangupButton" disabled>Hangup</button>
-
+        <div id="buttons" class="h-1/6 flex flex-row justify-center items-center bg-blue-800 w-full m-1 rounded-2xl" >
+            <!-- Button to mute audio -->
+            <button (click)="toggleAudio()" [ngClass]="{ 'bg-green-500': !isAudioMuted, 'bg-gray-500': isAudioMuted }" class="w-1/3 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-xl m-2 focus:outline-none focus:ring-4 focus:ring-green-300">Mute</button>
+            
+            <!-- Button to hangup (end the call) -->
+            <button (click)="ngOnDestroy()" class="w-1/3 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl m-2 focus:outline-none focus:ring-4 focus:ring-red-300">Hangup</button>
+            
+            <!-- Button to stop video -->
+            <button (click)="toggleVideo()" [ngClass]="{ 'bg-gray-300': !isVideoStopped, 'bg-gray-400': isVideoStopped }" class="w-1/3 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-xl m-2 focus:outline-none focus:ring-4 focus:ring-gray-200">Stop Video</button>
         </div>
-         -->
     </div>
 </div>
                 

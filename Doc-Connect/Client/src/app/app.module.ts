@@ -32,6 +32,8 @@ import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-
 import { EditPatientComponent } from './Patient/patient-dashboard/edit-patient/edit-patient.component';
 import { JwtInterceptorService } from './Doctor/jwt-interceptor.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AuthGuard } from './Patient/auth/auth.guard';
+import { AuthGuardDoctor } from './Doctor/auth/auth.gaurdDoctor';
 
 @NgModule({
   declarations: [
@@ -67,8 +69,9 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatDialogModule,
     AngularFireModule.initializeApp(firebaseConfig),
     NgxSkeletonLoaderModule
+    
   ],
-  providers: [DatePipe,
+  providers: [DatePipe,AuthGuard,AuthGuardDoctor,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }            
   ],
   bootstrap: [AppComponent]

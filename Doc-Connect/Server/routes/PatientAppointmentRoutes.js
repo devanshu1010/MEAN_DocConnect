@@ -6,6 +6,6 @@ const {bookAppointment, cancelAppointmentPatient} = require('../controllers/Appo
 
 router.route("/bookAppointment").post( isAuthPatient() ,bookAppointment);
 
-router.route('/cancleappointment').post( isAuthPatient() ,cancelAppointmentPatient);
+router.route('/cancleappointment').put( isAuthPatient() ,cancelAppointmentPatient);
 
 module.exports = router;

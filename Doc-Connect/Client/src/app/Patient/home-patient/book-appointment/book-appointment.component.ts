@@ -8,6 +8,7 @@ import { Payment } from 'src/app/models/payment';
 import { Appointment } from 'src/app/models/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentStatusDialogComponent } from './payment-status-dialog/payment-status-dialog.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 // import * as Razorpay from 'razorpay';
 
 
@@ -16,7 +17,19 @@ declare var Razorpay : any;
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
-  styleUrls: ['./book-appointment.component.css']
+  styleUrls: ['./book-appointment.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 })),
+      ]),
+    ])
+  ]
+  
 })
 export class BookAppointmentComponent implements OnInit {
   doctorId?: number;
@@ -66,14 +79,6 @@ export class BookAppointmentComponent implements OnInit {
 
     console.log(index);
   }
-
-  // assign_selected_Slot(timeSlot: {  Time: number | undefined; Slot: number | undefined; isSelected: boolean; })
-  // {
-  //   this.selectedSlot = timeSlot.Time;
-  //   //console.log(this.selectedSlot);
-  //   this.timeSlots.forEach(slot => (slot.isSelected = false));
-  //   timeSlot.isSelected = !timeSlot.isSelected;
-  // }
 
   getindex(str : string)
   {
@@ -455,6 +460,7 @@ export class BookAppointmentComponent implements OnInit {
   async ngOnInit() : Promise<void> {
 
     try {
+      this.loading = true;
       let isLogin = localStorage.getItem('isLogin');
 
       if(isLogin == "false" || isLogin == null) 
@@ -475,26 +481,24 @@ export class BookAppointmentComponent implements OnInit {
           this.doctorId = id;
           this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
           this.patientId = localStorage.getItem('userId');
-          this.patient = await this.services.getPatient(this.patientId).toPromise();
+          this.patient = await this.services.getPatient().toPromise();
           console.log(this.patient);
 
-          setTimeout(async () => {
-            try {
-              // Fetch the doctor details using the service
+          this.loading = false;
+
+          // setTimeout(async () => {
+          //   try {
+          //     // Fetch the doctor details using the service
               
-              // Reset loading when the data is fetched successfully
-              this.loading = false;
-              // You can perform other operations with this.doctor if needed
-            } catch (error) {
-              console.error('Error fetching doctor details:', error);
-              // Handle the error if needed
-              this.loading = false; // Ensure loading is reset in case of an error
-            }
-          }, 2000);
-          //this.doctor = await this.services.getDoctor(this.doctorId).toPromise();
-          
-          //console.log("Home Page");
-          //console.log(this.doctor);
+          //     // Reset loading when the data is fetched successfully
+          //     this.loading = false;
+          //     // You can perform other operations with this.doctor if needed
+          //   } catch (error) {
+          //     console.error('Error fetching doctor details:', error);
+          //     // Handle the error if needed
+          //     this.loading = false; // Ensure loading is reset in case of an error
+          //   }
+          // }, 2000);
         } else {
             console.error("Error: 'id' parameter is undefined.");
         }
@@ -507,3 +511,5 @@ export class BookAppointmentComponent implements OnInit {
     }
   }
 }
+
+

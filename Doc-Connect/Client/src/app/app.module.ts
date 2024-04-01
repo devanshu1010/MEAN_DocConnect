@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponentPatient } from './Patient/navbar/navbar.component';
 import { RegistrationComponentPatient } from './Patient/auth/registration/registration.component';
 import { SigninComponentPatient } from './Patient/auth/signin/signin.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HomeDoctorComponent } from './Doctor/home-doctor/home-doctor.component';
 import { DashboardDoctorComponent } from './Doctor/dashboard-doctor/dashboard-doctor.component';
 import { DatePipe } from '@angular/common';
@@ -25,10 +25,17 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { PaymentStatusDialogComponent } from './Patient/home-patient/book-appointment/payment-status-dialog/payment-status-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AboutSectionComponent } from './Patient/about-section/about-section.component';
 import { AngularFireModule } from '@angular/fire/compat'
 import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-consulting/doctor-consulting.component';
 import { firebaseConfig } from './Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
+import { EditPatientComponent } from './Patient/patient-dashboard/edit-patient/edit-patient.component';
+import { JwtInterceptorService } from './Doctor/jwt-interceptor.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AuthGuard } from './Patient/auth/auth.guard';
+import { AuthGuardDoctor } from './Doctor/auth/auth.gaurdDoctor';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +57,11 @@ import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-
     PatientDashboardComponent,
     NotFoundComponent,
     PaymentStatusDialogComponent,
+    AboutSectionComponent,
     DoctorConsultingComponent,
-    PatientConsultingComponent
+    PatientConsultingComponent,
+    EditPatientComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -61,9 +71,13 @@ import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-
     BrowserAnimationsModule,
     NgxMaterialTimepickerModule,
     MatDialogModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    NgxSkeletonLoaderModule
+    
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,AuthGuard,AuthGuardDoctor,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }            
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

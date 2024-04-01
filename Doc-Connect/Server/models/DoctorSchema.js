@@ -28,7 +28,7 @@ const DoctorSchema = new mongoose.Schema({
             unique : true 
         },
         Password : {
-            type : String,
+            type : Buffer,
             required : true,
         },
         Name : {
@@ -117,8 +117,8 @@ const DoctorSchema = new mongoose.Schema({
         },
         Cirtificate : {
             type : String
-        }
-
+        },
+        Salt: Buffer
     },
     {
         timestamps : true,

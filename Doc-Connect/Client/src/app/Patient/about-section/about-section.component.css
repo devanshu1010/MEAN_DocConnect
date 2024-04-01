@@ -1,0 +1,189 @@
+
+/* Navbar */
+.navbar {
+    padding-top: 4%;
+}
+
+/* Page Header */
+
+.page-header h2 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+/* web Section */
+.web-item {
+    max-width: 400px; /* Adjust the maximum width as per your requirement */
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.web-item:hover {
+    transform: translateY(-5px);
+}
+
+.web-item i {
+    font-size: 3rem;
+    color: #1497ee;
+}
+
+.web-item h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 10px;
+}
+
+.web-item p {
+    color: #666;
+    margin-top: 5px;
+}
+
+.web-item a {
+    display: inline-block;
+    background-color:#1497ee;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.web-item a:hover {
+    background-color:#1497ee;
+}
+
+.web-item img { 
+    padding: auto;
+    display: inline-block;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+/* About Section */
+.about-img img {
+    display: inline-block;
+}
+
+
+.about-content .section-header p {
+    font-size: 1.2rem;
+    color: #1497ee;
+}
+
+.about-content .section-header h2 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.about-content .about-text {
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+.about-content .about-text p {
+    margin-bottom: 15px;
+}
+
+.about-content .about-text a {
+    display: inline-block;
+    background-color:#ffffff;
+    color: #417af6;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.about-content .about-text a:hover {
+    background-color: #1497ee;
+}
+
+.feature-img .col-6 {
+    width: 50%; /* Each column takes half the width of its container */
+}
+
+.feature-img img {
+    width: 100%; /* Ensures the images fill their respective columns */
+    height: auto; /* Maintains aspect ratio */
+    max-width: 100%; /* Prevents images from overflowing */
+}
+
+.feature {
+    position: relative;
+    width: 100%;
+    padding: 45px 0 0 0;
+}
+
+.feature .section-header {
+    margin-bottom: 30px;
+}
+
+.feature .feature-text {
+    position: relative;
+    width: 100%;
+}
+
+.feature .feature-img {
+    border-radius: 15px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.feature .feature-img .col-6,
+.feature .feature-img .col-12 {
+    padding: 0;
+    overflow: hidden;
+}
+
+.feature .feature-img img {
+    width: 100%;
+    transition: .3s;
+}
+
+.feature .feature-img img:hover {
+    transform: scale(1.1);
+}
+
+.feature .feature-text .btn {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 45px;
+}
+
+.feature .feature-item {
+    width: 100%;
+    margin-bottom: 45px;
+}
+
+.feature .feature-item i {
+    position: relative;
+    display: block;
+    color: #719a0a;
+    font-size: 60px;
+    line-height: 60px;
+    margin-bottom: 15px;
+    background-image: linear-gradient(#719a0a, #fbaf32);
+    -webkit-text-fill-color: transparent;
+}
+
+.feature .feature-item i::after {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 40px;
+    top: -10px;
+    left: 20px;
+    background: #fbaf32;
+    border-radius: 30px;
+    z-index: -1;
+}
+
+.feature .feature-item h3 {
+    font-size: 22px;
+    font-weight: 700;
+}

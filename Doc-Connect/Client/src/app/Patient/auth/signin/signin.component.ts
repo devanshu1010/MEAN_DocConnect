@@ -38,16 +38,16 @@ export class SigninComponentPatient implements OnInit{
       
       this.patientServ.loginPatient(patientData).subscribe(
         data =>{
-          this.patient = data;
+          //this.patient = data;
           console.log("Login successful");
-          console.log(data);
+          console.log("data : ",data);
           
-          this.userId = this.patient._id;
+          this.userId = data._id;
           console.log("userId");
           console.log(this.userId);
           localStorage.removeItem("userId");
-          localStorage.setItem('userId',this.patient._id);
-
+          localStorage.setItem('userId',this.userId);
+          localStorage.setItem('jwt', data.token);
           this.email='';
           this.password='';
 
@@ -56,7 +56,14 @@ export class SigninComponentPatient implements OnInit{
           this.navbarService.setIsLogin(this.isLogin);
           localStorage.setItem('mode','Patient');
           this.navbarService.setMode('Patient');
-          this.router.navigate(['/homepatient']);
+          
+          this.navbarService.showNavbar();
+          const redirectUrl = this.patientServ.redirectUrl || '/homepatient';
+          console.log("this.patientServ.redirectUrl",this.patientServ.redirectUrl);
+          this.router.navigate([redirectUrl]);
+          
+
+          //this.router.navigate(['/homepatient']);
         },
         error => {
           console.error("Login error", error);

@@ -4,6 +4,8 @@ import { DoctorAuthService } from '../doctor-auth.service';
 import { Router } from '@angular/router';
 import { NavbarService } from 'src/app/navbar.service';
 import { Time } from "@angular/common";
+import { environment } from 'environment.prod';
+import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 enum Tab {
   Profile = 'profile',
@@ -76,11 +78,54 @@ export class RegistrationComponentDoctor implements OnInit{
   E_time_second: String[] = ['', '', '', '', '', '', ''];
   Slots = [[], [], [], [], [], [], []];
   activeTab: Tab = Tab.Email;
-  otp:any;
+  entered_otp: any;
+  actual_otp:string = '012934';
+  message:string = '';
+  varifyEmail: boolean = false;
   
   constructor (public doctorAuthServ:DoctorAuthService,private router: Router,private navbarService: NavbarService){}
   
   doctor:Doctor | undefined;
+
+  genOTP() {
+    this.actual_otp = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log(this.actual_otp);
+    console.log("Inside genOTP");
+
+    emailjs.send(environment.SERVICE_ID, environment.TEMPLATE_ID,{
+      name: this.name,
+      otp: this.actual_otp,
+      to_email: this.email,
+    }, environment.USER_ID)
+    .then((response:any) => {
+      console.log('Email sent successfully!', response);
+    })
+    .catch((error:any) => {
+      console.error('Email could not be sent:', error);
+    });
+  }
+
+  varify_email() {
+    console.log(this.actual_otp);
+    console.log(this.entered_otp);
+    if(this.actual_otp === this.entered_otp)
+    {
+      this.varifyEmail = true;
+      this.message = '';
+      this.next_profile();
+    }
+    else{
+      this.message = "OTP is incorrect !!!";
+    }
+  }
+
+  autoVerify(event: any) {
+    const enteredOTP = event.target.value;
+    this.entered_otp = enteredOTP;
+    if (enteredOTP.length === 6) {
+        this.varify_email(); // Automatically verify OTP when 6 digits are entered
+    }
+  }
 
   async loadFile(event: any) {
     const input = event.target;

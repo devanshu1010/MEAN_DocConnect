@@ -10,7 +10,7 @@
                         <label class="text-xl font-bold leading-none tracking-normal text-gray-950 md:text-2xl">
                             Edit Your Profile
                         </label>
-                        <button class="text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center float-right px-2" (click)="closeModal.emit()">
+                        <button class="text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center float-right px-2 pb-1" (click)="closeModal.emit()">
                             <span class="text-3xl"> &times; </span>
                         </button>
                         </div>
@@ -25,10 +25,10 @@
                                         required="">
                                 </div>
 
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 opacity-35">
                                     <label for="password"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Password</label>
-                                    <input [(ngModel)]="doctor.Password" type="password" name="password" id="password"
+                                    <input disabled [(ngModel)]="doctor.Password" type="password" name="password" id="password"
                                         class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
                                         placeholder="••••••••" required="">
                                 </div>
@@ -63,11 +63,23 @@
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="profile_picture"
                                         class="block mb-2 text-sm font-semibold text-gray-900">Profile Picture</label>
-                                    <input type="text" [(ngModel)]="doctor.Profile_photo" name="profile_picture"
-                                        id="profile_picture"
-                                        class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5"
-                                        placeholder="" required="">
+                                    <div class="flex items-center pl-3 space-x-6">
+                                        <div class="shrink-0">
+                                            <img id='preview_img' class="h-16 w-16 object-cover rounded-full" [src]="doctor.Profile_photo"  alt="Current profile photo" />
+                                        </div>
+                                        <label class="block">
+                                            <span class="sr-only">Choose profile photo</span>
+                                            <input type="file" (change)="loadFile($event)" accept="image/*" class="block w-full text-sm text-slate-500
+                                            file:mr-4 file:py-2 file:px-4
+                                            file:rounded-full file:border-0
+                                            file:text-sm file:font-semibold
+                                            file:bg-violet-50 file:text-violet-700
+                                            hover:file:bg-violet-100
+                                            "/>
+                                        </label>
+                                    </div>
                                 </div>
+                                
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="phone_no" class="block mb-2 text-sm font-semibold text-gray-900">Phone
                                         No.</label>
@@ -155,7 +167,7 @@
                 </div>
                 <div>
                     <button type="submit"
-                        class="w-full my-3 text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Save
+                        class="w-full mt-3 text-primary-700 font-bold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Save
                         Changes</button>
                 </div>
             </form>

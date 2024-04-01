@@ -12,6 +12,12 @@ const bookAppointment = asyncHandler(async (req, res) => {
     try {
         //console.log(req.body);
 
+        if(req.user._id != req.body.Patient_id)
+        {
+            res.status(401);
+            throw new Error("UNAUTHORIZED ACCESS");
+        }
+
         const appointment = await Appointment.create(req.body);
         console.log('saved');
 
@@ -41,14 +47,34 @@ const bookAppointment = asyncHandler(async (req, res) => {
 });
 
 //@dec Cancle Appointment
-//@route POST api/doctor/appoitment/cancleAppointment
+//@route PUT api/doctor/appoitment/cancelAppointment
 //@access private
-const cancleAppointment = asyncHandler(async(req, res) => {
+const cancelAppointment = asyncHandler(async(req, res) => {
+    console.log("Inside cancleAppointment. Backend")
     try {
+        console.log("Inside calncleAppointment Controller.");
         const { appointmentId } = req.body;
-        
+        console.log("AppintmentId done");
         const updateAppointment = await Appointment.findById(appointmentId);
-        //console.log(updateAppointment);
+        console.log(updateAppointment);
+
+        if (!updateAppointment) {
+            res.status(404);
+            throw new Error("Appointment not found.");
+        }
+
+        console.log("Now time for jwt");
+        console.log(req.user._id);
+        console.log(updateAppointment.Doctor_id);
+
+        if((updateAppointment.Doctor_id).toString() !== (req.user._id).toString())
+        {
+            console.log("error in autho")
+            res.status(401);
+            throw new Error("UNAUTHORIZED ACCESS");
+        }
+
+        console.log("JWT done");
 
         //res.status(200).json({ appointment : updateAppointment });
         updateAppointment.Status = "Canceled"
@@ -70,6 +96,8 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         doctor.Slots[index][slotIndex].Canceled = true
         doctor.Slots[index][slotIndex].AppointmentId = null
 
+        console.log("Doctor Change");
+
         const patient = await Patient.findById(updateAppointment.Patient_id);
         console.log(patient.Email);
 
@@ -84,7 +112,7 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         let mailOptions = {
             from: `"DocConnect" <${process.env.EMAIL}>`, // sender address
             to: patient.Email, // list of receivers
-            subject: "Cancle Appointment", // Subject line
+            subject: "Cancel Appointment", // Subject line
             html: `
                     <html>
                     <head>
@@ -96,7 +124,7 @@ const cancleAppointment = asyncHandler(async(req, res) => {
                         <div class="container mx-auto py-8">
                             <!-- Logo -->
                             <div class="text-center mb-8">
-                                <img src="https://example.com/path/to/your/logo.png" alt="Company Logo" class="w-32 h-32 mx-auto mix-blend-color-burn">
+                                <img src="https://res.cloudinary.com/dcz8mfqmp/image/upload/v1711973652/b5zgndle9sd6febq8rrc.png" alt="Company Logo" class="w-32 h-32 mx-auto mix-blend-color-burn">
                             </div>
                             <!-- Email Content -->
                             <h1 class="text-3xl text-center font-bold mb-4">Cancel Appointment</h1>
@@ -125,12 +153,12 @@ const cancleAppointment = asyncHandler(async(req, res) => {
         await updateAppointment.save();
         await doctor.save();
 
-        //console.log(index);
+        console.log(index);
         res.status(200).json({ mes : "Appointment cancel successfully." });
 
     } catch(err) {
-        res.status(500).json({mes : "Internal server error."})
+        res.status(500).json({mes : "Internal server error In cancleAppointment."})
     }
 });
 
-module.exports = { bookAppointment, cancleAppointment };
+module.exports = { bookAppointment, cancelAppointment };

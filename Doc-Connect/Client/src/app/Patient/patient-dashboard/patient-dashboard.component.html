@@ -1,29 +1,34 @@
-<div class=" mt-14 flex flex-wrap min-vh-screen">
+<!-- <div class="py-40">
+  </div> -->
+<div class=" mt-14 flex bg-blue-300 flex-wrap min-vh-screen">
   <!-- <div class="fixed pl-4 mt-1 py-4 md:mb-0 bg-blue-600 mx h-screen w-full md:w-1/6  text-white  z-50 mx "> -->
-  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4  py-4 md:mb-0 bg-blue-600 h-full mx">
+  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 min-vh-screen mx rounded-3xl">
     <form>
       <ul class="w-full flex flex-col items-center">
         <li (click)="view_profile()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Profile)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
+          <i class="fa-regular fa-user fa-lg" style=" font-weight: bold;"></i>
+          <a class="bgw-full font-semibold text-lg  px-3 py-1">Profile</a>
         </li>
         <li (click)="view_appointments()" class="py-3 items-center inline-block w-full  rounded-xl cursor-pointer"
           [@slideA]="getshow(Tab.Appointments)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Appointments</a>
+          <i class="fa-regular fa-calendar-check fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold text-lg px-3 py-1">Appointments</a>
         </li>
-        <li (click)="view_slots()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer"
-          [@slideA]="getshow(Tab.Slots)">
-          <a class="w-full font-semibold text-lg text-white px-1 py-1">Slots</a>
+        <li (click)="view_join()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer"
+          [@slideA]="getshow(Tab.Join)">
+          <i class="fa-solid fa-video fa-lg" style="font-weight: bold;"></i>
+          <a class="w-full font-semibold text-lg  px-3 py-1">Join Meeting</a>
         </li>
-        <li class="py-3 items-center inline-block w-full rounded-xl">
+        <!-- <li class="py-3 items-center inline-block w-full rounded-xl">
           <a class="w-full font-semibold text-lg text-white px-1 py-1">Profile</a>
-        </li>
+        </li> -->
       </ul>
     </form>
   </div> 
 
   <!-- <main *ngIf="profile" class="flex-1 w-full md:w-5/6 bg-blue-300 overflow-x-hidden pl-64"> -->
-  <main *ngIf="profile" class="bg-blue-300 w-full md:w-5/6 mb-6 md:mb-0 h-auto mt-1">
+  <main *ngIf="profile" [@fadeInOut] class="bg-blue-300 w-full md:w-5/6 mb-6 md:mb-0 h-auto mt-1">
     <div class="h-screen" >
       <section class="relative h-1/2">
         <div class="absolute top-0 w-full h-full bg-no-repeat" style="
@@ -93,7 +98,9 @@
                     <div class="flex-1 flex flex-col items-center lg:items-center justify-center px-10 mt-2">
                       <div class="flex items-center space-x-4 mt-2">
                         <button type="submit"
-                          class="w-auto h-10 my-5 flex justify-center items-center text-black font-semibold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5 space-x-2 transition duration-100">
+                          class="w-auto h-10 my-5 flex justify-center items-center text-black font-semibold hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5 space-x-2 transition duration-100"
+                          (click)="openEditProfilePopup()"
+                          >
                           <i class="fas fa-user fill-black" ></i>
                           <span> Edit Profile </span>
                         </button>
@@ -109,8 +116,14 @@
     </section>
   </main>
 
-  <div *ngIf="appointments" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
-    <div class="h-full  p-8">
+  <div *ngIf="isEditProfileModalOpen" >
+    <app-edit-patient [@fadeInOut] [patient]="patient" (saveChanges)="updatePatient($event)"
+      (closeModal)="closeModal()" >
+    </app-edit-patient>
+  </div>
+
+  <div *ngIf="appointments" [@fadeInOut] class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
+    <div class="h-screen  p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">
@@ -121,7 +134,6 @@
                 <th class="px-4 py-3">Time</th>
                 <th class="px-4 py-3">Amount</th>
                 <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3">Join</th>
                 <th class="px-4 py-3">Cancel</th>
               </tr>
             </thead>
@@ -152,15 +164,11 @@
                   {{ allAppointments[index].Payment_id.Payable_amount }}
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-xs">
-                  <span
-                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                    Approved
+                  <span class="px-2 py-1 font-semibold leading-tight 
+  {{ allAppointments[index].Status === 'Canceled' ? 'text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100' : 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100' }}
+  rounded-full">
+  {{ allAppointments[index].Status }}
                   </span>
-                </td>
-                <td class="px-4 py-3 text-gray-700 text-sm">
-                  <a routerLink="/PatientConsulting" routerLinkActive="active">
-                    <span class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs ">join</span>
-                  </a>
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-sm">
                   <span class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-red-600 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs ">Cancel</span>
@@ -172,13 +180,13 @@
         <div
           class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t  bg-gray-50 sm:grid-cols-9 ">
           <span class="flex items-center col-span-3">
-            Showing 21-30 of 100
+            Your Appointments
           </span>
           <span class="col-span-2"></span>
           <!-- Pagination -->
           <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
             <nav aria-label="Table navigation">
-              <ul class="inline-flex items-center">
+              <!-- <ul class="inline-flex items-center">
                 <li>
                   <button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                     aria-label="Previous">
@@ -227,11 +235,56 @@
                     </svg>
                   </button>
                 </li>
-              </ul>
+              </ul> -->
             </nav>
           </span>
         </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="join" [@fadeInOut] class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
+    <div class="h-full  p-8">
+      <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-x-auto">
+          <table class="w-full whitespace-no-wrap">
+            <thead>
+              <tr class="text-lg text-gray-900 font-bold tracking-wide text-left  uppercase border-b bg-white ">
+                <th class="px-4 py-3">Join Meeting</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <form class=" bg-white space-y-4 md:space-y-6">
+          <div class="text-gray-700 dark:text-gray-400">
+            <div class="px-4 py-3">
+              <div class="flex justify-center items-center text-sm">
+                <div>
+                  <label for="callId" class="block mb-2 text-sm font-semibold text-gray-900">Enter Room Id</label>
+                    <div *ngIf = "incorrect; then thenBlock else elseBlock"> </div>
+                    <ng-template #thenBlock>
+                        <input [(ngModel)]="callId" type="text" name="callId" id="callId" class="bg-gray-100 border-2 border-red-500 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="bsewifiqevfhvefjvwfu" required="">
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <input [(ngModel)]="callId" type="text" name="callId" id="callId" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="bsewifiqevfhvefjvwfu" required="">
+                    </ng-template>
+                </div>
+              </div>
+            </div>
+            <div class="px-4 py-3 text-gray-700 text-sm">
+              <div class="">
+                <button on-click="join_meet()" type="submit" class="w-full text-primary-700 font-bold hover:bg-primary-700 focus:bg-primary-700 focus:text-white focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Join Room</button>
+              </div>
+            </div>
+            <div>
+              <p *ngIf = "incorrect" class="text-sm font-semibold text-red-600 "> 
+                  {{message}}
+              </p>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </div>

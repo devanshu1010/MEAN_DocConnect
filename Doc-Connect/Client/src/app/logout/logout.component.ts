@@ -16,6 +16,7 @@ export class LogoutComponent implements OnInit {
     let login = localStorage.getItem('isLogin');
     localStorage.removeItem('isLogin');
     localStorage.removeItem('userId');
+    localStorage.removeItem('jwt');
     let mode = localStorage.getItem('mode');
 
     if(mode == 'Doctor')

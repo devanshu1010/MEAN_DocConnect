@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { Patient } from 'src/app/models/patient';
@@ -56,7 +56,7 @@ export class PatientDashboardComponent implements OnInit
   allAppointments: any;
   datePipe: any;
 
-  constructor(private route: ActivatedRoute, private firebaseService: FirebaseserviceService, private services : ServicesService,private router: Router) {}
+  constructor(private route: ActivatedRoute, private firebaseService: FirebaseserviceService, private services : ServicesService,private router: Router, private ngZone:NgZone) {}
 
   get Tab() {
     return Tab;
@@ -154,6 +154,28 @@ export class PatientDashboardComponent implements OnInit
           reject(error);
         }
       );
+    });
+  }
+
+  async cancleAppointmet(appointmentId:any){
+    console.log("Inside cancleAppointmet");
+    var mes:any
+    return new Promise<void>((resolve, reject) => {
+      this.services.cancelAppoinment(appointmentId).subscribe(
+        data => {
+          mes = data.mes;
+
+          this.ngZone.run(() => {
+            alert(mes);
+          });
+          this.loadPatientData();
+          resolve();
+        },
+        error => {
+          console.error("error", error);
+          reject(error);
+        }
+      )
     });
   }
 

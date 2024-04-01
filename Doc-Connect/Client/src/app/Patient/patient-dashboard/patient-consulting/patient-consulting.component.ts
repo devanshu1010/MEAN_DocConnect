@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseserviceService } from 'src/app/Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { ServicesService } from '../../services.service';
@@ -59,7 +59,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     iceCandidatePoolSize: 5,
   }
 
-  constructor( private route: ActivatedRoute, private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ,private router: Router ) { }
+  constructor( private route: ActivatedRoute, private ngZone: NgZone , private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -88,12 +88,66 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
   ngOnDestroy() {
     // Clean up resources when the component is destroyed
+    if (this.callId) {
+      const callDocRef = this.firebaseService.getCallDocument(this.callId);
+      const subscription = callDocRef.valueChanges().subscribe((callData: any) => {
+        if (callData.ended) {
+          // Call has ended, perform necessary tasks here
+          console.log('Call ended by Patient');
+          // Redirect or perform other actions as needed
+          subscription.unsubscribe(); // Unsubscribe from the snapshot listener
+        }
+      });
+    }
+  
+    // Clean up resources when the component is destroyed
+    this.peerConnection.close();
+    if (this.localStream) {
+      this.localStream.getTracks().forEach((track) => track.stop());
+    }
+    this.firebaseService.getCallDocument(this.callId).update({ ended: true })
+      .then(() => {
+        console.log('Call ended successfully');
+      })
+      .catch(error => {
+        console.error('Error updating call document:', error);
+      });
+
+    this.router.navigate(['/dashboardPatient']);
+  }
+
+  listenForCallEnd(id:any) {
+    // Assuming you have the callId stored somewhere in your component
+    const callId = 'your-call-id'; // Replace this with your actual callId
+
+    // Call the service method to get the call document
+    const callDocRef = this.firebaseService.getCallDocument(id);
+
+    // Subscribe to changes in the call document
+    callDocRef.valueChanges().subscribe((callData: any) => {
+      if (callData.ended) {
+        // Call has ended, perform necessary tasks here
+        console.log('Call ended by doctor');
+        // Redirect or perform other actions as needed
+      }
+    });
+
+    this.ngZone.run(() => {
+      alert('Call ended by doctor');
+      
+    });
+    this.callEndedByDoctor();
+  }
+
+  callEndedByDoctor() {
+    // Clean up resources when the component is destroyed
     this.peerConnection.close();
     if (this.localStream) {
       this.localStream.getTracks().forEach((track) => track.stop());
     }
     this.router.navigate(['/dashboardPatient']);
   }
+
 
   // Function to mute audio
   toggleAudio() {
@@ -230,7 +284,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
         });
       });
       console.log("InitiaeCall completed.");
-
+      this.listenForCallEnd(this.callId);
       // const offer = await this.peerConnection.createOffer();
       // this.peerConnection.setLocalDescription(offer);
 
@@ -241,38 +295,6 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     }
   }
 
-  // async answerCall() {
-  //   try {
-  //     console.log("answerCall");
-  //     console.log("Retrieving call data");
-  //     console.log('callid',this.callId);
-
-  //     if (!this.callId) {
-  //       console.error("Call ID is empty");
-  //       return;
-  //     }
-  
-  //     const docRef = this.firestore.collection('calls').doc(this.callId);
-  //     const docSnapshot = await docRef.get().toPromise();
-  
-  //     if (!docSnapshot || !docSnapshot.exists) {
-  //       console.error("Call document does not exist");
-  //       return;
-  //     }
-  
-  //     // Ensure that docSnapshot is defined before accessing its properties
-  //     const data = docSnapshot.data();
-  //     if (data) {
-  //       console.log("Document data:", data);
-  //       // Further processing of data or updating UI goes here
-  //     } else {
-  //       console.error("Document data is undefined");
-  //     }
-  
-  //   } catch (error) {
-  //     console.error('Error answering call:', error);
-  //   }
-  // }
 
   async answerCall() {
     try {
@@ -296,21 +318,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
       let c_id;
       let offer:CallData;
-
-      // const docRef = this.firestore.collection('calls').doc(this.callId);
-      // const d = docRef.get().subscribe((docSnapshot) => {
-      //   console.log("docSnapshot", docSnapshot);
-      //   console.log("hello");
-      //   if (!docSnapshot.exists) {
-      //     console.error("Call document does not exist");
-      //     return;
-      //   }
-      //   // Handle the document data here if it exists
-      //   const data = docSnapshot.data();
-      //   console.log("Document data:", data);
-      // });
-
-  
+      
       callDocRef.get().subscribe((callSnapshot) => {
         if (!callSnapshot.exists) {
           console.error("Call document does not exist");

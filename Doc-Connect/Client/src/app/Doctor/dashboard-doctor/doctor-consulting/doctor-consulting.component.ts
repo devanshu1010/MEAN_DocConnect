@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DoctorService } from '../../doctor.service';
 import { FirebaseserviceService } from './firebaseservice.service';
@@ -60,7 +60,7 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   };
   
 
-  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore,private router: Router ) { }
+  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService ,private ngZone: NgZone , private datePipe: DatePipe,private firestore: AngularFirestore,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -108,7 +108,7 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
       .catch(error => {
         console.error('Error updating call document:', error);
       });
-    //this.router.navigate(['/dashboardDoctor']);
+    this.router.navigate(['/dashboardDoctor']);
   }
 
   // Function to mute audio
@@ -251,11 +251,6 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
 
       this.listenForCallEnd(this.callId);
 
-      // const offer = await this.peerConnection.createOffer();
-      // this.peerConnection.setLocalDescription(offer);
-
-      // // Send the offer to the backend (refer to SocketService implementation)
-      // this.socketService.emit('createRoom', { offer });
     } catch (error) {
       console.error('Error creating offer:', error);
     }
@@ -263,7 +258,6 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
 
   listenForCallEnd(id:any) {
     // Assuming you have the callId stored somewhere in your component
-    const callId = 'your-call-id'; // Replace this with your actual callId
 
     // Call the service method to get the call document
     const callDocRef = this.firebaseService.getCallDocument(id);
@@ -272,10 +266,24 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
     callDocRef.valueChanges().subscribe((callData: any) => {
       if (callData.ended) {
         // Call has ended, perform necessary tasks here
-        console.log('Call ended by doctor');
+        console.log('Call ended by Patient');
         // Redirect or perform other actions as needed
       }
     });
+
+    this.ngZone.run(() => {
+      alert('Call ended by Patient');
+    });
+    this.callEndedByPatient();
+  }
+
+  callEndedByPatient() {
+    // Clean up resources when the component is destroyed
+    this.peerConnection.close();
+    if (this.localStream) {
+      this.localStream.getTracks().forEach((track) => track.stop());
+    }
+    this.router.navigate(['/dashboardDoctor']);
   }
 
   async answerCall() {

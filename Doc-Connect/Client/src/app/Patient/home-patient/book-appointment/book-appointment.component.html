@@ -1,367 +1,663 @@
-<div *ngIf="!loading"
-  class="lg:grid lg:grid-rows-1 lg:grid-cols-6 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16"
+<div *ngIf="!loading" @fadeInOut
+  class= "bg-custom-gradient mt-14 py-8"
 >
-  <!-- Doctor image -->
-  <div class="lg:row-end-1 mt-20 ml-14 lg:col-span-2">
-    <div class="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden">
-      <img
-        src="https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256"
-        alt="Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles."
-        class="object-center object-cover"
-      />
-    </div>
-  </div>
+  <div class="mx-auto bg-white/40 rounded-lg sm:pt-8 sm:pb-8 sm:px-6 lg:max-w-7xl lg:px-8 ">
 
-  <!-- doctor details -->
-  <div
-    class="w-full ml-14 mx-auto mt-14 lg:mt-0 sm:mt-16 lg:row-end-2 lg:col-span-2"
-  >
-    <div class="flex flex-col-reverse">
-      <div class="mt-4">
-        <h1
-          class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl"
-        >
-          Dr. {{ doctor?.Name }}
-        </h1>
-      </div>
+    <div class=" lg:grid lg:grid-rows-1 lg:grid-cols-9 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
 
-      <div>
-        <h3 class="sr-only">Reviews</h3>
-        <div class="flex items-center">
-          <!--
-                                Heroicon name: solid/star
-                
-                                Active: "text-yellow-400", Default: "text-gray-300"
-                            -->
-          <svg
-            class="text-yellow-400 h-5 w-5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-            />
-          </svg>
-
-          <!-- Heroicon name: solid/star -->
-          <svg
-            class="text-yellow-400 h-5 w-5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-            />
-          </svg>
-
-          <!-- Heroicon name: solid/star -->
-          <svg
-            class="text-yellow-400 h-5 w-5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-            />
-          </svg>
-
-          <!-- Heroicon name: solid/star -->
-          <svg
-            class="text-yellow-400 h-5 w-5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-            />
-          </svg>
-
-          <!-- Heroicon name: solid/star -->
-          <svg
-            class="text-gray-300 h-5 w-5 flex-shrink-0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-            />
-          </svg>
-        </div>
-        <p class="sr-only">4 out of 5 stars</p>
-      </div>
-    </div>
-
-    <p class="text-gray-500 mt-6">{{ doctor.Bio }}</p>
-
-    <div class="flex mt-4">
-      <h3 class="relative text-base font-medium text-gray-900">Age :</h3>
-      <h3 class="prose prose-base text-gray-500 ml-2">
-        {{ doctor.Age }} Years
-      </h3>
-    </div>
-
-    <div class="flex">
-      <h3 class="relative text-base font-medium text-gray-900">Experiance :</h3>
-      <h3 class="prose prose-base text-gray-500 ml-2">
-        {{ doctor.Experiance }} Years
-      </h3>
-    </div>
-
-    <div class="flex">
-      <h3 class="relative text-base font-medium text-gray-900">Category :</h3>
-      <h3 class="prose prose-base text-gray-500 ml-2">{{ doctor.Category }}</h3>
-    </div>
-
-    <div class="flex">
-      <h3 class="relative text-base font-medium text-gray-900">Specialist :</h3>
-      <h3 class="prose prose-base text-gray-500 ml-2">
-        {{ doctor.Specialist }}
-      </h3>
-    </div>
-
-    <div class="flex">
-      <h3 class="relative text-base font-medium text-gray-900">
-        Counselling Duration :
-      </h3>
-      <h3 class="prose prose-base text-gray-500 ml-2">
-        {{ doctor.Slot_length }} Minutes
-      </h3>
-    </div>
-
-    <div class="flex">
-      <h3 class="relative text-base font-medium text-gray-900">
-        Counselling Fees :
-      </h3>
-      <h3 class="prose prose-base text-gray-500 ml-2">
-        ₹ {{ doctor.Counselling_fee }}
-      </h3>
-    </div>
-  </div>
-
-  <!-- booking section -->
-  <div
-    class="mr-14 mt-14 sm:mt-16 lg:max-w-none lg:mt-0 lg:row-end-2 lg:row-span-2 lg:col-span-6"
-  >
-    <div
-      class="relative mt-20 mb-10 overflow-hidden rounded-xl bg-blue-500/70 py-32 text-center shadow-xl shadow-gray-300"
-    >
-      <h1 class="mt-2 px-8 text-3xl font-bold text-white md:text-5xl">
-        Book an appointment
-      </h1>
-      <p class="mt-6 text-lg text-white">
-        Get an appointment with our experienced accountants
-      </p>
-      <img
-        class="absolute top-0 left-0 -z-10 h-full w-full object-cover"
-        src="https://images.unsplash.com/photo-1504672281656-e4981d70414b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-        alt=""
-      />
-    </div>
-
-    <div class="grid px-6 pb-20">
-      <div class="">
-        <p class="mt-4 mb-4 font-serif text-xl font-bold text-blue-900">
-          Select a date
-        </p>
-        <div class="relative">
-          <div
-            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
-          >
-            <svg
-              aria-hidden="true"
-              class="h-5 w-5 text-gray-500"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </div>
-          <input type="hidden" name="date" x-ref="date" />
-          <input
-            type="text"
-            [min]="minDate"
-            [max]="maxDate"
-            readonly
-            [(ngModel)]="datepickerValue"
-            (click)="showDatepicker = !this.showDatepicker"
-            (keydown.escape)="showDatepicker = false"
-            (ngModelChange)="calculateSlot();"
-            class="datepicker-input block w-56 rounded-lg border border-blue-300 bg-blue-50 p-2.5 pl-10 text-blue-800 outline-none ring-opacity-30 placeholder:text-blue-800 focus:ring focus:ring-blue-300 sm:text-sm"
-            placeholder="Select date"
+      <!-- Doctor image -->
+      <div class="lg:row-end-1  lg:col-span-3">
+        <div class="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 shadow-lg shadow-gray-600 overflow-hidden">
+          <img
+          [src] = "doctor.Profile_photo ? doctor.Profile_photo : 'https://images.unsplash.com/photo-1567515004624-219c11d31f2e??auto=format&q=75&fit=crop&w=256' "
+            alt="Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles."
+            class="object-center object-cover"
           />
-
-          <div
-            class="bg-white mt-12 rounded-lg shadow p-4 absolute top-0 left-0"
-            style="width: 17rem"
-            [hidden]="!showDatepicker"
-            (keydown.away)="showDatepicker = false"
-          >
-            <div class="flex justify-between items-center mb-2">
-              <div>
-                <span class="text-lg font-bold text-gray-800">{{
-                  MONTH_NAMES[month]
-                }}</span>
-                <span class="ml-1 text-lg text-gray-600 font-normal">{{
-                  year
-                }}</span>
-              </div>
-              <div>
-                <button
-                  type="button"
-                  class="transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 rounded-full"
-                  [ngClass]="{ 'cursor-not-allowed opacity-25': month === 0 }"
-                  [disabled]="month === 0 ? true : false"
-                  (click)="month = month - 1"
-                  (click)="getNoOfDays()"
-                >
-                  <svg
-                    class="h-6 w-6 text-gray-500 inline-flex"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 rounded-full"
-                  [ngClass]="{ 'cursor-not-allowed opacity-25': month === 11 }"
-                  [disabled]="month === 11 ? true : false"
-                  (click)="month = month + 1"
-                  (click)="getNoOfDays()"
-                >
-                  <svg
-                    class="h-6 w-6 text-gray-500 inline-flex"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div class="flex flex-wrap mb-3 -mx-1">
-              <ng-container *ngFor="let day of DAYS; let index = index">
-                <div style="width: 14.26%" class="px-1">
-                  <div class="text-gray-800 font-medium text-center text-xs">
-                    {{ day }}
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-
-            <div class="flex flex-wrap -mx-1">
-              <ng-container *ngFor="let blankday of blankdays">
-                <div
-                  style="width: 14.28%"
-                  class="text-center border-none p-1 border-transparent text-sm"
-                ></div>
-              </ng-container>
-              <ng-container
-                *ngFor="
-                  let date of no_of_days;
-                  let dateIndex = index;
-                  trackBy: trackByIdentity
-                "
-              >
-                <div style="width: 14.28%" class="px-1 mb-1">
-                  <div
-                    (click)="getDateValue(date);calculateSlot();"
-                    class="cursor-pointer text-center text-sm rounded-full leading-loose transition ease-in-out duration-100"
-                    [ngClass]="{
-                      'bg-blue-500 text-white': isToday(date) === true,
-                      'text-gray-700 hover:bg-blue-200': isToday(date) === false
-                    }"
-                  >
-                    {{ date }}
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </div>
         </div>
       </div>
 
-      <!-- <div *ngIf = "datepickerValue != today; then thenBlock "> </div> -->
-
-      <div class="" *ngIf = "datepickerValue != today">
-        <p class="mt-8 font-serif text-xl font-bold text-blue-900">
-          Select a time
-        </p>
-        <div *ngIf = "timeSlots.length === 0" class="mt-8 font-serif text-xl font-bold text-red-900">
-          <p>No Slot On This Day.</p>
-        </div>
-        <div class="mt-4 grid grid-cols-4 gap-2 lg:max-w-xl">
-          <div *ngFor="let timeSlot of timeSlots; let index = index">
-            <button *ngIf="!timeSlots[index].Booked && !timeSlots[index].Canceled" (click)="onChangeSlot(index)" 
-            [ngClass]="selectedSlot == index ? 'bg-blue-900 text-blue-100' : 'bg-blue-100 text-blue-900'"
-            class="rounded-lg w-full  px-4 py-2 font-medium  active:scale-95"
-            >
-              {{timeSlots[index].Time}}
-            </button>
-            <button *ngIf="timeSlots[index].Booked"  
-            class="rounded-lg w-full bg-gray-200 px-4 py-2 font-medium text-black active:scale-95"
-            disabled
-            >
-              {{timeSlots[index].Time}}
-            </button>
-            <button *ngIf="timeSlots[index].Canceled"  
-            class="rounded-lg w-full bg-red-200 px-4 py-2 font-medium text-red-700 active:scale-95"
-            disabled
-            >
-              {{timeSlots[index].Time}}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <button (click)="bookAppointment()" [disabled]="selectedSlot === -1" [ngStyle]="{'opacity': selectedSlot === -1 ? '0.5' : '1', 'cursor': selectedSlot === -1 ? 'not-allowed' : 'pointer'}"
-        class="mt-8 w-48 rounded-full border-8 border-blue-500 bg-blue-600 px-10 py-2 text-lg font-bold text-white transition hover:translate-y-1"
+      <!-- doctor details -->
+      <div
+        class="w-full  mx-auto  lg:mt-0 sm:mt-16 lg:row-end-2 lg:col-span-3"
       >
-        Book Now
-      </button>
-      
+        <div class="flex flex-col-reverse">
+          <div class="mt-4">
+            <h1
+              class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl"
+            >
+              Dr. {{ doctor?.Name }}
+            </h1>
+          </div>
+
+          <div>
+            <h3 class="sr-only">Reviews</h3>
+            <div class="flex items-center">
+              <!--
+                                    Heroicon name: solid/star
+                    
+                                    Active: "text-yellow-400", Default: "text-gray-300"
+                                -->
+              <svg
+                class="text-yellow-400 h-5 w-5 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+
+              <!-- Heroicon name: solid/star -->
+              <svg
+                class="text-yellow-400 h-5 w-5 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+
+              <!-- Heroicon name: solid/star -->
+              <svg
+                class="text-yellow-400 h-5 w-5 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+
+              <!-- Heroicon name: solid/star -->
+              <svg
+                class="text-yellow-400 h-5 w-5 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+
+              <!-- Heroicon name: solid/star -->
+              <svg
+                class="text-gray-300 h-5 w-5 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+            </div>
+            <p class="sr-only">4 out of 5 stars</p>
+          </div>
+        </div>
+
+        <p class="text-gray-500 mt-6">{{ doctor.Bio }}</p>
+
+        <div class="flex mt-4">
+          <h3 class="relative text-base font-medium text-gray-900">Age :</h3>
+          <h3 class="prose prose-base text-gray-500 ml-2">
+            {{ doctor.Age }} Years
+          </h3>
+        </div>
+
+        <div class="flex">
+          <h3 class="relative text-base font-medium text-gray-900">Experiance :</h3>
+          <h3 class="prose prose-base text-gray-500 ml-2">
+            {{ doctor.Experiance }} Years
+          </h3>
+        </div>
+
+        <div class="flex">
+          <h3 class="relative text-base font-medium text-gray-900">Category :</h3>
+          <h3 class="prose prose-base text-gray-500 ml-2">{{ doctor.Category }}</h3>
+        </div>
+
+        <div class="flex">
+          <h3 class="relative text-base font-medium text-gray-900">Specialist :</h3>
+          <h3 class="prose prose-base text-gray-500 ml-2">
+            {{ doctor.Specialist }}
+          </h3>
+        </div>
+
+        <div class="flex">
+          <h3 class="relative text-base font-medium text-gray-900">
+            Counselling Duration :
+          </h3>
+          <h3 class="prose prose-base text-gray-500 ml-2">
+            {{ doctor.Slot_length }} Minutes
+          </h3>
+        </div>
+
+        <div class="flex">
+          <h3 class="relative text-base font-medium text-gray-900">
+            Counselling Fees :
+          </h3>
+          <h3 class="prose prose-base text-gray-500 ml-2">
+            ₹ {{ doctor.Counselling_fee }}
+          </h3>
+        </div>
+      </div>
+
+      <!-- booking section -->
+      <div
+        class="sm:mt-16 lg:max-w-none lg:mt-0 lg:row-end-2 lg:row-span-2 lg:col-span-6"
+      >
+        <div
+          class="relative z-10 mb-10 overflow-hidden rounded-xl  text-center shadow-lg shadow-gray-600"
+        >
+          <div class="bg-blue-700/70 w-full h-full py-32" >
+            <h1 class="mt-2 px-8 text-3xl font-bold text-white md:text-5xl">
+              Book an appointment
+            </h1>
+            <p class="mt-6 text-lg text-white">
+              Get an appointment with our experienced accountants
+            </p>
+            <img
+              class="absolute top-0 left-0 -z-20 h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1504672281656-e4981d70414b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+              alt=""
+            />
+          </div>
+          
+        </div>
+
+        <div class="grid px-6 pb-20">
+          <div class="">
+            <p class="mt-4 mb-4 font-serif text-xl font-bold text-blue-900">
+              Select a date
+            </p>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="h-5 w-5 text-gray-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              <input type="hidden" name="date" x-ref="date" />
+              <input
+                type="text"
+                [min]="minDate"
+                [max]="maxDate"
+                readonly
+                [(ngModel)]="datepickerValue"
+                (click)="showDatepicker = !this.showDatepicker"
+                (keydown.escape)="showDatepicker = false"
+                (ngModelChange)="calculateSlot();"
+                class="datepicker-input block w-56 rounded-lg border border-blue-300 bg-blue-50 p-2.5 pl-10 text-blue-800 outline-none ring-opacity-30 placeholder:text-blue-800 focus:ring focus:ring-blue-300 sm:text-sm"
+                placeholder="Select date"
+              />
+
+              <div
+                class="bg-white mt-12 rounded-lg shadow p-4 absolute top-0 left-0"
+                style="width: 17rem"
+                [hidden]="!showDatepicker"
+                (keydown.away)="showDatepicker = false"
+              >
+                <div class="flex justify-between items-center mb-2">
+                  <div>
+                    <span class="text-lg font-bold text-gray-800">{{
+                      MONTH_NAMES[month]
+                    }}</span>
+                    <span class="ml-1 text-lg text-gray-600 font-normal">{{
+                      year
+                    }}</span>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      class="transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 rounded-full"
+                      [ngClass]="{ 'cursor-not-allowed opacity-25': month === 0 }"
+                      [disabled]="month === 0 ? true : false"
+                      (click)="month = month - 1"
+                      (click)="getNoOfDays()"
+                    >
+                      <svg
+                        class="h-6 w-6 text-gray-500 inline-flex"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 19l-7-7 7-7"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 rounded-full"
+                      [ngClass]="{ 'cursor-not-allowed opacity-25': month === 11 }"
+                      [disabled]="month === 11 ? true : false"
+                      (click)="month = month + 1"
+                      (click)="getNoOfDays()"
+                    >
+                      <svg
+                        class="h-6 w-6 text-gray-500 inline-flex"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap mb-3 -mx-1">
+                  <ng-container *ngFor="let day of DAYS; let index = index">
+                    <div style="width: 14.26%" class="px-1">
+                      <div class="text-gray-800 font-medium text-center text-xs">
+                        {{ day }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+
+                <div class="flex flex-wrap -mx-1">
+                  <ng-container *ngFor="let blankday of blankdays">
+                    <div
+                      style="width: 14.28%"
+                      class="text-center border-none p-1 border-transparent text-sm"
+                    ></div>
+                  </ng-container>
+                  <ng-container
+                    *ngFor="
+                      let date of no_of_days;
+                      let dateIndex = index;
+                      trackBy: trackByIdentity
+                    "
+                  >
+                    <div style="width: 14.28%" class="px-1 mb-1">
+                      <div
+                        (click)="getDateValue(date);calculateSlot();"
+                        class="cursor-pointer text-center text-sm rounded-full leading-loose transition ease-in-out duration-100"
+                        [ngClass]="{
+                          'bg-blue-500 text-white': isToday(date) === true,
+                          'text-gray-700 hover:bg-blue-200': isToday(date) === false
+                        }"
+                      >
+                        {{ date }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div *ngIf = "datepickerValue != today; then thenBlock "> </div> -->
+
+          <div class="" *ngIf = "datepickerValue != today">
+            <p class="mt-8 font-serif text-xl font-bold text-blue-900">
+              Select a time
+            </p>
+            <div *ngIf = "timeSlots.length === 0" class="mt-8 font-serif text-xl font-bold text-red-900">
+              <p>No Slot On This Day.</p>
+            </div>
+            <div class="mt-4 grid grid-cols-4 gap-2 lg:max-w-xl">
+              <div *ngFor="let timeSlot of timeSlots; let index = index">
+                <button *ngIf="!timeSlots[index].Booked && !timeSlots[index].Canceled" (click)="onChangeSlot(index)" 
+                [ngClass]="selectedSlot == index ? 'bg-blue-900 text-blue-100' : 'bg-blue-100 text-blue-900'"
+                class="rounded-lg w-full  px-4 py-2 font-medium  active:scale-95"
+                >
+                  {{timeSlots[index].Time}}
+                </button>
+                <button *ngIf="timeSlots[index].Booked"  
+                class="rounded-lg w-full bg-gray-400 px-4 py-2 cursor-not-allowed font-medium text-black active:scale-95"
+                disabled
+                >
+                  {{timeSlots[index].Time}}
+                </button>
+                <button *ngIf="timeSlots[index].Canceled"  
+                class="rounded-lg w-full bg-red-200 px-4 py-2 cursor-not-allowed font-medium text-red-700 active:scale-95"
+                disabled
+                >
+                  {{timeSlots[index].Time}}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button (click)="bookAppointment()" [disabled]="selectedSlot === -1" [ngStyle]="{'opacity': selectedSlot === -1 ? '0.5' : '1', 'cursor': selectedSlot === -1 ? 'not-allowed' : 'pointer'}"
+            class="mt-8 w-48 rounded-full border-8 border-blue-500 bg-blue-600 px-10 py-2 text-lg font-bold text-white transition hover:translate-y-1"
+          >
+            Book Now
+          </button>
+          
+        </div>
+      </div>
     </div>
+
   </div>
+  
 </div>
 
-<div *ngIf="loading" class="flex flex-col items-center justify-center mx-auto my-20 md:h-96 lg:py-0">
-  <div role="status" class="text-center">
-    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-    </svg>
-    <span class="sr-only">Loading...</span>
-  </div>
+<div *ngIf="loading" @fadeInOut class="bg-custom-gradient mt-14 p-8 ">
+    <div class="mx-auto bg-white/40 rounded-lg sm:pt-8 sm:pb-8 sm:px-6 lg:max-w-7xl lg:px-8 ">
+
+      <div class=" lg:grid lg:grid-rows-1 lg:grid-cols-9 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
+  
+        <!-- Doctor image -->
+        <div class="lg:row-end-1  lg:col-span-3">
+          <div class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
+            <ngx-skeleton-loader class=""
+            count="1"
+            appearance="circle"
+            [theme]="{
+              'background-color': 'rgba(40, 120, 255, 0.2)',
+              width: '360px',
+              height: '360px',
+              'border-radius': '10px'
+            }"
+          >                                   
+          </ngx-skeleton-loader>
+          </div>
+        </div>
+  
+        <!-- doctor details -->
+        <div
+          class="w-full  mx-auto  lg:mt-0 sm:mt-16 lg:row-end-2 lg:col-span-3"
+        >
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '150px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '300px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '100px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '130px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '150px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '120px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+
+          <div class="">
+            <ngx-skeleton-loader class=""
+              count="1"
+              appearance="circle"
+              [theme]="{
+                'background-color': 'rgba(40, 120, 255, 0.2)',
+                width: '150px',
+                height: '35px',
+                'border-radius': '3px'
+              }"
+            >                                   
+            </ngx-skeleton-loader>
+          </div>
+          
+        </div>
+  
+        <!-- booking section -->
+        <div
+          class="sm:mt-16 lg:max-w-none lg:mt-0 lg:row-end-2 lg:row-span-2 lg:col-span-6"
+        >
+          
+          <ngx-skeleton-loader class=""
+            count="1"
+            appearance="circle"
+            [theme]="{
+              'background-color': 'rgba(40, 120, 255, 0.2)',
+              width: '780px',
+              height: '360px',
+              'border-radius': '10px'
+            }"
+          >                                   
+          </ngx-skeleton-loader>
+            
+          
+  
+          <div class="grid pr-4 pb-20">
+            <div class="mt-6">
+              <ngx-skeleton-loader class=""
+                count="1"
+                appearance="circle"
+                [theme]="{
+                  'background-color': 'rgba(40, 120, 255, 0.2)',
+                  width: '250px',
+                  height: '40px',
+                  'border-radius': '8px'
+                }"
+              >                                   
+              </ngx-skeleton-loader>
+
+              
+              <div class="relative">
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '260px',
+                    height: '40px',
+                    'border-radius': '8px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                
+              </div>
+
+              <div class="relative">
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                
+              </div>
+
+              <div class="relative">
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader class=""
+                  count="1"
+                  appearance="circle"
+                  [theme]="{
+                    'background-color': 'rgba(40, 120, 255, 0.2)',
+                    width: '150px',
+                    height: '40px',
+                    'border-radius': '4px'
+                  }"
+                >                                   
+                </ngx-skeleton-loader>
+                
+              </div>
+
+            </div>
+  
+            
+  
+            <div class="relative mt-7">
+              <ngx-skeleton-loader class="mt-20"
+                count="1"
+                appearance="circle"
+                [theme]="{
+                  'background-color': 'rgba(40, 120, 255, 0.2)',
+                  width: '200px',
+                  height: '50px',
+                  'border-radius': '4px'
+                }"
+              >                                   
+              </ngx-skeleton-loader>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+  
+    </div>
+    
 </div>
-
-
-<script src="https://unpkg.com/flowbite@1.5.2/dist/datepicker.js"></script>

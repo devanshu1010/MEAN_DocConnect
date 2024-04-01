@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseserviceService } from 'src/app/Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { ServicesService } from '../../services.service';
 import { Patient } from 'src/app/models/patient';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface CallData {
   offer: any; // Adjust the type according to the actual type of offer data
@@ -16,7 +17,7 @@ interface CallData {
 })
 export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
-  isDoctor:Boolean = false;
+  isPatient:Boolean = false;
   isLocal:Boolean = false;
   isRemote:Boolean = false;
   patient!: Patient;
@@ -27,6 +28,12 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   localStream!: MediaStream; // Store the local media stream
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
+
+  isAudioMuted: boolean = false;
+  isVideoStopped: boolean = false;
+
+  micButton:string = "Mute";
+  videoButton:string = "Stop Vedio"
 
   app:any;
   analytics:any;
@@ -43,16 +50,26 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
       {
         urls: [
           'stun:stun1.l.google.com:19302',
-          // 'stun:stun2.l.google.com:19302',
+          'stun:stun2.l.google.com:19302', // Optional additional STUN server
         ],
       },
+      {
+        urls: ['turn:numb.viagenie.ca'],
+        credential: 'muazkh',
+        username: 'webrtc@live.com',
+      },
     ],
-    iceCandidatePoolSize: 2,
+    iceCandidatePoolSize: 5,
   }
 
-  constructor( private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ) { }
+  constructor( private route: ActivatedRoute, private ngZone: NgZone , private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.route.params.subscribe(params => {
+      this.callId = params['callId'];
+      // Now you can use the callId in your component
+    });
 
     await this.loadPatinetData();
     
@@ -74,9 +91,95 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
   ngOnDestroy() {
     // Clean up resources when the component is destroyed
+    if (this.callId) {
+      const callDocRef = this.firebaseService.getCallDocument(this.callId);
+      const subscription = callDocRef.valueChanges().subscribe((callData: any) => {
+        if (callData.ended) {
+          // Call has ended, perform necessary tasks here
+          console.log('Call ended by Patient');
+          // Redirect or perform other actions as needed
+          subscription.unsubscribe(); // Unsubscribe from the snapshot listener
+        }
+      });
+    }
+  
+    // Clean up resources when the component is destroyed
     this.peerConnection.close();
     if (this.localStream) {
       this.localStream.getTracks().forEach((track) => track.stop());
+    }
+    this.firebaseService.getCallDocument(this.callId).update({ ended: true })
+      .then(() => {
+        console.log('Call ended successfully');
+      })
+      .catch(error => {
+        console.error('Error updating call document:', error);
+      });
+
+    this.router.navigate(['/dashboardPatient']);
+  }
+
+  listenForCallEnd(id:any) {
+    // Assuming you have the callId stored somewhere in your component
+    const callId = 'your-call-id'; // Replace this with your actual callId
+
+    // Call the service method to get the call document
+    const callDocRef = this.firebaseService.getCallDocument(id);
+
+    // Subscribe to changes in the call document
+    callDocRef.valueChanges().subscribe((callData: any) => {
+      if (callData.ended) {
+        // Call has ended, perform necessary tasks here
+        console.log('Call ended by doctor');
+        // Redirect or perform other actions as needed
+      }
+    });
+
+    this.ngZone.run(() => {
+      alert('Call ended by doctor');
+      
+    });
+    this.callEndedByDoctor();
+  }
+
+  callEndedByDoctor() {
+    // Clean up resources when the component is destroyed
+    this.peerConnection.close();
+    if (this.localStream) {
+      this.localStream.getTracks().forEach((track) => track.stop());
+    }
+    this.router.navigate(['/dashboardPatient']);
+  }
+
+
+  // Function to mute audio
+  toggleAudio() {
+    if (this.localStream) {
+      const audioTrack = this.localStream.getAudioTracks()[0];
+      if(this.micButton === "Mute")
+        this.micButton = "Unmute";
+      else  
+      this.micButton = "Mute";
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        this.isAudioMuted = audioTrack.enabled; // Update isAudioMuted status
+      }
+    }
+  }
+
+  // Function to toggle video stop
+  toggleVideo() {
+    if (this.localStream) {
+      const videoTrack = this.localStream.getVideoTracks()[0];
+      if(this.videoButton === "Stop Vedio")
+        this.videoButton = "Start Vedio"
+
+      else  
+        this.videoButton = "Stop Vedio"
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status
+      }
     }
   }
 
@@ -85,9 +188,10 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
       this.patientId = '';
       this.patientId = localStorage.getItem('userId');
 
-      this.services.getPatient(this.patientId).subscribe(
+      this.services.getPatient().subscribe(
         data => {
           this.patient = data;
+          this.isPatient = true;
           console.log("DashBoard");
           console.log(this.patient);
           
@@ -106,9 +210,17 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   async startWebcam()
   {
     console.log("in startWebcame");
-    this.localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    this.localStream = await navigator.mediaDevices.getUserMedia({ 
+      video: true, 
+      audio: { 
+        autoGainControl: true, 
+        noiseSuppression: true, 
+        echoCancellation: true 
+      } 
+    });
     this.isLocal = true;
     
+    this.localStream.getAudioTracks()[0].enabled = false;
     console.log("in startWebcame1");
     // Push tracks from local stream to peer connection
     this.localStream.getTracks().forEach((track) => {
@@ -158,26 +270,33 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
       await callDocRef.set({ offer });
 
       // Listen for remote answer
-    const unsubscribe = callDocRef.onSnapshot((snapshot: { data: () => any; }) => {
-      const data = snapshot.data();
-      if (!this.peerConnection.currentRemoteDescription && data?.answer) {
-        const answerDescription = new RTCSessionDescription(data.answer);
-        this.peerConnection.setRemoteDescription(answerDescription);
-        unsubscribe(); // Unsubscribe from further snapshot changes
-      }
-    });
-
-    // When answered, add candidate to peer connection
-    answerCandidates.onSnapshot((snapshot: { docChanges: () => any[]; }) => {
-      snapshot.docChanges().forEach((change: { type: string; doc: { data: () => RTCIceCandidateInit | undefined; }; }) => {
-        if (change.type === 'added') {
-          const candidate = new RTCIceCandidate(change.doc.data());
-          this.peerConnection.addIceCandidate(candidate);
+      const unsubscribe = callDocRef.onSnapshot((snapshot: { data: () => any; }) => {
+        console.log("listing remote changes");
+        const data = snapshot.data();
+        if (!this.peerConnection.currentRemoteDescription && data?.answer) {
+          console.log("listened remote changes");
+          const answerDescription = new RTCSessionDescription(data.answer);
+          this.peerConnection.setRemoteDescription(answerDescription);
+          unsubscribe(); // Unsubscribe from further snapshot changes
         }
       });
-    });
-      console.log("InitiaeCall completed.");
 
+      // When answered, add candidate to peer connection
+      answerCandidates.onSnapshot((snapshot: { docChanges: () => any[]; }) => {
+        console.log("adding remote changes");
+        snapshot.docChanges().forEach((change: { type: string; doc: { data: () => RTCIceCandidateInit | undefined; }; }) => {
+          if (change.type === 'added') {
+            console.log("adding candidate.");
+            const candidate = new RTCIceCandidate(change.doc.data());
+            console.log(candidate);
+            this.peerConnection.addIceCandidate(candidate);
+            console.log(this.peerConnection);
+            
+          }
+        });
+      });
+      console.log("InitiaeCall completed.");
+      this.listenForCallEnd(this.callId);
       // const offer = await this.peerConnection.createOffer();
       // this.peerConnection.setLocalDescription(offer);
 
@@ -188,38 +307,6 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     }
   }
 
-  // async answerCall() {
-  //   try {
-  //     console.log("answerCall");
-  //     console.log("Retrieving call data");
-  //     console.log('callid',this.callId);
-
-  //     if (!this.callId) {
-  //       console.error("Call ID is empty");
-  //       return;
-  //     }
-  
-  //     const docRef = this.firestore.collection('calls').doc(this.callId);
-  //     const docSnapshot = await docRef.get().toPromise();
-  
-  //     if (!docSnapshot || !docSnapshot.exists) {
-  //       console.error("Call document does not exist");
-  //       return;
-  //     }
-  
-  //     // Ensure that docSnapshot is defined before accessing its properties
-  //     const data = docSnapshot.data();
-  //     if (data) {
-  //       console.log("Document data:", data);
-  //       // Further processing of data or updating UI goes here
-  //     } else {
-  //       console.error("Document data is undefined");
-  //     }
-  
-  //   } catch (error) {
-  //     console.error('Error answering call:', error);
-  //   }
-  // }
 
   async answerCall() {
     try {
@@ -243,21 +330,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
       let c_id;
       let offer:CallData;
-
-      // const docRef = this.firestore.collection('calls').doc(this.callId);
-      // const d = docRef.get().subscribe((docSnapshot) => {
-      //   console.log("docSnapshot", docSnapshot);
-      //   console.log("hello");
-      //   if (!docSnapshot.exists) {
-      //     console.error("Call document does not exist");
-      //     return;
-      //   }
-      //   // Handle the document data here if it exists
-      //   const data = docSnapshot.data();
-      //   console.log("Document data:", data);
-      // });
-
-  
+      
       callDocRef.get().subscribe((callSnapshot) => {
         if (!callSnapshot.exists) {
           console.error("Call document does not exist");
@@ -332,7 +405,4 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   }
 
   
-}
-function take(arg0: number): import("rxjs").OperatorFunction<any, unknown> {
-  throw new Error('Function not implemented.');
 }

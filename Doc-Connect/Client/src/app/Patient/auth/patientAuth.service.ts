@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
+import { Observable,  catchError } from 'rxjs';
 import { Patient } from 'src/app/models/patient';
+import { baseUrl } from 'environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientAuthService {
 
-  private url_login: string = "http://localhost:8082/api/patient/auth/login";
-  private url_signup: string = "http://localhost:8082/api/patient/auth/signup";
+  redirectUrl!: string;
 
+  private url_login: string = baseUrl +"api/patient/auth/login";
+  private url_signup: string = baseUrl +"api/patient/auth/signup";
+  private url_checkUser: string = baseUrl + "api/patient/auth/check";
+  
   constructor(private http: HttpClient) { }
 
   signupPatient(patientData: Patient):Observable<Patient>{
@@ -34,4 +38,30 @@ export class PatientAuthService {
     );
     
   }
+
+  async isAuthenticated(): Promise<boolean> {
+    try {
+      const data = await this.AuthPatient().toPromise();
+      console.log(data);
+      if (data.status === "success") {
+        return true;
+      } else {
+        console.log("in false : ");
+        return false;
+      }
+    } catch (error) {
+      console.error("Authentication error", error);
+      return false;
+    }
+  }
+  
+  AuthPatient(): Observable<any> {
+    return this.http.get<any>(this.url_checkUser).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error in loginPatient:', error);
+        throw error;
+      })
+    );
+  }
+  
 }

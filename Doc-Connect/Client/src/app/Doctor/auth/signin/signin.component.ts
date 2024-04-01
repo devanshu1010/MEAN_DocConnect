@@ -37,16 +37,17 @@ export class SigninComponentDoctor implements OnInit{
       
       this.doctorAuthServ.loginDoctor(doctorData).subscribe(
         data =>{
-          this.doctor = data;
+          //this.doctor = data;
           this.incorrect=false;
           //console.log("Login successful");
-          //console.log(data);
-          
-          this.userId = this.doctor._id;
+          console.log("data : ", data);
+          console.log("data_id : ", data._id);
+          this.userId = data._id;
           console.log("userId");
           console.log(this.userId);
           localStorage.removeItem("userId");
-          localStorage.setItem('userId',this.doctor._id);
+          localStorage.setItem('userId',this.userId);
+          localStorage.setItem('jwt', data.token);
 
           this.email='';
           this.password='';

@@ -2,7 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Doctor = require("../models/DoctorSchema");
 const Patient = require('../models/PatientSchema');  // Adjust the path accordingly
 const Appointment = require('../models/AppointmentSchema');
+const { sanitizeUser} = require('../Services/comman');
 const mongoose = require('mongoose');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const dotenv = require('dotenv');
 dotenv.config();
@@ -20,49 +23,80 @@ const createDoctor = asyncHandler(async (req, res) => {
             res.status(400).json({ messag: "All fields are required" });
             return;
         }
-
         let doctor1 = await Doctor.findOne({ Email: Email });
+        
         if (doctor1) {
             console.log("returnig ");
             res.status(400).json({ messag: "Email is not available." });
             return;
         }
 
-        cloudinary.config({
-            cloud_name: process.env.CLOUD_NAME,
-            api_key: process.env.CLOUD_API_KEY,
-            api_secret: process.env.CLOUD_API_SECRET
-        });
+        const salt = crypto.randomBytes(16);
+        crypto.pbkdf2(
+          req.body.Password,
+          salt,
+          310000,
+          32,
+          'sha256',
+          async function (err, hashedPassword) {
+            console.log( "hashedPassword", hashedPassword);
+            cloudinary.config({
+                cloud_name: process.env.CLOUD_NAME,
+                api_key: process.env.CLOUD_API_KEY,
+                api_secret: process.env.CLOUD_API_SECRET
+            });
 
-        cloudinary.uploader.upload(req.body.Profile_photo, {
-            public_id: 'profileImage of ' + req.body.Name
-        }, async (error, result) => {
+            cloudinary.uploader.upload(req.body.Profile_photo, {
+                public_id: 'profileImage of ' + req.body.Name
+            }, async (error, result) => {
 
-            if (error) {
-                console.error('Error uploading image to Cloudinary:', error);
-                return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
-            }
+                if (error) {
+                    console.error('Error uploading image to Cloudinary:', error);
+                    return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
+                }
 
-            if (!result || !result.secure_url) {
-                console.error('Invalid Cloudinary response:', result);
-                return res.status(500).json({ message: 'Invalid Cloudinary response' });
-            }
+                if (!result || !result.secure_url) {
+                    console.error('Invalid Cloudinary response:', result);
+                    return res.status(500).json({ message: 'Invalid Cloudinary response' });
+                }
+                
+                // Save user with Cloudinary URL
+                const doctorData = new Doctor({
+                    ...req.body,Password: hashedPassword, Salt:salt
+                });
+                console.log(doctorData)
+                doctorData.Profile_photo = result.secure_url;
 
-            // Save user with Cloudinary URL
-            const doctorData = {
-                ...req.body,
-            };
+                console.log(doctorData.Profile_photo);
+                console.log(result.secure_url);
 
-            doctorData.Profile_photo = result.secure_url;
-
-            console.log(doctorData.Profile_photo);
-            console.log(result.secure_url);
-
-            const doctor = await Doctor.create(doctorData);
-            console.log("saved");
-            res.status(201).json(doctor);
-        });
-
+                const doctor = await Doctor.create(doctorData);
+                console.log("saved");
+                /*req.login(sanitizeUser(doctor), (err) => {
+                    // this also calls serializer and adds to session
+                    if (err) {
+                      res.status(400).json(err);
+                    } else {
+                      const token = jwt.sign(
+                        sanitizeUser(doctor),
+                        process.env.JWT_SECRET_KEY
+                      );
+                      res
+                        .status(201)
+                        .json({ _id: doctor_id, token });
+                    }
+                  });*/
+                const token = jwt.sign(
+                sanitizeUser(doctor),
+                process.env.JWT_SECRET_KEY
+                );
+                res
+                    .cookie('jwt', token, { expires: new Date(Date.now() + 9000000), httpOnly: true })
+                    .status(201)
+                    .json({ _id: doctor._id, token });
+            });
+          }
+        );
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });
@@ -73,25 +107,20 @@ const createDoctor = asyncHandler(async (req, res) => {
 //@route POST /api/doctor/auth/login
 //@acsess public
 const Doctorlogin = asyncHandler(async (req, res) => {
-    try {
-        console.log("The request body is : ", req.body);
-        console.log(req);
-        const { Email, Password } = req.body;
+    
+    res
+        .cookie('jwt', req.user.token, { expires: new Date(Date.now() + 9000000), httpOnly: true })
+        .status(201)
+        .json(req.user);
+    //res.json(req.user);
+});
 
-        const doctor = await Doctor.findOne({ Email: Email, Password: Password });
-
-        if (!doctor) {
-            res.status(404);
-            throw new Error("doctor not found.");
-        } else {
-            res.status(200).json(doctor);
-        }
-
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({});
-    }
-
+//@dec get a doctor
+//@route POST /api/doctor/auth/login
+//@acsess public
+const checkDoctor = asyncHandler(async (req, res) => {
+   
+    res.json({status:'success',doctor: req.user});
 });
 
 //@dec get a doctor
@@ -121,6 +150,8 @@ const getDoctor = asyncHandler(async (req, res) => {
             }
         });
 
+        // delete doctor.Password;
+        // delete doctor.Salt;
         doctor.Appointment_id.sort((a, b) => {
             const dateA = new Date(a.Date);
             const dateB = new Date(b.Date);
@@ -168,10 +199,10 @@ const getDoctors = asyncHandler(async (req, res) => {
 //@route PUT /api/doctor/:id
 //@acsess public
 const updateDoctor = asyncHandler(async (req, res) => {
-    const CurrDoctId = req.params.id; //req.user.id;
+    const CurrDoctId = req.user._id;
     console.log(CurrDoctId)
     try {
-        const doctor = await Doctor.findById(CurrDoctId.trim());
+        const doctor = await Doctor.findById(CurrDoctId);
         console.log("in update doctor");
         console.log("doctor found : ")
         console.log(doctor)
@@ -219,7 +250,7 @@ const searchDcotor = asyncHandler(async (req, res) => {
 
 const updateDoctorSlot = asyncHandler(async (req, res) => {
     const { appointment_id, day, slotNo } = req.body;
-    const CurrDoctId = req.params.id; //req.user.id;
+    const CurrDoctId = req.params.id; //req.user._id;
     console.log(CurrDoctId)
 
     try {
@@ -247,4 +278,4 @@ const updateDoctorSlot = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = { Doctorlogin, getDoctor, createDoctor, updateDoctor, getDoctors, updateDoctorSlot };
+module.exports = { Doctorlogin, getDoctor, createDoctor, updateDoctor, getDoctors, updateDoctorSlot , checkDoctor };

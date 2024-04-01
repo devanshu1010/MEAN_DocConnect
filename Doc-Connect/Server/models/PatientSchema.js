@@ -7,7 +7,7 @@ const PatientSchema = new mongoose.Schema({
             unique : true 
         },
         Password : {
-            type : String,
+            type :  Buffer,
             required : true,
             unique : true
         },
@@ -40,7 +40,8 @@ const PatientSchema = new mongoose.Schema({
         Appointment_id : {
             type : [mongoose.Schema.Types.ObjectId],
             ref : "Appointment",
-        }
+        },
+        Salt: Buffer
     },
     {
         timestamps : true,

@@ -1,10 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { DoctorDashboardService } from './doctor-dashboard.service';
 import { DoctorService } from '../doctor.service';
 import { Doctor, Slot } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import mongoose from 'mongoose';
+import { Router } from '@angular/router';
 
 enum Tab {
   Profile = 'profile',
@@ -23,10 +22,24 @@ enum Tab {
       state('3', style({ transform: 'translateY(104px)' })),
       transition('* => *', animate('0.3s ease-out'))
     ]),
+    // trigger('slideA', [
+    //   state('1', style({ transform: 'translateX(+30px)' })),
+    //   state('0', style({ transform: 'translateY(0px)' })),
+    //   transition('* => *', animate('0.3s ease-out'))
+    // ])
     trigger('slideA', [
-      state('1', style({ transform: 'translateX(+30px)' })),
-      state('0', style({ transform: 'translateY(0px)' })),
+      state('1', style({ transform: 'translateX(+30px)', color: '#68e8f7' })), 
+      state('0', style({ transform: 'translateY(0px)', color: '#ffffff' })),
       transition('* => *', animate('0.3s ease-out'))
+    ]),
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 })),
+      ]),
     ])
   ]
 })
@@ -100,6 +113,10 @@ export class DashboardDoctorComponent implements OnInit {
     return endDateTime <= startDateTime;
   }
 
+  navigateToCoun(index:number){
+    this.router.navigate(['/DoctorConsulting'], { queryParams: {userData: JSON.stringify(this.allAppointments[index].Patient_id.Email) } });
+  }
+
   async cancleAppointmet(appointmentId:any){
     console.log("Inside cancleAppointmet");
     var mes:any
@@ -156,7 +173,8 @@ export class DashboardDoctorComponent implements OnInit {
   constructor(
     public doctorServ: DoctorService,
     private datePipe: DatePipe,
-    private ngZone:NgZone
+    private ngZone:NgZone,
+    private router: Router
   ) { }
   get Tab() {
     return Tab;
@@ -472,7 +490,6 @@ export class DashboardDoctorComponent implements OnInit {
     await this.updateDoctor(this.doctor);
     await this.loadDoctorData();
   }
-
 
   async ngOnInit(): Promise<void> {
 

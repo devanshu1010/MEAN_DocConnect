@@ -1,7 +1,15 @@
 <div class="image-container" [@imageFadeInOut]="slideIndex">
-    <img class="min-w-max mix-blend-color-burn" [src]="getCurrentImage()" alt="Current Slide">
+  <!-- Image -->
+  <img class="min-w-max mix-blend-color-burn" [src]="getCurrentImage()" alt="Current Slide">
+
+  <!-- Quote -->
+  <div class="quote-overlay">
+    <p class="quote">"Health is the greatest gift,<br class="second-line"> contentment the greatest wealth,<br class="third-line"> faithfulness the best relationship." - Buddha</p>
   </div>
+  
+</div>
 
 <div style="text-align: center">
-    <span class="dot" *ngFor="let image of images; let i = index" [class.active]="i === slideIndex"></span>
+  <!-- Navigation dots -->
+  <span class="dot" *ngFor="let image of images; let i = index" [class.active]="i === slideIndex"></span>
 </div>

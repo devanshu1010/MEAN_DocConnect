@@ -4,11 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { Patient } from 'src/app/models/patient';
 import { ServicesService } from '../services.service';
+import { FirebaseserviceService } from 'src/app/Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
+import { DocumentSnapshot } from '@angular/fire/compat/firestore';
 
 enum Tab {
   Profile = 'profile',
   Appointments = 'appointments',
-  Slots = 'slots'
+  Join = 'join'
 }
 
 @Component({
@@ -23,24 +25,38 @@ enum Tab {
       transition('* => *', animate('0.5s ease-out'))
     ]),
     trigger('slideA', [
-      state('1', style({ transform: 'translateX(+30px)' })),
-      state('0', style({ transform: 'translateY(0px)' })),
-      transition('* => *', animate('0.5s ease-out'))
+      state('1', style({ transform: 'translateX(+30px)', color: '#68e8f7' })), 
+      state('0', style({ transform: 'translateY(0px)', color: '#ffffff' })),
+      transition('* => *', animate('0.3s ease-out'))
+    ]),
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('200ms', style({ opacity: 0 })),
+      ]),
     ])
   ],
 })
 export class PatientDashboardComponent implements OnInit
 {
   activeTab: Tab = Tab.Profile;
-
+  incorrect: boolean = false;
   profile: any; 
   appointments: any; 
-  slots: any; 
+  join: any; 
   patient?:Patient|any;
   patientId?: number | any;
+  message:String = "";
+  isEditProfileModalOpen = false;
+  callId:any;
 
   allAppointments: any;
   datePipe: any;
+
+  constructor(private route: ActivatedRoute, private firebaseService: FirebaseserviceService, private services : ServicesService,private router: Router) {}
 
   get Tab() {
     return Tab;
@@ -56,8 +72,8 @@ export class PatientDashboardComponent implements OnInit
       return '1';  // Current tab, higher index
     } else if (tab === 'appointments') {
       return '2';  // Tab with label 'appointments'
-    } else if (tab === 'slots') {
-      return '3';  // Tab with label 'slots'
+    } else if (tab === 'join') {
+      return '3';  // Tab with label 'join'
     } else {
       return '0';  // Other tabs, lower index
     }
@@ -66,7 +82,7 @@ export class PatientDashboardComponent implements OnInit
     this.activeTab = Tab.Profile;
     this.profile = true;
     this.appointments = false;
-    this.slots = false;
+    this.join = false;
   }
 
   // Change active tab to Appointments
@@ -74,24 +90,32 @@ export class PatientDashboardComponent implements OnInit
     this.activeTab = Tab.Appointments;
     this.profile = false;
     this.appointments = true;
-    this.slots = false;
+    this.join = false;
     console.log('activeTab:', this.activeTab);
   }
 
-  // Change active tab to Slots
-  view_slots(): void {
-    this.activeTab = Tab.Slots;
+  // Change active tab to join
+  view_join(): void {
+    this.activeTab = Tab.Join;
     this.profile = false;
     this.appointments = false;
-    this.slots = true;
+    this.join = true;
   }
 
-  loadDoctorData(): Promise<void> {
+  openEditProfilePopup() {
+    this.isEditProfileModalOpen = true;
+  }
+
+  closeModal() {
+    this.isEditProfileModalOpen = false;
+  }
+
+  loadPatientData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.patientId = '';
-      this.patientId = localStorage.getItem('userId');
+      //this.patientId = localStorage.getItem('userId');
 
-      this.services.getPatient(this.patientId).subscribe(
+      this.services.getPatient().subscribe(
         data => {
           this.patient = data;
           this.allAppointments = this.patient.Appointment_id;
@@ -110,7 +134,61 @@ export class PatientDashboardComponent implements OnInit
     });
   }
 
-  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
+  updatePatient(updatedPatient: Patient): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      console.log(this.patientId);
+      // Use your DoctorService to update the doctor data
+      this.services.updatePatient( updatedPatient).subscribe(
+        async data => {
+
+          this.patient = data;
+          // Handle successful update, maybe show a success message
+          console.log('Patient updated successfully');
+          // Reload the doctor data after the update
+          //await this.loadPatientData();
+          resolve();
+        },
+        error => {
+          console.error('Error updating doctor', error);
+          // Handle error, maybe show an error message
+          reject(error);
+        }
+      );
+    });
+  }
+
+  async join_meet() : Promise<void> {
+    try {
+        // Get the document reference
+        const callDocRef = this.firebaseService.getCallDocument(this.callId);
+        
+        // Check if the document exists
+        callDocRef.valueChanges().subscribe({
+          next: (callSnapshot: DocumentSnapshot<any>) => {
+            if (!callSnapshot) {
+              // Handle the case where the document does not exist
+              //console.error(`Document with callId ${this.callId} does not exist`);
+              this.message = `Document with callId ${this.callId} does not exist`;
+              this.incorrect = true;
+            } else {
+              this.incorrect = false;
+              this.message = "";
+              this.router.navigate(['/PatientConsulting', this.callId], { replaceUrl: true });
+            }
+          },
+          error: (error: any) => {
+            console.error('Error fetching document:', error);
+            // Handle the error as needed
+          }
+        });        
+        console.log('Call ended successfully');
+    } catch (error) {
+        // Handle errors gracefully
+        console.error('Error handling call document:', error);
+    }
+  }
+
+  
 
   async ngOnInit() : Promise<void> {
 
@@ -125,10 +203,10 @@ export class PatientDashboardComponent implements OnInit
       }
       else{
 
-        this.patientId = localStorage.getItem('userId');
+        // this.patientId = localStorage.getItem('userId');
         this.view_profile();
           
-        await this.loadDoctorData();
+        await this.loadPatientData();
         // this.patient = await this.services.getPatient(this.patientId).toPromise();
         // console.log(this.patient);
 

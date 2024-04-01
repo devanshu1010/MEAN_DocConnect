@@ -161,4 +161,67 @@ const cancelAppointment = asyncHandler(async(req, res) => {
     }
 });
 
-module.exports = { bookAppointment, cancelAppointment };
+//@dec Cancle Appointment
+//@route PUT api/patient/appointment/cancleappointment
+//@access private
+const cancelAppointmentPatient = asyncHandler(async(req, res) => {
+    console.log("Inside cancleAppointment. Backend")
+    try {
+        console.log("Inside calncleAppointment Controller.");
+        const { appointmentId } = req.body;
+        console.log("AppintmentId done");
+        const updateAppointment = await Appointment.findById(appointmentId);
+        console.log(updateAppointment);
+
+        if (!updateAppointment) {
+            res.status(404);
+            throw new Error("Appointment not found.");
+        }
+
+        console.log("Now time for jwt");
+        console.log(req.user._id);
+        console.log(updateAppointment.Patient_id);
+
+        if((updateAppointment.Patient_id).toString() !== (req.user._id).toString())
+        {
+            console.log("error in autho")
+            res.status(401);
+            throw new Error("UNAUTHORIZED ACCESS");
+        }
+
+        console.log("JWT done");
+
+        //res.status(200).json({ appointment : updateAppointment });
+        updateAppointment.Status = "Canceled"
+
+        const day = updateAppointment.Day;
+        //console.log(day);
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        const index = days.indexOf(day);
+
+        const doctor = await Doctor.findById(updateAppointment.Doctor_id);
+
+        const slotIndex = doctor.Slots[index].findIndex(obj => obj.Time === updateAppointment.Starting_time);
+
+        console.log(slotIndex);
+
+        if(doctor.Slots[index][slotIndex].Booked === true)
+            doctor.Slots[index][slotIndex].Booked = false
+
+        //doctor.Slots[index][slotIndex].Canceled = true
+        doctor.Slots[index][slotIndex].AppointmentId = null
+
+        console.log("Doctor Change");
+
+        await updateAppointment.save();
+        await doctor.save();
+
+        console.log(index);
+        res.status(200).json({ mes : "Appointment cancel successfully." });
+
+    } catch(err) {
+        res.status(500).json({mes : "Internal server error In cancleAppointment."})
+    }
+});
+
+module.exports = { bookAppointment, cancelAppointment, cancelAppointmentPatient };

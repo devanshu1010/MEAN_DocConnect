@@ -17,6 +17,7 @@ export class ServicesService {
   private url_verify_payment: string =baseUrl +"api/patient/payment/verify";
   private url_appointment: string = baseUrl +"api/patient/appointment/";
   private url_payment: string = baseUrl + "api/patient/payment/";
+  private url_cancel_appoinment: string = baseUrl + "api/patient/appointment/cancleappointment";
 
   constructor(private http: HttpClient) { }
 
@@ -133,5 +134,15 @@ export class ServicesService {
     );
   }
 
+  cancelAppoinment(appointmentId: any):Observable<any>{
+    console.log(this.url_cancel_appoinment);
+    const appointmentIdObj = { appointmentId : appointmentId }
+    return this.http.put<any>(this.url_cancel_appoinment,appointmentIdObj).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error in cancel appoitment:', error);
+        throw error;
+      })
+    );
+  }
   
 }

@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 <div class="mt-14 flex bg-blue-300 flex-wrap min-vh-screen">
   <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 min-vh-screen mx">
+=======
+<div class="flex flex-wrap">
+  <div class="w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 z-50 h-screen mx">
+>>>>>>> Stashed changes
     <form>
       <ul class="w-full flex flex-col items-center">
         <!-- <div class="indicator bg-blue-300" [@slideIndicator]="getTabIndex(activeTab)">
@@ -112,6 +117,7 @@
     </div>
   </div>
 
+<<<<<<< Updated upstream
   <div *ngIf="isEditProfileModalOpen">
     <app-edit-profile  [@fadeInOut] [doctor]="doctor" (saveChanges)="updateDoctor($event)"
     (closeModal)="closeModal()" >
@@ -119,6 +125,13 @@
   </div>
   
   <div *ngIf="appointments" class="w-full top-14 md:w-5/6 mb-6 md:mb-0 bg-blue-300  h-auto mx">
+=======
+  <app-edit-profile *ngIf="isEditProfileModalOpen" [doctor]="doctor" (saveChanges)="updateDoctor($event)"
+    (closeModal)="closeModal()" [@fadeInOut]="isEditProfileModalOpen ? 'visible' : 'hidden'">
+  </app-edit-profile>
+
+  <div *ngIf="appointments" class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 z-50 h-screen mx">
+>>>>>>> Stashed changes
     <div class="h-full p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
@@ -187,13 +200,17 @@
           </table>
         </div>
         <div
-          class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t  bg-gray-50 sm:grid-cols-9 ">
+          class="grid px-4 py-6 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t  bg-gray-50 sm:grid-cols-9 ">
           <span class="flex items-center col-span-3">
+<<<<<<< Updated upstream
             Your Appointments
+=======
+            <!-- Showing 21-30 of 100 -->
+>>>>>>> Stashed changes
           </span>
           <span class="col-span-2"></span>
           <!-- Pagination -->
-          <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+          <!-- <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
             <nav aria-label="Table navigation">
               <!-- <ul class="inline-flex items-center">
                 <li>
@@ -246,7 +263,7 @@
                 </li>
               </ul> -->
             </nav>
-          </span>
+          </span> -->
         </div>
       </div>
     </div>

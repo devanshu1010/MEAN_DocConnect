@@ -231,14 +231,24 @@ export class BookAppointmentComponent implements OnInit {
           }
     
           const paymentResponse:any = await this.services.appointmentPayment(this.payment).toPromise();
-    
+          const dateParts = this.datepickerValue.split(" "); // Split the date string by space
+          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+          // Parse the date string parts
+          const day = parseInt(dateParts[2], 10); // Extract day
+          const monthIndex = monthNames.indexOf(dateParts[1]); // Get month index
+          const year = parseInt(dateParts[3], 10); // Extract year
+
+          // Create a new Date object
+          const date = new Date(year, monthIndex, day);
+          console.log(date);
           this.appointment = {
             Doctor_id : this.doctorId,
             Patient_id: this.patientId,
             Payment_id: paymentResponse.paymentId,
             Starting_time: this.timeSlots[this.selectedSlot].Time,
             Day: this.datepickerValue.slice(0, 3),
-            Date: this.datepickerValue,
+            Date: date,
             Status : "Approved"
           }
     

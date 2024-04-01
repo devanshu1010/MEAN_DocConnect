@@ -17,7 +17,7 @@ export class ServicesService {
   private url_verify_payment: string =baseUrl +"api/patient/payment/verify";
   private url_appointment: string = baseUrl +"api/patient/appointment/";
   private url_payment: string = baseUrl + "api/patient/payment/";
-  private url_cancel_appoinment: string = baseUrl + "/api/patient/appointment/cancleappointment";
+  private url_cancel_appoinment: string = baseUrl + "api/patient/appointment/cancleappointment";
 
   constructor(private http: HttpClient) { }
 

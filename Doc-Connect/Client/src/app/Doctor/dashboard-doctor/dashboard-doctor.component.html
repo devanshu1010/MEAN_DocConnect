@@ -1,5 +1,5 @@
 <div class="flex flex-wrap min-vh-screen">
-  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 h-full mx">
+  <div id="sidebar" class="sticky top-14 w-full md:w-1/6 pl-4 py-4 md:mb-0 bg-blue-600 min-vh-screen mx rounded-3xl">
     <form>
       <ul class="w-full flex flex-col items-center">
         <!-- <div class="indicator bg-blue-300" [@slideIndicator]="getTabIndex(activeTab)">
@@ -119,7 +119,7 @@
   </div>
   
   <div *ngIf="appointments" class="w-full mt-14 top-14 md:w-5/6 mb-6 md:mb-0 bg-blue-300  h-auto mx">
-    <div class="h-full  p-8">
+    <div class="h-full p-8">
       <div class="w-full overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-no-wrap">
@@ -170,13 +170,11 @@
                   </span>
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-sm">
-                  <a routerLink="/DoctorConsulting" routerLinkActive="active">
-                    <button [disabled]="allAppointments[index].Status === 'Canceled'"
+                    <button (click)="navigateToCoun(index)" [disabled]="allAppointments[index].Status === 'Canceled'"
                       [ngStyle]="{ 'opacity': allAppointments[index].Status === 'Canceled' ? '0.5' : '1', 'cursor': allAppointments[index].Status === 'Canceled' ? 'not-allowed' : 'pointer' }"                
                       class="inline-block px-4 py-2 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs ">Create
                       Room
                     </button>
-                  </a>
                 </td>
                 <td class="px-4 py-3 text-gray-700 text-sm">
                   <button (click)="cancleAppointmet(allAppointments[index]._id)"
@@ -191,13 +189,13 @@
         <div
           class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t  bg-gray-50 sm:grid-cols-9 ">
           <span class="flex items-center col-span-3">
-            Showing 21-30 of 100
+            Your Appointments
           </span>
           <span class="col-span-2"></span>
           <!-- Pagination -->
           <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
             <nav aria-label="Table navigation">
-              <ul class="inline-flex items-center">
+              <!-- <ul class="inline-flex items-center">
                 <li>
                   <button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                     aria-label="Previous">
@@ -246,7 +244,7 @@
                     </svg>
                   </button>
                 </li>
-              </ul>
+              </ul> -->
             </nav>
           </span>
         </div>

@@ -92,7 +92,7 @@ export class RegistrationComponentDoctor implements OnInit{
     console.log(this.actual_otp);
     console.log("Inside genOTP");
 
-    emailjs.send(environment.SERVICE_ID, environment.DOCTOR_TEMPLATE_ID,{
+    emailjs.send(environment.SERVICE_ID, environment.TEMPLATE_ID,{
       name: this.name,
       otp: this.actual_otp,
       to_email: this.email,

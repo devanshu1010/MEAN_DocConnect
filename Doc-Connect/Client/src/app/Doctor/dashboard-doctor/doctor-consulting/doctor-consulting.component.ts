@@ -5,6 +5,9 @@ import { DoctorService } from '../../doctor.service';
 import { FirebaseserviceService } from './firebaseservice.service';
 import { Doctor } from 'src/app/models/doctor';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from 'environment.prod';
+import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 interface CallData {
   offer: any; // Adjust the type according to the actual type of offer data
@@ -16,7 +19,7 @@ interface CallData {
   styleUrls: ['./doctor-consulting.component.css']
 })
 export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
-
+  patientEmail:String = '';
   isDoctor:Boolean = false;
   isLocal:Boolean = false;
   isRemote:Boolean = false;
@@ -28,7 +31,8 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   localStream!: MediaStream; // Store the local media stream
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
-
+  micButton:string = "Mute";
+  videoButton:string = "Stop Vedio"
   isAudioMuted: boolean = false;
   isVideoStopped: boolean = false;
 
@@ -59,10 +63,16 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
     iceCandidatePoolSize: 5,
   };
   
-
-  constructor( public doctorServ: DoctorService, private firebaseService: FirebaseserviceService ,private ngZone: NgZone , private datePipe: DatePipe,private firestore: AngularFirestore,private router: Router ) { }
+  constructor( public doctorServ: DoctorService,private ngZone: NgZone , private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore,private router: Router, private aroute: ActivatedRoute ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.aroute.queryParams.subscribe(params => {
+      if (params['userData']) {
+          this.patientEmail = JSON.parse(params['userData']);
+          console.log("User email : ", this.patientEmail);
+      }
+  });
 
     await this.loadDoctorData();
     
@@ -115,6 +125,10 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   toggleAudio() {
     if (this.localStream) {
       const audioTrack = this.localStream.getAudioTracks()[0];
+      if(this.micButton === "Mute")
+        this.micButton = "Unmute";
+      else  
+      this.micButton = "Mute";
       if (audioTrack) {
         audioTrack.enabled = !audioTrack.enabled;
         this.isAudioMuted = audioTrack.enabled; // Update isAudioMuted status
@@ -126,6 +140,11 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   toggleVideo() {
     if (this.localStream) {
       const videoTrack = this.localStream.getVideoTracks()[0];
+      if(this.videoButton === "Stop Vedio")
+        this.videoButton = "Start Vedio"
+
+      else  
+        this.videoButton = "Stop Vedio"
       if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
         this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status
@@ -232,6 +251,17 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
           unsubscribe(); // Unsubscribe from further snapshot changes
         }
       });
+
+      emailjs.send(environment.SERVICE_ID, environment.DOCTOR_TEMPLATE_ID,{
+        meetingId : this.callId,
+        to_email: this.patientEmail,
+      }, environment.USER_ID)
+      .then((response:any) => {
+        console.log('Email sent successfully!', response);
+      })
+      .catch((error:any) => {
+        console.error('Email could not be sent:', error);
+      }); 
 
       // When answered, add candidate to peer connection
       answerCandidates.onSnapshot((snapshot: { docChanges: () => any[]; }) => {

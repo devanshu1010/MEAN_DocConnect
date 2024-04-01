@@ -32,6 +32,9 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   isAudioMuted: boolean = false;
   isVideoStopped: boolean = false;
 
+  micButton:string = "Mute";
+  videoButton:string = "Stop Vedio"
+
   app:any;
   analytics:any;
 
@@ -153,6 +156,10 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   toggleAudio() {
     if (this.localStream) {
       const audioTrack = this.localStream.getAudioTracks()[0];
+      if(this.micButton === "Mute")
+        this.micButton = "Unmute";
+      else  
+      this.micButton = "Mute";
       if (audioTrack) {
         audioTrack.enabled = !audioTrack.enabled;
         this.isAudioMuted = audioTrack.enabled; // Update isAudioMuted status
@@ -164,6 +171,11 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   toggleVideo() {
     if (this.localStream) {
       const videoTrack = this.localStream.getVideoTracks()[0];
+      if(this.videoButton === "Stop Vedio")
+        this.videoButton = "Start Vedio"
+
+      else  
+        this.videoButton = "Stop Vedio"
       if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
         this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status

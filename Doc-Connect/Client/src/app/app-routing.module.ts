@@ -26,7 +26,7 @@ const routes: Routes = [
   {path:'dashboardPatient',component:PatientDashboardComponent , canActivate: [AuthGuard]},
   {path:'dashboardDoctor',component:DashboardDoctorComponent, canActivate: [AuthGuardDoctor]},
   {path:'DoctorConsulting',component:DoctorConsultingComponent, canActivate: [AuthGuardDoctor]},
-  {path:'PatientConsulting',component:PatientConsultingComponent, canActivate: [AuthGuard] },
+  {path:'PatientConsulting/:callId',component:PatientConsultingComponent, canActivate: [AuthGuard] },
   {path:'homedoctor',component:HomeDoctorComponent , canActivate: [AuthGuardDoctor]},
   {path:'homepatient',component:HomePatientComponent},
   {path:'doctor-details/:id', component: DoctorCardComponent },

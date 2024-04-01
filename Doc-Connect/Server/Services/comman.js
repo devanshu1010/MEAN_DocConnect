@@ -1,6 +1,7 @@
 const passport = require('passport');
 
 exports.isAuthDoctor = (req,res,done) =>{
+    console.log("inAuthDoctor");
     return passport.authenticate('doctor-jwt');
 }
 

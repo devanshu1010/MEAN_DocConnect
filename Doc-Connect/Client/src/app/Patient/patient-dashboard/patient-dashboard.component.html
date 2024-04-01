@@ -15,8 +15,8 @@
           <i class="fa-regular fa-calendar-check fa-lg" style="font-weight: bold;"></i>
           <a class="w-full font-semibold text-lg px-3 py-1">Appointments</a>
         </li>
-        <li (click)="view_slots()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer"
-          [@slideA]="getshow(Tab.Slots)">
+        <li (click)="view_join()" class="py-3 items-center inline-block w-full rounded-xl cursor-pointer"
+          [@slideA]="getshow(Tab.Join)">
           <i class="fa-solid fa-video fa-lg" style="font-weight: bold;"></i>
           <a class="w-full font-semibold text-lg  px-3 py-1">Join Meeting</a>
         </li>
@@ -247,4 +247,49 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="join" [@fadeInOut] class="w-full md:w-5/6 mb-6 md:mb-0 bg-blue-300 h-auto mx">
+    <div class="h-full  p-8">
+      <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-x-auto">
+          <table class="w-full whitespace-no-wrap">
+            <thead>
+              <tr class="text-lg text-gray-900 font-bold tracking-wide text-left  uppercase border-b bg-white ">
+                <th class="px-4 py-3">Join Meeting</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <form class=" bg-white space-y-4 md:space-y-6">
+          <div class="text-gray-700 dark:text-gray-400">
+            <div class="px-4 py-3">
+              <div class="flex justify-center items-center text-sm">
+                <div>
+                  <label for="callId" class="block mb-2 text-sm font-semibold text-gray-900">Enter CallId </label>
+                    <div *ngIf = "incorrect; then thenBlock else elseBlock"> </div>
+                    <ng-template #thenBlock>
+                        <input [(ngModel)]="callId" type="text" name="callId" id="callId" class="bg-gray-100 border-2 border-red-500 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="bsewifiqevfhvefjvwfu" required="">
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <input [(ngModel)]="callId" type="text" name="callId" id="callId" class="bg-gray-100 border border-gray-400 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="bsewifiqevfhvefjvwfu" required="">
+                    </ng-template>
+                </div>
+              </div>
+            </div>
+            <div class="px-4 py-3 text-gray-700 text-sm">
+              <div class="">
+                <button on-click="join_meet()" type="submit" class="w-full text-primary-700 font-bold hover:bg-primary-700 focus:bg-primary-700 focus:text-white focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white rounded-lg text-base text-center px-5 py-2.5">Join Room</button>
+              </div>
+            </div>
+            <div>
+              <p *ngIf = "incorrect" class="text-sm font-semibold text-red-600 "> 
+                  {{message}}
+              </p>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </div>

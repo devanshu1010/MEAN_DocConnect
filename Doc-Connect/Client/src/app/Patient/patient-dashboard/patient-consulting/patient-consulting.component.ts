@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseserviceService } from 'src/app/Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
 import { ServicesService } from '../../services.service';
 import { Patient } from 'src/app/models/patient';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface CallData {
   offer: any; // Adjust the type according to the actual type of offer data
@@ -59,9 +59,14 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     iceCandidatePoolSize: 5,
   }
 
-  constructor( private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ,private router: Router ) { }
+  constructor( private route: ActivatedRoute, private services : ServicesService, private firebaseService: FirebaseserviceService , private datePipe: DatePipe,private firestore: AngularFirestore ,private router: Router ) { }
 
   async ngOnInit(): Promise<void> {
+
+    this.route.params.subscribe(params => {
+      this.callId = params['callId'];
+      // Now you can use the callId in your component
+    });
 
     await this.loadPatinetData();
     

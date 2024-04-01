@@ -4,11 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { Patient } from 'src/app/models/patient';
 import { ServicesService } from '../services.service';
+import { FirebaseserviceService } from 'src/app/Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
+import { DocumentSnapshot } from '@angular/fire/compat/firestore';
 
 enum Tab {
   Profile = 'profile',
   Appointments = 'appointments',
-  Slots = 'slots'
+  Join = 'join'
 }
 
 @Component({
@@ -41,17 +43,20 @@ enum Tab {
 export class PatientDashboardComponent implements OnInit
 {
   activeTab: Tab = Tab.Profile;
-
+  incorrect: boolean = false;
   profile: any; 
   appointments: any; 
-  slots: any; 
+  join: any; 
   patient?:Patient|any;
   patientId?: number | any;
-
+  message:String = "";
   isEditProfileModalOpen = false;
+  callId:any;
 
   allAppointments: any;
   datePipe: any;
+
+  constructor(private route: ActivatedRoute, private firebaseService: FirebaseserviceService, private services : ServicesService,private router: Router) {}
 
   get Tab() {
     return Tab;
@@ -67,8 +72,8 @@ export class PatientDashboardComponent implements OnInit
       return '1';  // Current tab, higher index
     } else if (tab === 'appointments') {
       return '2';  // Tab with label 'appointments'
-    } else if (tab === 'slots') {
-      return '3';  // Tab with label 'slots'
+    } else if (tab === 'join') {
+      return '3';  // Tab with label 'join'
     } else {
       return '0';  // Other tabs, lower index
     }
@@ -77,7 +82,7 @@ export class PatientDashboardComponent implements OnInit
     this.activeTab = Tab.Profile;
     this.profile = true;
     this.appointments = false;
-    this.slots = false;
+    this.join = false;
   }
 
   // Change active tab to Appointments
@@ -85,16 +90,16 @@ export class PatientDashboardComponent implements OnInit
     this.activeTab = Tab.Appointments;
     this.profile = false;
     this.appointments = true;
-    this.slots = false;
+    this.join = false;
     console.log('activeTab:', this.activeTab);
   }
 
-  // Change active tab to Slots
-  view_slots(): void {
-    this.activeTab = Tab.Slots;
+  // Change active tab to join
+  view_join(): void {
+    this.activeTab = Tab.Join;
     this.profile = false;
     this.appointments = false;
-    this.slots = true;
+    this.join = true;
   }
 
   openEditProfilePopup() {
@@ -152,7 +157,38 @@ export class PatientDashboardComponent implements OnInit
     });
   }
 
-  constructor(private route: ActivatedRoute,private services : ServicesService,private router: Router) {}
+  async join_meet() : Promise<void> {
+    try {
+        // Get the document reference
+        const callDocRef = this.firebaseService.getCallDocument(this.callId);
+        
+        // Check if the document exists
+        callDocRef.valueChanges().subscribe({
+          next: (callSnapshot: DocumentSnapshot<any>) => {
+            if (!callSnapshot) {
+              // Handle the case where the document does not exist
+              //console.error(`Document with callId ${this.callId} does not exist`);
+              this.message = `Document with callId ${this.callId} does not exist`;
+              this.incorrect = true;
+            } else {
+              this.incorrect = false;
+              this.message = "";
+              this.router.navigate(['/PatientConsulting', this.callId], { replaceUrl: true });
+            }
+          },
+          error: (error: any) => {
+            console.error('Error fetching document:', error);
+            // Handle the error as needed
+          }
+        });        
+        console.log('Call ended successfully');
+    } catch (error) {
+        // Handle errors gracefully
+        console.error('Error handling call document:', error);
+    }
+  }
+
+  
 
   async ngOnInit() : Promise<void> {
 

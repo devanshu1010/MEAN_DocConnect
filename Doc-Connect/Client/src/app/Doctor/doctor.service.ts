@@ -42,11 +42,11 @@ export class DoctorService {
   }
 
   cancelAppoinment(appointmentId: any):Observable<any>{
-    //console.log(this.url_update_doctor);\
+    console.log(this.url_cancel_appoinment);
     const appointmentIdObj = { appointmentId : appointmentId }
     return this.http.put<any>(this.url_cancel_appoinment,appointmentIdObj).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('Error in loginPatient:', error);
+        console.error('Error in cancel appoitment:', error);
         throw error;
       })
     );

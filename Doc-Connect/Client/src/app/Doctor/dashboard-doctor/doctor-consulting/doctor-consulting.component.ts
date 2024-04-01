@@ -32,7 +32,7 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
   micButton:string = "Mute";
-  videoButton:string = "Stop Vedio"
+  videoButton:string = "Stop Video"
   isAudioMuted: boolean = false;
   isVideoStopped: boolean = false;
 
@@ -140,11 +140,11 @@ export class DoctorConsultingComponent implements  OnInit,OnDestroy  {
   toggleVideo() {
     if (this.localStream) {
       const videoTrack = this.localStream.getVideoTracks()[0];
-      if(this.videoButton === "Stop Vedio")
-        this.videoButton = "Start Vedio"
+      if(this.videoButton === "Stop Video")
+        this.videoButton = "Start Video"
 
       else  
-        this.videoButton = "Stop Vedio"
+        this.videoButton = "Stop Video"
       if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
         this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status

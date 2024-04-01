@@ -182,7 +182,7 @@ export class RegistrationComponentPatient implements OnInit {
 
       console.log("patient : ");
       console.log(this.patient);
-      this.router.navigate(['/signinpatient']);
+      this.router.navigate(['/signinPatient']);
     }
     else {
       this.value_border = "red-500";

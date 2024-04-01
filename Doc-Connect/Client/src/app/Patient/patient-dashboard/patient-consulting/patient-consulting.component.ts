@@ -33,7 +33,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   isVideoStopped: boolean = false;
 
   micButton:string = "Mute";
-  videoButton:string = "Stop Vedio"
+  videoButton:string = "Stop Video"
 
   app:any;
   analytics:any;
@@ -171,11 +171,11 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   toggleVideo() {
     if (this.localStream) {
       const videoTrack = this.localStream.getVideoTracks()[0];
-      if(this.videoButton === "Stop Vedio")
-        this.videoButton = "Start Vedio"
+      if(this.videoButton === "Stop Video")
+        this.videoButton = "Start Video"
 
       else  
-        this.videoButton = "Stop Vedio"
+        this.videoButton = "Stop Video"
       if (videoTrack) {
         videoTrack.enabled = !videoTrack.enabled;
         this.isVideoStopped = !videoTrack.enabled; // Update isVideoStopped status

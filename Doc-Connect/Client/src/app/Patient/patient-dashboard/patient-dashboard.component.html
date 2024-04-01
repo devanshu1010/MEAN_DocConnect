@@ -260,7 +260,7 @@
             <div class="px-4 py-3">
               <div class="flex justify-center items-center text-sm">
                 <div>
-                  <label for="callId" class="block mb-2 text-sm font-semibold text-gray-900">Enter CallId </label>
+                  <label for="callId" class="block mb-2 text-sm font-semibold text-gray-900">Enter Room Id</label>
                     <div *ngIf = "incorrect; then thenBlock else elseBlock"> </div>
                     <ng-template #thenBlock>
                         <input [(ngModel)]="callId" type="text" name="callId" id="callId" class="bg-gray-100 border-2 border-red-500 text-gray-800 sm:text-sm rounded-lg focus:ring-primary-#2563eb focus:border-primary-#2563eb block w-full p-2.5" placeholder="bsewifiqevfhvefjvwfu" required="">

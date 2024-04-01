@@ -25,6 +25,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { PaymentStatusDialogComponent } from './Patient/home-patient/book-appointment/payment-status-dialog/payment-status-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AboutSectionComponent } from './Patient/about-section/about-section.component';
 import { AngularFireModule } from '@angular/fire/compat'
 import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-consulting/doctor-consulting.component';
 import { firebaseConfig } from './Doctor/dashboard-doctor/doctor-consulting/firebaseservice.service';
@@ -55,6 +56,7 @@ import { AuthGuardDoctor } from './Doctor/auth/auth.gaurdDoctor';
     PatientDashboardComponent,
     NotFoundComponent,
     PaymentStatusDialogComponent,
+    AboutSectionComponent,
     DoctorConsultingComponent,
     PatientConsultingComponent,
     EditPatientComponent

@@ -20,7 +20,7 @@ export class AnimationComponent implements OnInit {
   images = [
     'assets/image-1.jpg',
     'assets/image-2.jpg',
-    'assets/image-4.jpg',
+    'assets/image-3.jpg',
   ];
 
   constructor() {}

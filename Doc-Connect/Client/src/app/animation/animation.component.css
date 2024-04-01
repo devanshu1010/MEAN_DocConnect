@@ -4,11 +4,33 @@
     align-items: center;
     height: 574px;
     overflow: hidden;
+    position: relative;
   }
   
   img {
     width: 100%;
     height: auto;
     transition: opacity 1.5s ease-in-out;
+  }
+  
+  .quote-overlay {
+    position: absolute;
+    top: 30%;
+    left: 20px; /* Adjust as needed */
+    transform: translateY(-50%);
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.173);
+  }
+  
+  .quote {
+    font-size: 30px; /* Adjust the font size as needed */
+    text-align: left; /* Align the text to the left */
+    font-weight: bold; /* Make the text bold */
+    color: black; /* Set the text color to black */
+    white-space: pre-line; /* Allow line breaks */
+  }
+  
+  .quote .second-line {
+    padding-left: 20px; /* Adjust the padding as needed */
   }
   

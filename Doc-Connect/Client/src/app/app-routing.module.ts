@@ -12,6 +12,7 @@ import { DoctorCardComponent } from './Patient/home-patient/doctor-card/doctor-c
 import { BookAppointmentComponent } from './Patient/home-patient/book-appointment/book-appointment.component';
 import { LogoutComponent } from './logout/logout.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AboutSectionComponent } from './Patient/about-section/about-section.component';
 import { DoctorConsultingComponent } from './Doctor/dashboard-doctor/doctor-consulting/doctor-consulting.component';
 import { PatientConsultingComponent } from './Patient/patient-dashboard/patient-consulting/patient-consulting.component';
 import { AuthGuard } from './Patient/auth/auth.guard';
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path:'PatientConsulting/:callId',component:PatientConsultingComponent, canActivate: [AuthGuard] },
   {path:'homedoctor',component:HomeDoctorComponent , canActivate: [AuthGuardDoctor]},
   {path:'homepatient',component:HomePatientComponent},
+  {path:'aboutPage',component:AboutSectionComponent},
   {path:'doctor-details/:id', component: DoctorCardComponent },
   {path:'bookappointment/:id', component: BookAppointmentComponent, canActivate: [AuthGuard] },
   {path:'logout', component :LogoutComponent, canActivate: [ AuthGuard ]},

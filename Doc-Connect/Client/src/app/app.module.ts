@@ -35,6 +35,7 @@ import { JwtInterceptorService } from './Doctor/jwt-interceptor.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AuthGuard } from './Patient/auth/auth.guard';
 import { AuthGuardDoctor } from './Doctor/auth/auth.gaurdDoctor';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AuthGuardDoctor } from './Doctor/auth/auth.gaurdDoctor';
     AboutSectionComponent,
     DoctorConsultingComponent,
     PatientConsultingComponent,
-    EditPatientComponent
+    EditPatientComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

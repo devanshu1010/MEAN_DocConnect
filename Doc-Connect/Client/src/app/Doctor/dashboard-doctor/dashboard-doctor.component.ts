@@ -3,6 +3,7 @@ import { DoctorService } from '../doctor.service';
 import { Doctor, Slot } from 'src/app/models/doctor';
 import { DatePipe } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Router } from '@angular/router';
 
 enum Tab {
   Profile = 'profile',
@@ -112,6 +113,10 @@ export class DashboardDoctorComponent implements OnInit {
     return endDateTime <= startDateTime;
   }
 
+  navigateToCoun(index:number){
+    this.router.navigate(['/DoctorConsulting'], { queryParams: {userData: JSON.stringify(this.allAppointments[index].Patient_id.Email) } });
+  }
+
   async cancleAppointmet(appointmentId:any){
     console.log("Inside cancleAppointmet");
     var mes:any
@@ -168,7 +173,8 @@ export class DashboardDoctorComponent implements OnInit {
   constructor(
     public doctorServ: DoctorService,
     private datePipe: DatePipe,
-    private ngZone:NgZone
+    private ngZone:NgZone,
+    private router: Router
   ) { }
   get Tab() {
     return Tab;
@@ -484,7 +490,6 @@ export class DashboardDoctorComponent implements OnInit {
     await this.updateDoctor(this.doctor);
     await this.loadDoctorData();
   }
-
 
   async ngOnInit(): Promise<void> {
 

@@ -335,13 +335,13 @@
                   {{timeSlots[index].Time}}
                 </button>
                 <button *ngIf="timeSlots[index].Booked"  
-                class="rounded-lg w-full bg-gray-200 px-4 py-2 font-medium text-black active:scale-95"
+                class="rounded-lg w-full bg-gray-400 px-4 py-2 cursor-not-allowed font-medium text-black active:scale-95"
                 disabled
                 >
                   {{timeSlots[index].Time}}
                 </button>
                 <button *ngIf="timeSlots[index].Canceled"  
-                class="rounded-lg w-full bg-red-200 px-4 py-2 font-medium text-red-700 active:scale-95"
+                class="rounded-lg w-full bg-red-200 px-4 py-2 cursor-not-allowed font-medium text-red-700 active:scale-95"
                 disabled
                 >
                   {{timeSlots[index].Time}}

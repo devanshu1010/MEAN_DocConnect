@@ -12,6 +12,7 @@ export class DoctorService {
   private url_getdoctor: string = baseUrl +"api/doctor/";
   private url_update_doctor: string = baseUrl +"api/doctor/";
   private url_cancel_appoinment: string = baseUrl + "api/doctor/appointment/cancelAppointment";
+  private url_done_appointment:string = baseUrl + "api/doctor/appointment/doneAppointment";
 
   constructor(private http: HttpClient) { }
 
@@ -50,6 +51,17 @@ export class DoctorService {
         throw error;
       })
     );
+  }
+
+  doneAppointment(appointmentId: any):Observable<any>{
+    console.log(this.url_done_appointment);
+    const appointmentIdObj = {appointmentId : appointmentId};
+    return this.http.put<any>(this.url_done_appointment, appointmentIdObj).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error in done appointment', error);
+        throw error;
+      }
+    ));
   }
 
 }

@@ -113,8 +113,27 @@ export class DashboardDoctorComponent implements OnInit {
     return endDateTime <= startDateTime;
   }
 
-  navigateToCoun(index:number){
+  navigateToCoun(index:number, appointmentId:string){
     this.router.navigate(['/DoctorConsulting'], { queryParams: {userData: JSON.stringify(this.allAppointments[index].Patient_id.Email) } });
+    var mes:string;
+
+    return new Promise<void>((resolve, reject) => {
+      this.doctorServ.doneAppointment(appointmentId).subscribe(
+        data => {
+          mes = data.mes;
+
+          this.ngZone.run(() => {
+            alert(mes);
+          });
+          this.loadDoctorData();
+          resolve();
+        },
+        error => {
+          console.error("error", error);
+          reject(error);
+        }
+      )
+    });
   }
 
   async cancleAppointmet(appointmentId:any){

@@ -91,7 +91,7 @@ export class PatientDashboardComponent implements OnInit
     this.profile = false;
     this.appointments = true;
     this.join = false;
-    console.log('activeTab:', this.activeTab);
+    // console.log('activeTab:', this.activeTab);
   }
 
   // Change active tab to join
@@ -113,15 +113,15 @@ export class PatientDashboardComponent implements OnInit
   loadPatientData(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.patientId = '';
-      //this.patientId = localStorage.getItem('userId');
+      // this.patientId = localStorage.getItem('userId');
 
       this.services.getPatient().subscribe(
         data => {
           this.patient = data;
           this.allAppointments = this.patient.Appointment_id;
-          console.log(this.allAppointments);
-          console.log("DashBoard");
-          console.log(this.patient);
+          // console.log(this.allAppointments);
+          // console.log("DashBoard");
+          // console.log(this.patient);
           
           //this.calculateTimeSlots();
           resolve();
@@ -136,14 +136,14 @@ export class PatientDashboardComponent implements OnInit
 
   updatePatient(updatedPatient: Patient): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      console.log(this.patientId);
+      // console.log(this.patientId);
       // Use your DoctorService to update the doctor data
       this.services.updatePatient( updatedPatient).subscribe(
         async data => {
 
           this.patient = data;
           // Handle successful update, maybe show a success message
-          console.log('Patient updated successfully');
+          //console.log('Patient updated successfully');
           // Reload the doctor data after the update
           //await this.loadPatientData();
           resolve();
@@ -158,7 +158,7 @@ export class PatientDashboardComponent implements OnInit
   }
 
   async cancleAppointmet(appointmentId:any){
-    console.log("Inside cancleAppointmet");
+    // console.log("Inside cancleAppointmet");
     var mes:any
     return new Promise<void>((resolve, reject) => {
       this.services.cancelAppoinment(appointmentId).subscribe(

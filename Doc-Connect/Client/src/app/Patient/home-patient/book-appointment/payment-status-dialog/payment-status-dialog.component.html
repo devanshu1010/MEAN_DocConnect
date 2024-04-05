@@ -2,7 +2,7 @@
 
 <div class="overlay">
     <div class="flex flex-col bg-white h-80 w-1/2 rounded-xl items-center justify-center relative">
-        <div *ngIf="!verificationDone" class="flex items-center justify-center flex-col mb-4">
+        <div *ngIf="verificationDone == false" class="flex items-center justify-center flex-col mb-4">
             <img src="assets/Loader.gif" class="h-56 w-auto text-red-500 " alt="Error Icon">
             <span class="text-lg">Verifying payment...</span>
         </div>

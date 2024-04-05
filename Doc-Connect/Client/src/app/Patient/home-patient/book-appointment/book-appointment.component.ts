@@ -131,11 +131,11 @@ export class BookAppointmentComponent implements OnInit {
       const response: any = await this.services.createOrderId(data).toPromise();
   
       this.orderId = response.orderId;
-      console.log(this.orderId);
+      // console.log(this.orderId);
 
   
-      console.log(this.selectedSlot);
-      console.log(this.datepickerValue);
+      // console.log(this.selectedSlot);
+      // console.log(this.datepickerValue);
   
       const RazorpayOptions = {
         description: 'Appointment of Dr.' + this.doctor.Name,
@@ -204,10 +204,10 @@ export class BookAppointmentComponent implements OnInit {
         // alert(response.razorpay_order_id);
         // alert(response.razorpay_signature);
       });
-      console.log(response);
+      // console.log(response);
       const verificationdata = response;
-      console.log('verificationdata');
-      console.log(verificationdata);
+      // console.log('verificationdata');
+      // console.log(verificationdata);
       // const paymentVerificationResponse : any = await this.services.verifyPayment(response).toPromise();
       // console.log(paymentVerificationResponse);
 
@@ -241,7 +241,7 @@ export class BookAppointmentComponent implements OnInit {
 
           // Create a new Date object
           const date = new Date(year, monthIndex, day);
-          console.log(date);
+          // console.log(date);
           this.appointment = {
             Doctor_id : this.doctorId,
             Patient_id: this.patientId,
@@ -254,9 +254,9 @@ export class BookAppointmentComponent implements OnInit {
     
           //This will also update slot to booked in Docto's Database
           const appointmentResponse:any = await this.services.bookAppointment(this.appointment).toPromise();
-          console.log(appointmentResponse);
+          // console.log(appointmentResponse);
     
-          console.log(appointmentResponse._id);
+          // console.log(appointmentResponse._id);
     
           const updateSlotObject = {
             appointment_id : appointmentResponse._id,
@@ -265,7 +265,7 @@ export class BookAppointmentComponent implements OnInit {
             doctorId : this.doctor._id,
           }
     
-          console.log(updateSlotObject);
+          // console.log(updateSlotObject);
     
           const doctorSlotUpdate: any = await this.services.updateDoctorSlotBook(updateSlotObject, this.doctor._id).toPromise();
     

@@ -7,11 +7,13 @@ import { Patient } from 'src/app/models/patient';
   styleUrls: ['./edit-patient.component.css']
 })
 export class EditPatientComponent implements OnInit {
-  @Input() patient: Patient | undefined;
+  @Input() patient!: Patient | undefined;
   @Output() saveChanges = new EventEmitter<Patient>();
   @Output() closeModal = new EventEmitter<void>();
 
+  pic:any;
   submitForm() {
+    this.patient!.Profile_picture = this.pic;
     // Emit the updated doctor object to save changes
     this.saveChanges.emit(this.patient);
     this.closeModal.emit();
@@ -29,7 +31,7 @@ export class EditPatientComponent implements OnInit {
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       reader.onload = () => {
-        // this.patient?.Profile_picture = reader.result;
+        this.pic = reader.result;
       };
       reader.readAsDataURL(input.files[0]);
     }

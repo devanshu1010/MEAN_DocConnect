@@ -24,13 +24,13 @@ export class SigninComponentPatient implements OnInit{
   constructor (public patientServ:PatientAuthService,private navbarService: NavbarService,private router: Router){}
   
   public signin():void {
-    console.log("clicked");
+    // console.log("clicked");
     //console.log(this.email);
     //console.log(this.password);
 
     if(this.password && this.email )
     {
-      console.log("In login");
+      // console.log("In login");
       const patientData: any = {
         Email: this.email,
         Password: this.password,
@@ -39,12 +39,12 @@ export class SigninComponentPatient implements OnInit{
       this.patientServ.loginPatient(patientData).subscribe(
         data =>{
           //this.patient = data;
-          console.log("Login successful");
-          console.log("data : ",data);
+          // console.log("Login successful");
+          // console.log("data : ",data);
           
           this.userId = data._id;
-          console.log("userId");
-          console.log(this.userId);
+          // console.log("userId");
+          // console.log(this.userId);
           localStorage.removeItem("userId");
           localStorage.setItem('userId',this.userId);
           localStorage.setItem('jwt', data.token);
@@ -59,7 +59,7 @@ export class SigninComponentPatient implements OnInit{
           
           this.navbarService.showNavbar();
           const redirectUrl = this.patientServ.redirectUrl || '/homepatient';
-          console.log("this.patientServ.redirectUrl",this.patientServ.redirectUrl);
+          // console.log("this.patientServ.redirectUrl",this.patientServ.redirectUrl);
           this.router.navigate([redirectUrl]);
           
 
@@ -74,7 +74,7 @@ export class SigninComponentPatient implements OnInit{
       this.password='';
     }
     else{
-      console.log("unsucessful not login");
+      // console.log("unsucessful not login");
       //console.log(this.patient);
       //this.value_border="red-500";
     }

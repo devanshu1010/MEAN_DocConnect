@@ -123,7 +123,7 @@ export class DashboardDoctorComponent implements OnInit {
           mes = data.mes;
 
           this.ngZone.run(() => {
-            alert(mes);
+            //alert(mes);
           });
           this.loadDoctorData();
           resolve();

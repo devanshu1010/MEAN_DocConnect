@@ -31,7 +31,7 @@ opts.secretOrKey = process.env.JWT_SECRET_KEY;
 app.use(bodyParser.json({ limit: '10mb' }));
 //console.log("hello");
 const corsOptions = {
-    origin: 'http://localhost:4200', // Replace with your Angular app's URL
+    origin: 'https://devanshu1010.github.io/MEAN_DocConnet', // Replace with your Angular app's URL http://localhost:4200
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,

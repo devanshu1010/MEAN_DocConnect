@@ -3,7 +3,7 @@ import { Patient } from 'src/app/models/patient';
 import { PatientAuthService } from '../patientAuth.service';
 import { Router } from '@angular/router';
 import { NavbarService } from 'src/app/navbar.service';
-import { environment } from 'environment.prod';
+import { environment } from 'src/environments/environment';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 enum Tab {

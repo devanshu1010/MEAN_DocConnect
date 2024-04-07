@@ -2,22 +2,22 @@ import { HttpClient, HttpErrorResponse, HttpHeaders  } from '@angular/common/htt
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Patient } from '../models/patient';
-import { baseUrl } from 'environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServicesService {
 
-  private url_getdoctors: string = baseUrl +"api/doctor/";
-  private url_get_doctor: string =baseUrl +"api/doctor/";
-  private url_get_patient: string =baseUrl +"api/patient/";
-  private url_update_patient: string =baseUrl +"api/patient/";
-  private url_create_orderId: string =baseUrl +"api/patient/payment/createOrderId";
-  private url_verify_payment: string =baseUrl +"api/patient/payment/verify";
-  private url_appointment: string = baseUrl +"api/patient/appointment/";
-  private url_payment: string = baseUrl + "api/patient/payment/";
-  private url_cancel_appoinment: string = baseUrl + "api/patient/appointment/cancleappointment";
+  private url_getdoctors: string = environment.baseUrl +"api/doctor/";
+  private url_get_doctor: string =environment.baseUrl +"api/doctor/";
+  private url_get_patient: string =environment.baseUrl +"api/patient/";
+  private url_update_patient: string =environment.baseUrl +"api/patient/";
+  private url_create_orderId: string =environment.baseUrl +"api/patient/payment/createOrderId";
+  private url_verify_payment: string =environment.baseUrl +"api/patient/payment/verify";
+  private url_appointment: string = environment.baseUrl +"api/patient/appointment/";
+  private url_payment: string = environment.baseUrl + "api/patient/payment/";
+  private url_cancel_appoinment: string = environment.baseUrl + "api/patient/appointment/cancleappointment";
 
   constructor(private http: HttpClient) { }
 

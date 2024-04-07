@@ -29,7 +29,7 @@ export class PatientAuthService {
   }
 
   loginPatient(patientData: any):Observable<any>{
-    console.log(patientData);
+    //console.log(patientData);
     return this.http.post<any>(this.url_login,patientData).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error in loginPatient:', error);
@@ -42,11 +42,11 @@ export class PatientAuthService {
   async isAuthenticated(): Promise<boolean> {
     try {
       const data = await this.AuthPatient().toPromise();
-      console.log(data);
+      //console.log(data);
       if (data.status === "success") {
         return true;
       } else {
-        console.log("in false : ");
+        //console.log("in false : ");
         return false;
       }
     } catch (error) {
@@ -58,7 +58,7 @@ export class PatientAuthService {
   AuthPatient(): Observable<any> {
     return this.http.get<any>(this.url_checkUser).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('Error in loginPatient:', error);
+        //console.error('Error in loginPatient:', error);
         throw error;
       })
     );

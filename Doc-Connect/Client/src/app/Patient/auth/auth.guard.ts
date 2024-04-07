@@ -12,14 +12,14 @@ export class AuthGuard implements CanActivate {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-      console.log("in can active ")
+      //console.log("in can active ")
     if (await this.authService.isAuthenticated()) {
       return true;
 
     } else {
       // Store the attempted URL for redirection after login
-      console.log("in can active else")
-      console.log("state.url",state.url);
+      //console.log("in can active else")
+      //console.log("state.url",state.url);
       this.authService.redirectUrl = state.url;
 
       let isLogin = localStorage.getItem('isLogin');

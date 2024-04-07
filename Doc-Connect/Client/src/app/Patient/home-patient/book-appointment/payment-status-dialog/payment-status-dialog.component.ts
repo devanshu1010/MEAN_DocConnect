@@ -22,8 +22,8 @@ export class PaymentStatusDialogComponent implements OnInit {
 
   async verifyPayment(): Promise<void> {
     // Simulate payment verification process with a delay (replace with actual verification logic)
-    console.log('data');
-    console.log(this.data);
+    // console.log('data');
+    // console.log(this.data);
     const paymentVerificationResponse = await this.services.verifyPayment(this.data).toPromise();
       
 

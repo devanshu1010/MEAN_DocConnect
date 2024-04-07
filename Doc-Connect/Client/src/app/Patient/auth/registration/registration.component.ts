@@ -73,8 +73,8 @@ export class RegistrationComponentPatient implements OnInit {
 
   genOTP() {
     this.actual_otp = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log(this.actual_otp);
-    console.log("Inside genOTP");
+    // console.log(this.actual_otp);
+    // console.log("Inside genOTP");
 
     emailjs.send(environment.SERVICE_ID, environment.TEMPLATE_ID,{
       name: this.fullname,
@@ -82,10 +82,10 @@ export class RegistrationComponentPatient implements OnInit {
       to_email: this.email,
     }, environment.USER_ID)
     .then((response:any) => {
-      console.log('Email sent successfully!', response);
+      // console.log('Email sent successfully!', response);
     })
     .catch((error:any) => {
-      console.error('Email could not be sent:', error);
+      // console.error('Email could not be sent:', error);
     });
   }
 
@@ -98,8 +98,8 @@ export class RegistrationComponentPatient implements OnInit {
   }
   
   varify_email() {
-    console.log(this.actual_otp);
-    console.log(this.entered_otp);
+    // console.log(this.actual_otp);
+    // console.log(this.entered_otp);
     if(this.actual_otp === this.entered_otp)
     {
       this.varifyEmail = true;
@@ -163,7 +163,7 @@ export class RegistrationComponentPatient implements OnInit {
   signup(): void {
 
     if (this.password == this.confpassword) {
-      console.log("Signed up");
+      // console.log("Signed up");
       const patientData: Patient = {
         Email: this.email,
         Password: this.password,
@@ -180,8 +180,8 @@ export class RegistrationComponentPatient implements OnInit {
       this.email = '';
       this.password = '';
 
-      console.log("patient : ");
-      console.log(this.patient);
+      // console.log("patient : ");
+      // console.log(this.patient);
       this.router.navigate(['/signinPatient']);
     }
     else {

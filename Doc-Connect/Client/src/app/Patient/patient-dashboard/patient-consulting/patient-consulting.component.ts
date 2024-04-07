@@ -29,12 +29,12 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
   //remoteStream!: MediaStream; // Store the remote media stream
   socketService: any;
 
-  isAudioMuted: boolean = false;
+  isAudioMuted: boolean = true;
   isVideoStopped: boolean = false;
 
-  micButton:string = "Mute";
+  micButton:string = "Unmute";
   videoButton:string = "Stop Video"
-
+  callEndSubscription: any;
   app:any;
   analytics:any;
 
@@ -89,61 +89,77 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  EndCall()
+  {
+    if (this.callEndSubscription) {
+      console.log("listenForCallEnd destroyed");
+      this.callEndSubscription.unsubscribe();
+    }
     // Clean up resources when the component is destroyed
     if (this.callId) {
       const callDocRef = this.firebaseService.getCallDocument(this.callId);
-      const subscription = callDocRef.valueChanges().subscribe((callData: any) => {
-        if (callData.ended) {
-          // Call has ended, perform necessary tasks here
-          console.log('Call ended by Patient');
-          // Redirect or perform other actions as needed
-          subscription.unsubscribe(); // Unsubscribe from the snapshot listener
-        }
-      });
-    }
-  
-    // Clean up resources when the component is destroyed
-    this.peerConnection.close();
-    if (this.localStream) {
-      this.localStream.getTracks().forEach((track) => track.stop());
+      // const subscription = callDocRef.valueChanges().subscribe((callData: any) => {
+      //   if (callData.ended) {
+      //     // Call has ended, perform necessary tasks here
+      //     console.log('Call ended by doctor');
+      //     // Redirect or perform other actions as needed
+      //     subscription.unsubscribe(); // Unsubscribe from the snapshot listener
+      //   }
+      // });
     }
     this.firebaseService.getCallDocument(this.callId).update({ ended: true })
       .then(() => {
         console.log('Call ended successfully');
+        // console.log("befor navigation");
+        // this.router.navigate(['/dashboardPatient'], { replaceUrl: true });
+        // // this.ngOnDestroy()
+        // console.log("after navigation")
       })
       .catch(error => {
         console.error('Error updating call document:', error);
       });
+      this.callEndedByDoctor();
+      //this.router.navigate(['/dashboardPatient']);
+      // this.router.navigate(['/homePatient']);
+  }
 
+  ngOnDestroy() {
+    console.log("ng Destroy")
+    // Clean up resources when the component is destroyed
+    this.peerConnection.close();
+    if (this.localStream) {
+      this.localStream.getTracks().forEach((track) => track.stop());
+    }  
     this.router.navigate(['/dashboardPatient']);
+    // this.router.navigate(['/dashboardPatient']);
   }
 
   listenForCallEnd(id:any) {
-    // Assuming you have the callId stored somewhere in your component
-    const callId = 'your-call-id'; // Replace this with your actual callId
-
+  
+    console.log("listenForCallEnd");
     // Call the service method to get the call document
     const callDocRef = this.firebaseService.getCallDocument(id);
 
     // Subscribe to changes in the call document
-    callDocRef.valueChanges().subscribe((callData: any) => {
+    this.callEndSubscription = callDocRef.valueChanges().subscribe((callData: any) => {
       if (callData.ended) {
         // Call has ended, perform necessary tasks here
         console.log('Call ended by doctor');
+        
+        this.ngZone.run(() => {
+          alert('Call ended by doctor');
+          
+        });
+        this.callEndedByDoctor();
         // Redirect or perform other actions as needed
       }
     });
 
-    this.ngZone.run(() => {
-      alert('Call ended by doctor');
-      
-    });
-    this.callEndedByDoctor();
   }
 
   callEndedByDoctor() {
     // Clean up resources when the component is destroyed
+    //console.log("callEndedByDoctor");
     this.peerConnection.close();
     if (this.localStream) {
       this.localStream.getTracks().forEach((track) => track.stop());
@@ -209,7 +225,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
   async startWebcam()
   {
-    console.log("in startWebcame");
+    //console.log("in startWebcame");
     this.localStream = await navigator.mediaDevices.getUserMedia({ 
       video: true, 
       audio: { 
@@ -221,7 +237,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
     this.isLocal = true;
     
     this.localStream.getAudioTracks()[0].enabled = false;
-    console.log("in startWebcame1");
+    //console.log("in startWebcame1");
     // Push tracks from local stream to peer connection
     this.localStream.getTracks().forEach((track) => {
       this.peerConnection.addTrack(track, this.localStream);
@@ -296,12 +312,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
         });
       });
       console.log("InitiaeCall completed.");
-      this.listenForCallEnd(this.callId);
-      // const offer = await this.peerConnection.createOffer();
-      // this.peerConnection.setLocalDescription(offer);
-
-      // // Send the offer to the backend (refer to SocketService implementation)
-      // this.socketService.emit('createRoom', { offer });
+      
     } catch (error) {
       console.error('Error creating offer:', error);
     }
@@ -310,8 +321,8 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
 
   async answerCall() {
     try {
-      console.log("answerCall");
-      console.log('callid',this.callId);
+      //console.log("answerCall");
+      //console.log('callid',this.callId);
 
       if (!this.callId) {
         console.error("Call ID is empty");
@@ -326,7 +337,7 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
         event.candidate && answerCandidates.add(event.candidate.toJSON());
       };
   
-      console.log("Retrieving call data");
+      //console.log("Retrieving call data");
 
       let c_id;
       let offer:CallData;
@@ -338,8 +349,8 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
         }
   
         const callData = callSnapshot.data() as CallData;
-        console.log("callData:");
-        console.log(callData);
+        //console.log("callData:");
+        //console.log(callData);
 
         if (!callData || !callData.offer) {
           console.error("Offer description is missing");
@@ -347,8 +358,8 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
         }
   
         const offerDescription = callData.offer;
-        console.log("offerDescription:");
-        console.log(offerDescription);
+        //console.log("offerDescription:");
+        //console.log(offerDescription);
   
         if (!offerDescription) {
           console.error("Offer description is missing");
@@ -365,26 +376,27 @@ export class PatientConsultingComponent implements  OnInit,OnDestroy {
                       type: answerDescription.type,
                       sdp: answerDescription.sdp,
                     };
-                    console.log("answer:");
-                    console.log(answer);
+                    //console.log("answer:");
+                    //console.log(answer);
   
                     callDocRef.update({ answer });
-                    console.log("callDocRef:");
-                    console.log(callDocRef);
+                    //console.log("callDocRef:");
+                    //console.log(callDocRef);
   
                     offerCandidates.snapshotChanges().subscribe((snapshot) => {
                       snapshot.forEach((change) => {
-                        console.log("offerCandidates change");
+                        //console.log("offerCandidates change");
                         if (change.type === 'added') {
-                          console.log("offerCandidates added");
+                          //console.log("offerCandidates added");
                           const data = change.payload.doc.data();
-                          console.log(data);
+                          //console.log(data);
                           this.peerConnection.addIceCandidate(new RTCIceCandidate(data));
-                          console.log(this.peerConnection);
+                          //console.log(this.peerConnection);
                         }
                       });
                     });
                     this.isRemote = true;
+                    this.listenForCallEnd(this.callId);
                     console.log("Answering call completed");
                   })
                   .catch((error) => {

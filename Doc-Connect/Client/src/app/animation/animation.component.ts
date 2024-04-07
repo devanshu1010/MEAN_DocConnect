@@ -18,9 +18,9 @@ export class AnimationComponent implements OnInit {
   slideIndex = 0;
 
   images = [
-    'assets/image-1.jpg',
-    'assets/image-2.jpg',
-    'assets/image-3.jpg',
+    'https://res.cloudinary.com/dcz8mfqmp/image/upload/v1712513722/image-1_iaffhm.jpg',
+    'https://res.cloudinary.com/dcz8mfqmp/image/upload/v1712513723/image-2_oqkgim.jpg',
+    'https://res.cloudinary.com/dcz8mfqmp/image/upload/v1712513723/image-3_bmri9v.jpg',
   ];
 
   constructor() {}

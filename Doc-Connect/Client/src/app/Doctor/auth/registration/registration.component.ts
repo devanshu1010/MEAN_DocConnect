@@ -4,7 +4,7 @@ import { DoctorAuthService } from '../doctor-auth.service';
 import { Router } from '@angular/router';
 import { NavbarService } from 'src/app/navbar.service';
 import { Time } from "@angular/common";
-import { environment } from 'environment.prod';
+import { environment } from 'src/environments/environment.prod';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 enum Tab {

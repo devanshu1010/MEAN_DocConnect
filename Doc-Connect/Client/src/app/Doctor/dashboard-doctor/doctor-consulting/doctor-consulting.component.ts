@@ -6,7 +6,7 @@ import { FirebaseserviceService } from './firebaseservice.service';
 import { Doctor } from 'src/app/models/doctor';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from 'environment.prod';
+import { environment } from 'src/environments/environment.prod';
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 interface CallData {

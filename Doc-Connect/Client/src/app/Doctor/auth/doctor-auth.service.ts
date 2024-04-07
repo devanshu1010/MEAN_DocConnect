@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Doctor } from 'src/app/models/doctor';
-import { baseUrl } from 'environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,9 @@ import { baseUrl } from 'environment.prod';
 export class DoctorAuthService {
 
   redirectUrl!: string;
-  private url_login: string = baseUrl +"api/doctor/auth/login";
-  private url_signup: string = baseUrl +"api/doctor/auth/signup";
-  private url_checkUser: string = baseUrl + "api/doctor/auth/check";
+  private url_login: string = environment.baseUrl +"api/doctor/auth/login";
+  private url_signup: string = environment.baseUrl +"api/doctor/auth/signup";
+  private url_checkUser: string = environment.baseUrl + "api/doctor/auth/check";
 
   constructor(private http: HttpClient) { }
 

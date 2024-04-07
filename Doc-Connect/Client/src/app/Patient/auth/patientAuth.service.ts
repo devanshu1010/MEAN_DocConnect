@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable,  catchError } from 'rxjs';
 import { Patient } from 'src/app/models/patient';
-import { baseUrl } from 'environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,9 @@ export class PatientAuthService {
 
   redirectUrl!: string;
 
-  private url_login: string = baseUrl +"api/patient/auth/login";
-  private url_signup: string = baseUrl +"api/patient/auth/signup";
-  private url_checkUser: string = baseUrl + "api/patient/auth/check";
+  private url_login: string = environment.baseUrl +"api/patient/auth/login";
+  private url_signup: string = environment.baseUrl +"api/patient/auth/signup";
+  private url_checkUser: string = environment.baseUrl + "api/patient/auth/check";
   
   constructor(private http: HttpClient) { }
 

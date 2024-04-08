@@ -28,6 +28,8 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 // opts.jwtFromRequest = cookieExtractor();
 opts.secretOrKey = process.env.JWT_SECRET_KEY; 
 
+app.use(express.static("./dist/client"));
+
 app.use(bodyParser.json({ limit: '10mb' }));
 //console.log("hello");
 const corsOptions = {

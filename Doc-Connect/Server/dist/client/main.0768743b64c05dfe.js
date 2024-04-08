@@ -8580,7 +8580,7 @@ const environment = {
   TEMPLATE_ID: 'template_bs5tdjk',
   USER_ID: 'Lx9Z4TNqPKTQ1oiUO',
   DOCTOR_TEMPLATE_ID: 'template_hbae7ct',
-  baseUrl: "https://doc-connet-backend.vercel.app/"
+  baseUrl: "https://mean-docconnet-3.onrender.com/"
 };
 
 /***/ }),
@@ -8607,4 +8607,4 @@ _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__.platformBrowser().bootstr
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
-//# sourceMappingURL=main.2f56917c8e408336.js.map
+//# sourceMappingURL=main.0768743b64c05dfe.js.map

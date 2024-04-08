@@ -3,7 +3,7 @@
 A online doctor appointment booking system for patient. 
 In this doctor can easily provide their slot for which they are available. This slots can be booked by Patient and getting an appointment by paying counselling fees. Patient can join meeting on time by Id which is send by doctor on mail to patient.
 
-**[LIVE DEMO](https://devanshu1010.github.io/MEAN_DocConnet/)**
+**[LIVE DEMO](https://devanshu1010.github.io/MEAN_DocConnect/)**
 
 ![Screenshot](https://res.cloudinary.com/dcz8mfqmp/image/upload/v1712564743/Home_nq7sqx.png)
 

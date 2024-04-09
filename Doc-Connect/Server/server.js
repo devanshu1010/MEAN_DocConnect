@@ -16,12 +16,54 @@ const dotenv = require('dotenv');
 const Doctor = require("./models/DoctorSchema");
 const Patient = require('./models/PatientSchema');
 const { isAuthDoctor, sanitizeUser, cookieExtractor} = require('./Services/comman');
-
+const CronJob = require('cron').CronJob;
 
 dotenv.config();
 connectDB();
 
 // JWT options
+
+function myFunction() {
+
+  let currentDay = new Date().getDay();
+  currentDay = currentDay === 0 ? 7 : currentDay;
+
+  Doctor.find({}, (err, doctors) => {
+    if (err) {
+      console.error('Error finding doctors:', err);
+      return;
+    }
+  
+    // Update slots for the current day for each doctor
+    doctors.forEach(doctor => {
+      const slotIndex = currentDay - 1; // Index for current day slot (0 for Monday, ..., 6 for Sunday)
+  
+      // Clear slots for the current day
+      doctor.Slots[slotIndex] = doctor.Slots[slotIndex].map(slot => {
+        slot.booked = false;
+        slot.canceled = false; // Set all slots for the current day as not booked
+        return slot;
+      });
+  
+      // Save the updated doctor record
+      doctor.save((err, updatedDoctor) => {
+        if (err) {
+          console.error('Error saving doctor:', err);
+          return;
+        }
+        console.log('Slots cleared for doctor:', updatedDoctor._id);
+      });
+    });
+  });
+  console.log('Function called at 11:59 PM');
+}
+
+const job = new CronJob('59 23 * * *', function() {
+  // This function will run at 11:59 PM every night
+  myFunction();
+}, null, true, 'Asia/Kolkata');
+
+job.start();
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();

@@ -16,7 +16,7 @@ const dotenv = require('dotenv');
 const Doctor = require("./models/DoctorSchema");
 const Patient = require('./models/PatientSchema');
 const { isAuthDoctor, sanitizeUser, cookieExtractor} = require('./Services/comman');
-const cron = require('node-cron');
+const cron = require('cron');
 
 dotenv.config();
 connectDB();

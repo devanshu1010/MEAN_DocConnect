@@ -16,7 +16,7 @@ const dotenv = require('dotenv');
 const Doctor = require("./models/DoctorSchema");
 const Patient = require('./models/PatientSchema');
 const { isAuthDoctor, sanitizeUser, cookieExtractor} = require('./Services/comman');
-const CronJob = require('cron').CronJob;
+const cron = require('node-cron');
 
 dotenv.config();
 connectDB();
@@ -27,6 +27,8 @@ function myFunction() {
 
   let currentDay = new Date().getDay();
   currentDay = currentDay === 0 ? 7 : currentDay;
+
+  console.log("Current Day : ", currentDay);
 
   Doctor.find({}, (err, doctors) => {
     if (err) {
@@ -63,15 +65,20 @@ function myFunction() {
 //   myFunction();
 // }, null, true, 'Asia/Kolkata');
 
-const job = new CronJob('20 13 * * *', () => {
-  myFunction();
-  console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
-}, {
-  scheduled: true,
-  timezone: "Asia/Kolkata"
-});
+// const job = new CronJob('20 13 * * *', function() {
+//   myFunction();
+//   console.log('Running a job at 01:20 at Asia/Kolkata timezone');
+// }, {
+//   scheduled: true,
+//   timezone: "Asia/Kolkata"
+// });
 
-job.start();
+cron.schedule('00 15 * * *', () => {
+  myFunction();
+});
+ 
+
+// job.start();
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();

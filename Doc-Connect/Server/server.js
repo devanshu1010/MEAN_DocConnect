@@ -85,13 +85,15 @@ opts.secretOrKey = process.env.JWT_SECRET_KEY;
 
 app.use(express.static("./dist/client"));
 
+app.use(express.static("./dist/client"));
+
 app.use(bodyParser.json({ limit: '10mb' }));
 //console.log("hello");
 const corsOptions = {
-  origin: 'https://mean-docconnet-3.onrender.com', // Replace with your Angular app's URL http://localhost:4200
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
+    origin: 'https://devanshu1010.github.io', // Replace with your Angular app's URL http://localhost:4200
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));

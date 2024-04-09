@@ -58,7 +58,7 @@ function myFunction() {
   console.log('Function called at 11:59 PM');
 }
 
-const job = new CronJob('59 23 * * *', function() {
+const job = new CronJob('25 12 * * *', function() {
   // This function will run at 11:59 PM every night
   myFunction();
 }, null, true, 'Asia/Kolkata');

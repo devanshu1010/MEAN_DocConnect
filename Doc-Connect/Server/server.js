@@ -71,7 +71,7 @@ async function myFunction() {
 //   timezone: "Asia/Kolkata"
 // });
 
-cron.schedule('16 15 * * *', () => {
+cron.schedule('59 23 * * *', () => {
   myFunction();
 });
 

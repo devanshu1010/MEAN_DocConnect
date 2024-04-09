@@ -63,14 +63,13 @@ function myFunction() {
 //   myFunction();
 // }, null, true, 'Asia/Kolkata');
 
-const job = new CronJob('55 12 * * *', () => {
+const job = new CronJob('20 13 * * *', () => {
   myFunction();
   console.log('Running a job at 01:00 at America/Sao_Paulo timezone');
 }, {
   scheduled: true,
   timezone: "Asia/Kolkata"
 });
-
 
 job.start();
 
